@@ -1,10 +1,11 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_db_connection
 
 app = Flask(__name__)
 CORS(app)
+
 
 @app.route("/")
 def home():
@@ -41,7 +42,6 @@ def register():
         connection = get_db_connection()
         cursor = connection.cursor()
 
-        # Check if email already exists
         cursor.execute(
             "SELECT user_id FROM users WHERE email = %s",
             (email,)
@@ -57,7 +57,6 @@ def register():
                 "message": "Email already registered"
             }), 409
 
-        # Hash the password before storing it
         hashed_password = generate_password_hash(password)
 
         cursor.execute(
@@ -80,6 +79,63 @@ def register():
     except Exception as e:
         return jsonify({
             "message": "Registration failed",
+            "error": str(e)
+        }), 500
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    try:
+        data = request.get_json()
+
+        email = data.get("email")
+        password = data.get("password")
+
+        if not email or not password:
+            return jsonify({
+                "message": "Email and password are required"
+            }), 400
+
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+
+        cursor.execute(
+            """
+            SELECT user_id, name, email, password, role
+            FROM users
+            WHERE email = %s
+            """,
+            (email,)
+        )
+
+        user = cursor.fetchone()
+
+        cursor.close()
+        connection.close()
+
+        if not user:
+            return jsonify({
+                "message": "Invalid email or password"
+            }), 401
+
+        if not check_password_hash(user["password"], password):
+            return jsonify({
+                "message": "Invalid email or password"
+            }), 401
+
+        return jsonify({
+            "message": "Login successful",
+            "user": {
+                "user_id": user["user_id"],
+                "name": user["name"],
+                "email": user["email"],
+                "role": user["role"]
+            }
+        }), 200
+
+    except Exception as e:
+        return jsonify({
+            "message": "Login failed",
             "error": str(e)
         }), 500
 

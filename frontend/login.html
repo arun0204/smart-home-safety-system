@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Home Safety - Login</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef3f8;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            min-height: 100vh;
+        }
+
+        .login-box {
+            width: 380px;
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 15px;
+
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        h1 {
+            text-align: center;
+            color: #17365d;
+
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+
+            margin-top: 15px;
+            margin-bottom: 6px;
+
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #ccc;
+            border-radius: 8px;
+
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 13px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #17365d;
+            color: white;
+
+            font-size: 16px;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0f2744;
+        }
+
+        #message {
+            text-align: center;
+
+            margin-top: 15px;
+
+            font-weight: bold;
+        }
+
+        .register-link {
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #666;
+        }
+
+        .register-link a {
+            color: #17365d;
+
+            font-weight: bold;
+
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-box">
+
+        <h1>Smart Home Safety</h1>
+
+        <p class="subtitle">
+            Welcome Back
+        </p>
+
+        <form id="loginForm">
+
+            <label>Email</label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+            >
+
+            <label>Password</label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                required
+            >
+
+            <button type="submit">
+                LOGIN
+            </button>
+
+        </form>
+
+        <div id="message"></div>
+
+        <div class="register-link">
+
+            Don't have an account?
+
+            <a href="register.html">
+                Register
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        document
+            .getElementById("loginForm")
+            .addEventListener("submit", async function(event) {
+
+                event.preventDefault();
+
+                const email =
+                    document.getElementById("email").value;
+
+                const password =
+                    document.getElementById("password").value;
+
+                const message =
+                    document.getElementById("message");
+
+
+                try {
+
+                    const response = await fetch(
+                        "http://127.0.0.1:5000/login",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                email: email,
+                                password: password
+                            })
+                        }
+                    );
+
+
+                    const result =
+                        await response.json();
+
+
+                    message.textContent =
+                        result.message;
+
+
+                    if (response.ok) {
+
+                        message.style.color = "green";
+
+                        console.log(
+                            "Logged in user:",
+                            result.user
+                        );
+
+                    } else {
+
+                        message.style.color = "red";
+
+                    }
+
+
+                } catch (error) {
+
+                    message.textContent =
+                        "Unable to connect to the server.";
+
+                    message.style.color = "red";
+
+                }
+
+            });
+
+    </script>
+
+</body>
+</html>
