@@ -140,5 +140,92 @@ def login():
         }), 500
 
 
+@app.route("/door-status", methods=["GET"])
+def door_status():
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT event_id, event_type, status, user_id, timestamp
+            FROM door_events
+            ORDER BY timestamp DESC
+            LIMIT 1
+        """)
+
+        event = cursor.fetchone()
+
+        cursor.close()
+        connection.close()
+
+        if not event:
+            return jsonify({
+                "door_status": "LOCKED",
+                "message": "No door events found"
+            }), 200
+
+        return jsonify({
+            "door_status": event["status"],
+            "event_type": event["event_type"],
+            "user_id": event["user_id"],
+            "timestamp": event["timestamp"].isoformat()
+                if event["timestamp"] else None
+        }), 200
+
+    except Exception as e:
+        return jsonify({
+            "message": "Failed to get door status",
+            "error": str(e)
+        }), 500
+
+@app.route("/door-control", methods=["POST"])
+def door_control():
+
+    try:
+
+        data = request.get_json()
+
+        action = data.get("action")
+
+        if action not in ["LOCK", "UNLOCK"]:
+            return jsonify({
+                "message": "Invalid action"
+            }), 400
+
+
+        status = "LOCKED" if action == "LOCK" else "UNLOCKED"
+
+        connection = get_db_connection()
+
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            INSERT INTO door_events
+            (event_type, status, user_id)
+            VALUES (%s, %s, %s)
+            """,
+            ("DOOR_CONTROL", status, 2)
+        )
+
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+
+
+        return jsonify({
+            "message": "Door " + status.lower(),
+            "door_status": status
+        }), 200
+
+
+    except Exception as e:
+
+        return jsonify({
+            "message": "Door control failed",
+            "error": str(e)
+        }), 500
+        
 if __name__ == "__main__":
     app.run(debug=True)

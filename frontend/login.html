@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Smart Home Safety - Login</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -113,22 +116,30 @@
 
             text-decoration: none;
         }
+
     </style>
+
 </head>
+
 
 <body>
 
     <div class="login-box">
 
-        <h1>Smart Home Safety</h1>
+        <h1>
+            Smart Home Safety
+        </h1>
 
         <p class="subtitle">
             Welcome Back
         </p>
 
+
         <form id="loginForm">
 
-            <label>Email</label>
+            <label>
+                Email
+            </label>
 
             <input
                 type="email"
@@ -137,7 +148,10 @@
                 required
             >
 
-            <label>Password</label>
+
+            <label>
+                Password
+            </label>
 
             <input
                 type="password"
@@ -146,13 +160,16 @@
                 required
             >
 
+
             <button type="submit">
                 LOGIN
             </button>
 
         </form>
 
+
         <div id="message"></div>
+
 
         <div class="register-link">
 
@@ -174,6 +191,7 @@
             .addEventListener("submit", async function(event) {
 
                 event.preventDefault();
+
 
                 const email =
                     document.getElementById("email").value;
@@ -216,10 +234,22 @@
 
                         message.style.color = "green";
 
-                        console.log(
-                            "Logged in user:",
-                            result.user
+
+                        // Save logged-in user
+                        localStorage.setItem(
+                            "user",
+                            JSON.stringify(result.user)
                         );
+
+
+                        // Open dashboard
+                        setTimeout(function() {
+
+                            window.location.href =
+                                "dashboard.html";
+
+                        }, 500);
+
 
                     } else {
 
@@ -242,4 +272,5 @@
     </script>
 
 </body>
+
 </html>

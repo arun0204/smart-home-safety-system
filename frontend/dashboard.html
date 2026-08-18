@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Home Safety Dashboard</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef3f8;
+        }
+
+        /* Header */
+
+        .header {
+            height: 70px;
+            background: #17365d;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 30px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logout {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+
+            padding: 9px 15px;
+
+            cursor: pointer;
+        }
+
+        /* Layout */
+
+        .container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            width: 220px;
+            background: #ffffff;
+
+            padding-top: 20px;
+
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .sidebar a {
+            display: block;
+
+            padding: 15px 25px;
+
+            color: #333;
+            text-decoration: none;
+
+            font-size: 15px;
+        }
+
+        .sidebar a:hover {
+            background: #eef3f8;
+            color: #17365d;
+        }
+
+        .sidebar .active {
+            background: #17365d;
+            color: white;
+        }
+
+        /* Main */
+
+        .main {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            margin: 0;
+            color: #17365d;
+        }
+
+        .welcome p {
+            color: #666;
+        }
+
+        /* Cards */
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(200px, 1fr));
+
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-title {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .card-value {
+            font-size: 28px;
+            font-weight: bold;
+
+            margin-top: 10px;
+
+            color: #17365d;
+        }
+
+        .safe {
+            color: #27ae60;
+        }
+
+        .danger {
+            color: #e74c3c;
+        }
+
+        /* Door Buttons */
+
+        .door-buttons {
+            display: flex;
+            gap: 10px;
+
+            margin-top: 20px;
+        }
+
+        .door-buttons button {
+            flex: 1;
+
+            padding: 10px;
+
+            border: none;
+            border-radius: 6px;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .lock-button {
+            background: #17365d;
+        }
+
+        .unlock-button {
+            background: #27ae60;
+        }
+
+        .door-buttons button:hover {
+            opacity: 0.85;
+        }
+
+        /* Section */
+
+        .section {
+            margin-top: 30px;
+        }
+
+        .section h2 {
+            color: #17365d;
+        }
+
+        .status-box {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .status-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            padding: 15px 0;
+
+            border-bottom: 1px solid #eee;
+        }
+
+        .status-row:last-child {
+            border-bottom: none;
+        }
+
+        .status-good {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- Header -->
+
+    <div class="header">
+
+        <div class="logo">
+            🏠 Smart Home Safety
+        </div>
+
+        <div class="user-area">
+
+            <span id="userName">
+                User
+            </span>
+
+            <button
+                class="logout"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+        <!-- Sidebar -->
+
+        <div class="sidebar">
+
+            <a href="#" class="active">
+                📊 Dashboard
+            </a>
+
+            <a href="#">
+                🚪 Door Access
+            </a>
+
+            <a href="#">
+                📷 Image Verification
+            </a>
+
+            <a href="#">
+                🌡 Sensors
+            </a>
+
+            <a href="#">
+                🚨 Safety Alerts
+            </a>
+
+            <a href="#">
+                📋 Access Logs
+            </a>
+
+        </div>
+
+
+        <!-- Main Content -->
+
+        <div class="main">
+
+            <div class="welcome">
+
+                <h1>
+                    Smart Home Dashboard
+                </h1>
+
+                <p>
+                    Monitor your home safety system in real time.
+                </p>
+
+            </div>
+
+
+            <!-- Dashboard Cards -->
+
+            <div class="cards">
+
+
+                <!-- System Status -->
+
+                <div class="card">
+
+                    <div class="card-title">
+                        System Status
+                    </div>
+
+                    <div class="card-value safe">
+                        🟢 SAFE
+                    </div>
+
+                </div>
+
+
+                <!-- Door Status -->
+
+                <div class="card">
+
+                    <div class="card-title">
+                        Door Status
+                    </div>
+
+                    <div
+                        class="card-value"
+                        id="doorStatus"
+                    >
+                        🔒 LOCKED
+                    </div>
+
+
+                    <!-- Door Control Buttons -->
+
+                    <div class="door-buttons">
+
+                        <button
+                            class="lock-button"
+                            onclick="controlDoor('LOCK')"
+                        >
+                            🔒 LOCK DOOR
+                        </button>
+
+                        <button
+                            class="unlock-button"
+                            onclick="controlDoor('UNLOCK')"
+                        >
+                            🔓 UNLOCK DOOR
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Temperature -->
+
+                <div class="card">
+
+                    <div class="card-title">
+                        Temperature
+                    </div>
+
+                    <div class="card-value">
+                        25°C
+                    </div>
+
+                </div>
+
+
+                <!-- Active Alerts -->
+
+                <div class="card">
+
+                    <div class="card-title">
+                        Active Alerts
+                    </div>
+
+                    <div class="card-value safe">
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Current Safety Status -->
+
+            <div class="section">
+
+                <h2>
+                    Current Safety Status
+                </h2>
+
+                <div class="status-box">
+
+
+                    <!-- Door -->
+
+                    <div class="status-row">
+
+                        <span>
+                            🚪 Door
+                        </span>
+
+                        <span
+                            class="status-good"
+                            id="safetyDoorStatus"
+                        >
+                            LOCKED
+                        </span>
+
+                    </div>
+
+
+                    <!-- Motion -->
+
+                    <div class="status-row">
+
+                        <span>
+                            🚶 Motion Detection
+                        </span>
+
+                        <span class="status-good">
+                            NO MOTION
+                        </span>
+
+                    </div>
+
+
+                    <!-- Gas / Smoke -->
+
+                    <div class="status-row">
+
+                        <span>
+                            💨 Gas / Smoke
+                        </span>
+
+                        <span class="status-good">
+                            NORMAL
+                        </span>
+
+                    </div>
+
+
+                    <!-- Temperature -->
+
+                    <div class="status-row">
+
+                        <span>
+                            🌡 Temperature
+                        </span>
+
+                        <span class="status-good">
+                            NORMAL
+                        </span>
+
+                    </div>
+
+
+                    <!-- Camera -->
+
+                    <div class="status-row">
+
+                        <span>
+                            📷 Camera
+                        </span>
+
+                        <span class="status-good">
+                            ONLINE
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+
+        // Check if user is logged in
+
+        const savedUser =
+            localStorage.getItem("user");
+
+
+        if (!savedUser) {
+
+            window.location.href =
+                "login.html";
+
+        } else {
+
+            const user =
+                JSON.parse(savedUser);
+
+            document
+                .getElementById("userName")
+                .textContent = user.name;
+
+        }
+
+
+        // Logout
+
+        function logout() {
+
+            localStorage.removeItem("user");
+
+            window.location.href =
+                "login.html";
+
+        }
+
+
+        // Update door status on dashboard
+
+        function updateDoorStatus(status) {
+
+            const doorStatus =
+                document.getElementById(
+                    "doorStatus"
+                );
+
+            const safetyDoorStatus =
+                document.getElementById(
+                    "safetyDoorStatus"
+                );
+
+
+            if (status === "LOCKED") {
+
+                doorStatus.textContent =
+                    "🔒 LOCKED";
+
+                doorStatus.className =
+                    "card-value safe";
+
+                safetyDoorStatus.textContent =
+                    "LOCKED";
+
+                safetyDoorStatus.className =
+                    "status-good";
+
+            } else {
+
+                doorStatus.textContent =
+                    "🔓 UNLOCKED";
+
+                doorStatus.className =
+                    "card-value danger";
+
+                safetyDoorStatus.textContent =
+                    "UNLOCKED";
+
+                safetyDoorStatus.className =
+                    "status-good danger";
+
+            }
+
+        }
+
+
+        // Load door status from Flask
+
+        async function loadDoorStatus() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://127.0.0.1:5000/door-status"
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                updateDoorStatus(
+                    data.door_status
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to load door status:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // Lock / Unlock door
+
+        async function controlDoor(action) {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://127.0.0.1:5000/door-control",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                action: action
+                            })
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (response.ok) {
+
+                    updateDoorStatus(
+                        result.door_status
+                    );
+
+                } else {
+
+                    alert(
+                        result.message
+                    );
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Door control error:",
+                    error
+                );
+
+                alert(
+                    "Unable to connect to the server."
+                );
+
+            }
+
+        }
+
+
+        // Load door status when dashboard opens
+
+        loadDoorStatus();
+
+
+    </script>
+
+</body>
+
+</html>
