@@ -20,8 +20,6 @@
             background: #eef3f8;
         }
 
-        /* Header */
-
         .header {
             height: 70px;
             background: #17365d;
@@ -56,14 +54,10 @@
             cursor: pointer;
         }
 
-        /* Layout */
-
         .container {
             display: flex;
             min-height: calc(100vh - 70px);
         }
-
-        /* Sidebar */
 
         .sidebar {
             width: 220px;
@@ -95,8 +89,6 @@
             color: white;
         }
 
-        /* Main */
-
         .main {
             flex: 1;
             padding: 30px;
@@ -114,8 +106,6 @@
         .welcome p {
             color: #666;
         }
-
-        /* Cards */
 
         .cards {
             display: grid;
@@ -158,8 +148,6 @@
             color: #e74c3c;
         }
 
-        /* Door Buttons */
-
         .door-buttons {
             display: flex;
             gap: 10px;
@@ -194,8 +182,6 @@
             opacity: 0.85;
         }
 
-        /* Section */
-
         .section {
             margin-top: 30px;
         }
@@ -229,6 +215,55 @@
         }
 
         .status-good {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        /* Alert Section */
+
+        .alert-box {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .alert-item {
+            padding: 15px;
+
+            margin-bottom: 10px;
+
+            border-left: 5px solid #e74c3c;
+
+            background: #fff5f5;
+
+            border-radius: 6px;
+        }
+
+        .alert-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .alert-title {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .alert-message {
+            margin-top: 5px;
+            color: #444;
+        }
+
+        .alert-time {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .no-alerts {
             color: #27ae60;
             font-weight: bold;
         }
@@ -320,7 +355,6 @@
 
             <div class="cards">
 
-
                 <!-- System Status -->
 
                 <div class="card">
@@ -329,7 +363,10 @@
                         System Status
                     </div>
 
-                    <div class="card-value safe">
+                    <div
+                        class="card-value safe"
+                        id="systemStatus"
+                    >
                         🟢 SAFE
                     </div>
 
@@ -350,9 +387,6 @@
                     >
                         🔒 LOCKED
                     </div>
-
-
-                    <!-- Door Control Buttons -->
 
                     <div class="door-buttons">
 
@@ -398,7 +432,10 @@
                         Active Alerts
                     </div>
 
-                    <div class="card-value safe">
+                    <div
+                        class="card-value danger"
+                        id="alertCount"
+                    >
                         0
                     </div>
 
@@ -417,9 +454,6 @@
 
                 <div class="status-box">
 
-
-                    <!-- Door -->
-
                     <div class="status-row">
 
                         <span>
@@ -436,8 +470,6 @@
                     </div>
 
 
-                    <!-- Motion -->
-
                     <div class="status-row">
 
                         <span>
@@ -451,22 +483,21 @@
                     </div>
 
 
-                    <!-- Gas / Smoke -->
-
                     <div class="status-row">
 
                         <span>
                             💨 Gas / Smoke
                         </span>
 
-                        <span class="status-good">
+                        <span
+                            class="status-good"
+                            id="gasStatus"
+                        >
                             NORMAL
                         </span>
 
                     </div>
 
-
-                    <!-- Temperature -->
 
                     <div class="status-row">
 
@@ -480,8 +511,6 @@
 
                     </div>
 
-
-                    <!-- Camera -->
 
                     <div class="status-row">
 
@@ -499,13 +528,34 @@
 
             </div>
 
+
+            <!-- Safety Alerts -->
+
+            <div class="section">
+
+                <h2>
+                    🚨 Active Safety Alerts
+                </h2>
+
+                <div
+                    class="alert-box"
+                    id="alertBox"
+                >
+
+                    <div class="no-alerts">
+                        No active alerts
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
     </div>
 
 
     <script>
-
 
         // Check if user is logged in
 
@@ -542,7 +592,7 @@
         }
 
 
-        // Update door status on dashboard
+        // Update door status
 
         function updateDoorStatus(status) {
 
@@ -590,7 +640,7 @@
         }
 
 
-        // Load door status from Flask
+        // Load door status
 
         async function loadDoorStatus() {
 
@@ -601,15 +651,12 @@
                         "http://127.0.0.1:5000/door-status"
                     );
 
-
                 const data =
                     await response.json();
-
 
                 updateDoorStatus(
                     data.door_status
                 );
-
 
             } catch (error) {
 
@@ -665,7 +712,6 @@
 
                 }
 
-
             } catch (error) {
 
                 console.error(
@@ -682,10 +728,179 @@
         }
 
 
-        // Load door status when dashboard opens
+        // Load active alerts
+
+        async function loadAlerts() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://127.0.0.1:5000/alerts"
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                const alerts =
+                    data.alerts || [];
+
+
+                const alertCount =
+                    document.getElementById(
+                        "alertCount"
+                    );
+
+
+                const alertBox =
+                    document.getElementById(
+                        "alertBox"
+                    );
+
+
+                const systemStatus =
+                    document.getElementById(
+                        "systemStatus"
+                    );
+
+
+                const gasStatus =
+                    document.getElementById(
+                        "gasStatus"
+                    );
+
+
+                // Update alert count
+
+                alertCount.textContent =
+                    alerts.length;
+
+
+                // No active alerts
+
+                if (alerts.length === 0) {
+
+                    alertCount.className =
+                        "card-value safe";
+
+                    systemStatus.textContent =
+                        "🟢 SAFE";
+
+                    systemStatus.className =
+                        "card-value safe";
+
+                    alertBox.innerHTML =
+                        '<div class="no-alerts">' +
+                        'No active alerts' +
+                        '</div>';
+
+                    return;
+                }
+
+
+                // Active alerts exist
+
+                alertCount.className =
+                    "card-value danger";
+
+                systemStatus.textContent =
+                    "🔴 ALERT";
+
+                systemStatus.className =
+                    "card-value danger";
+
+
+                alertBox.innerHTML = "";
+
+
+                alerts.forEach(function(alert) {
+
+                    const alertItem =
+                        document.createElement(
+                            "div"
+                        );
+
+                    alertItem.className =
+                        "alert-item";
+
+
+                    alertItem.innerHTML =
+
+                        '<div class="alert-title">' +
+                        '🚨 ' +
+                        alert.severity +
+                        ' - ' +
+                        alert.alert_type +
+                        '</div>' +
+
+                        '<div class="alert-message">' +
+                        alert.message +
+                        '</div>' +
+
+                        '<div class="alert-time">' +
+                        'Time: ' +
+                        new Date(
+                            alert.timestamp
+                        ).toLocaleString() +
+                        '</div>';
+
+
+                    alertBox.appendChild(
+                        alertItem
+                    );
+
+                });
+
+
+                // Update gas status
+
+                const gasAlert =
+                    alerts.some(function(alert) {
+
+                        return alert.alert_type ===
+                            "GAS_SMOKE";
+
+                    });
+
+
+                if (gasAlert) {
+
+                    gasStatus.textContent =
+                        "🚨 ALERT";
+
+                    gasStatus.className =
+                        "status-good danger";
+
+                } else {
+
+                    gasStatus.textContent =
+                        "NORMAL";
+
+                    gasStatus.className =
+                        "status-good";
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to load alerts:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // Load everything when dashboard opens
 
         loadDoorStatus();
 
+        loadAlerts();
 
     </script>
 

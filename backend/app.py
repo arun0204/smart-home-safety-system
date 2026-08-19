@@ -169,7 +169,7 @@ def door_status():
             "event_type": event["event_type"],
             "user_id": event["user_id"],
             "timestamp": event["timestamp"].isoformat()
-                if event["timestamp"] else None
+            if event["timestamp"] else None
         }), 200
 
     except Exception as e:
@@ -178,11 +178,10 @@ def door_status():
             "error": str(e)
         }), 500
 
+
 @app.route("/door-control", methods=["POST"])
 def door_control():
-
     try:
-
         data = request.get_json()
 
         action = data.get("action")
@@ -192,11 +191,9 @@ def door_control():
                 "message": "Invalid action"
             }), 400
 
-
         status = "LOCKED" if action == "LOCK" else "UNLOCKED"
 
         connection = get_db_connection()
-
         cursor = connection.cursor()
 
         cursor.execute(
@@ -213,19 +210,94 @@ def door_control():
         cursor.close()
         connection.close()
 
-
         return jsonify({
             "message": "Door " + status.lower(),
             "door_status": status
         }), 200
 
-
     except Exception as e:
-
         return jsonify({
             "message": "Door control failed",
             "error": str(e)
         }), 500
-        
+
+
+@app.route("/create-alert", methods=["POST"])
+def create_alert():
+    try:
+        data = request.get_json()
+
+        alert_type = data.get("alert_type")
+        severity = data.get("severity")
+        message = data.get("message")
+        user_id = data.get("user_id", 2)
+
+        if not alert_type or not severity or not message:
+            return jsonify({
+                "message": "Alert details are required"
+            }), 400
+
+        connection = get_db_connection()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            INSERT INTO alerts
+            (alert_type, severity, message, status, user_id)
+            VALUES (%s, %s, %s, 'ACTIVE', %s)
+            """,
+            (alert_type, severity, message, user_id)
+        )
+
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+
+        return jsonify({
+            "message": "Alert created successfully"
+        }), 201
+
+    except Exception as e:
+        return jsonify({
+            "message": "Failed to create alert",
+            "error": str(e)
+        }), 500
+
+
+@app.route("/alerts", methods=["GET"])
+def get_alerts():
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT alert_id, alert_type, severity, message,
+                   status, user_id, timestamp
+            FROM alerts
+            WHERE status = 'ACTIVE'
+            ORDER BY timestamp DESC
+        """)
+
+        alerts = cursor.fetchall()
+
+        cursor.close()
+        connection.close()
+
+        for alert in alerts:
+            if alert["timestamp"]:
+                alert["timestamp"] = alert["timestamp"].isoformat()
+
+        return jsonify({
+            "alerts": alerts
+        }), 200
+
+    except Exception as e:
+        return jsonify({
+            "message": "Failed to get alerts",
+            "error": str(e)
+        }), 500
+
+
 if __name__ == "__main__":
     app.run(debug=True)
