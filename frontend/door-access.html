@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Door Access - Smart Home Safety</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef3f8;
+        }
+
+        /* Header */
+
+        .header {
+            height: 70px;
+            background: #17365d;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 30px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logout {
+            background: #e74c3c;
+            color: white;
+
+            border: none;
+            border-radius: 6px;
+
+            padding: 9px 15px;
+
+            cursor: pointer;
+        }
+
+        /* Layout */
+
+        .container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            width: 220px;
+            background: white;
+
+            padding-top: 20px;
+
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .sidebar a {
+            display: block;
+
+            padding: 15px 25px;
+
+            color: #333;
+            text-decoration: none;
+
+            font-size: 15px;
+        }
+
+        .sidebar a:hover {
+            background: #eef3f8;
+            color: #17365d;
+        }
+
+        .sidebar .active {
+            background: #17365d;
+            color: white;
+        }
+
+        /* Main */
+
+        .main {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .welcome h1 {
+            margin: 0;
+            color: #17365d;
+        }
+
+        .welcome p {
+            color: #666;
+        }
+
+        /* Door Card */
+
+        .door-card {
+            background: white;
+
+            margin-top: 25px;
+
+            padding: 35px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+
+            text-align: center;
+        }
+
+        .door-icon {
+            font-size: 70px;
+        }
+
+        .door-status {
+            font-size: 30px;
+            font-weight: bold;
+
+            margin-top: 15px;
+        }
+
+        .locked {
+            color: #27ae60;
+        }
+
+        .unlocked {
+            color: #e74c3c;
+        }
+
+        /* Buttons */
+
+        .buttons {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 20px;
+
+            margin-top: 30px;
+        }
+
+        .buttons button {
+            padding: 14px 30px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .lock-button {
+            background: #17365d;
+        }
+
+        .unlock-button {
+            background: #27ae60;
+        }
+
+        .buttons button:hover {
+            opacity: 0.85;
+        }
+
+        /* Message */
+
+        #message {
+            margin-top: 20px;
+
+            font-weight: bold;
+        }
+
+        /* Last Event */
+
+        .event-card {
+            background: white;
+
+            margin-top: 25px;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .event-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            padding: 12px 0;
+
+            border-bottom: 1px solid #eee;
+        }
+
+        .event-row:last-child {
+            border-bottom: none;
+        }
+
+        .event-label {
+            color: #666;
+        }
+
+        .event-value {
+            font-weight: bold;
+            color: #17365d;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- Header -->
+
+    <div class="header">
+
+        <div class="logo">
+            🏠 Smart Home Safety
+        </div>
+
+        <div class="user-area">
+
+            <span id="userName">
+                User
+            </span>
+
+            <button
+                class="logout"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+        <!-- Sidebar -->
+
+        <div class="sidebar">
+
+            <a href="dashboard.html">
+                📊 Dashboard
+            </a>
+
+            <a
+                href="door-access.html"
+                class="active"
+            >
+                🚪 Door Access
+            </a>
+
+            <a href="image-verification.html">
+                📷 Image Verification
+            </a>
+
+            <a href="sensors.html">
+                🌡 Sensors
+            </a>
+
+            <a href="alerts.html">
+                🚨 Safety Alerts
+            </a>
+
+            <a href="access-logs.html">
+                📋 Access Logs
+            </a>
+
+        </div>
+
+
+        <!-- Main -->
+
+        <div class="main">
+
+            <div class="welcome">
+
+                <h1>
+                    🚪 Door Access
+                </h1>
+
+                <p>
+                    Control and monitor your home door.
+                </p>
+
+            </div>
+
+
+            <!-- Door Control -->
+
+            <div class="door-card">
+
+                <div
+                    class="door-icon"
+                    id="doorIcon"
+                >
+                    🔒
+                </div>
+
+                <div
+                    class="door-status locked"
+                    id="doorStatus"
+                >
+                    LOCKED
+                </div>
+
+
+                <div class="buttons">
+
+                    <button
+                        class="lock-button"
+                        onclick="controlDoor('LOCK')"
+                    >
+                        🔒 LOCK DOOR
+                    </button>
+
+                    <button
+                        class="unlock-button"
+                        onclick="controlDoor('UNLOCK')"
+                    >
+                        🔓 UNLOCK DOOR
+                    </button>
+
+                </div>
+
+
+                <div id="message"></div>
+
+            </div>
+
+
+            <!-- Last Event -->
+
+            <div class="event-card">
+
+                <h2>
+                    Last Door Event
+                </h2>
+
+
+                <div class="event-row">
+
+                    <span class="event-label">
+                        Event Type
+                    </span>
+
+                    <span
+                        class="event-value"
+                        id="eventType"
+                    >
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="event-row">
+
+                    <span class="event-label">
+                        Status
+                    </span>
+
+                    <span
+                        class="event-value"
+                        id="eventStatus"
+                    >
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="event-row">
+
+                    <span class="event-label">
+                        User ID
+                    </span>
+
+                    <span
+                        class="event-value"
+                        id="userId"
+                    >
+                        -
+                    </span>
+
+                </div>
+
+
+                <div class="event-row">
+
+                    <span class="event-label">
+                        Time
+                    </span>
+
+                    <span
+                        class="event-value"
+                        id="eventTime"
+                    >
+                        -
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // Check login
+
+        const savedUser =
+            localStorage.getItem("user");
+
+
+        if (!savedUser) {
+
+            window.location.href =
+                "login.html";
+
+        } else {
+
+            const user =
+                JSON.parse(savedUser);
+
+            document
+                .getElementById("userName")
+                .textContent = user.name;
+
+        }
+
+
+        // Logout
+
+        function logout() {
+
+            localStorage.removeItem("user");
+
+            window.location.href =
+                "login.html";
+
+        }
+
+
+        // Update door display
+
+        function updateDoorDisplay(status) {
+
+            const doorStatus =
+                document.getElementById(
+                    "doorStatus"
+                );
+
+            const doorIcon =
+                document.getElementById(
+                    "doorIcon"
+                );
+
+
+            if (status === "LOCKED") {
+
+                doorIcon.textContent =
+                    "🔒";
+
+                doorStatus.textContent =
+                    "LOCKED";
+
+                doorStatus.className =
+                    "door-status locked";
+
+            } else {
+
+                doorIcon.textContent =
+                    "🔓";
+
+                doorStatus.textContent =
+                    "UNLOCKED";
+
+                doorStatus.className =
+                    "door-status unlocked";
+
+            }
+
+        }
+
+
+        // Load current door status
+
+        async function loadDoorStatus() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://127.0.0.1:5000/door-status"
+                    );
+
+                const data =
+                    await response.json();
+
+
+                updateDoorDisplay(
+                    data.door_status
+                );
+
+
+                document
+                    .getElementById("eventType")
+                    .textContent =
+                    data.event_type || "-";
+
+
+                document
+                    .getElementById("eventStatus")
+                    .textContent =
+                    data.door_status || "-";
+
+
+                document
+                    .getElementById("userId")
+                    .textContent =
+                    data.user_id || "-";
+
+
+                document
+                    .getElementById("eventTime")
+                    .textContent =
+                    data.timestamp
+                        ? new Date(
+                            data.timestamp
+                        ).toLocaleString()
+                        : "-";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to load door status:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // Lock / Unlock door
+
+        async function controlDoor(action) {
+
+            const message =
+                document.getElementById(
+                    "message"
+                );
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://127.0.0.1:5000/door-control",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                action: action
+                            })
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (response.ok) {
+
+                    updateDoorDisplay(
+                        result.door_status
+                    );
+
+                    message.textContent =
+                        result.message;
+
+                    message.style.color =
+                        "green";
+
+
+                    // Refresh event information
+
+                    loadDoorStatus();
+
+                } else {
+
+                    message.textContent =
+                        result.message;
+
+                    message.style.color =
+                        "red";
+
+                }
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                message.textContent =
+                    "Unable to connect to the server.";
+
+                message.style.color =
+                    "red";
+
+            }
+
+        }
+
+
+        // Load status when page opens
+
+        loadDoorStatus();
+
+    </script>
+
+</body>
+
+</html>
