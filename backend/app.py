@@ -299,5 +299,37 @@ def get_alerts():
         }), 500
 
 
+@app.route("/access-logs", methods=["GET"])
+def access_logs():
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT event_id, event_type, status, user_id, timestamp
+            FROM door_events
+            ORDER BY timestamp DESC
+        """)
+
+        logs = cursor.fetchall()
+
+        cursor.close()
+        connection.close()
+
+        for log in logs:
+            if log["timestamp"]:
+                log["timestamp"] = log["timestamp"].isoformat()
+
+        return jsonify({
+            "logs": logs
+        }), 200
+
+    except Exception as e:
+        return jsonify({
+            "message": "Failed to get access logs",
+            "error": str(e)
+        }), 500
+
+
 if __name__ == "__main__":
     app.run(debug=True)

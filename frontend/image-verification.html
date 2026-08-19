@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Image Verification - Smart Home Safety</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef3f8;
+        }
+
+        /* Header */
+
+        .header {
+            height: 70px;
+            background: #17365d;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 30px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logout {
+            background: #e74c3c;
+            color: white;
+
+            border: none;
+            border-radius: 6px;
+
+            padding: 9px 15px;
+
+            cursor: pointer;
+        }
+
+        /* Layout */
+
+        .container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            width: 220px;
+            background: white;
+
+            padding-top: 20px;
+
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .sidebar a {
+            display: block;
+
+            padding: 15px 25px;
+
+            color: #333;
+            text-decoration: none;
+
+            font-size: 15px;
+        }
+
+        .sidebar a:hover {
+            background: #eef3f8;
+            color: #17365d;
+        }
+
+        .sidebar .active {
+            background: #17365d;
+            color: white;
+        }
+
+        /* Main */
+
+        .main {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .welcome h1 {
+            margin: 0;
+            color: #17365d;
+        }
+
+        .welcome p {
+            color: #666;
+        }
+
+        /* Verification Card */
+
+        .verification-card {
+            background: white;
+
+            margin-top: 25px;
+
+            padding: 35px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+
+            text-align: center;
+        }
+
+        .camera-box {
+            width: 100%;
+            max-width: 500px;
+            height: 280px;
+
+            margin: auto;
+
+            background: #eef3f8;
+
+            border: 2px dashed #17365d;
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-direction: column;
+        }
+
+        .camera-icon {
+            font-size: 65px;
+        }
+
+        .camera-box p {
+            color: #666;
+        }
+
+        /* Buttons */
+
+        .buttons {
+            margin-top: 25px;
+
+            display: flex;
+            justify-content: center;
+
+            gap: 15px;
+        }
+
+        button {
+            padding: 13px 25px;
+
+            border: none;
+            border-radius: 8px;
+
+            color: white;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .verify-button {
+            background: #17365d;
+        }
+
+        .capture-button {
+            background: #27ae60;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        /* Result */
+
+        #result {
+            margin-top: 25px;
+
+            font-size: 18px;
+
+            font-weight: bold;
+        }
+
+        .verified {
+            color: #27ae60;
+        }
+
+        .failed {
+            color: #e74c3c;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- Header -->
+
+    <div class="header">
+
+        <div class="logo">
+            🏠 Smart Home Safety
+        </div>
+
+        <div class="user-area">
+
+            <span id="userName">
+                User
+            </span>
+
+            <button
+                class="logout"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+        <!-- Sidebar -->
+
+        <div class="sidebar">
+
+            <a href="dashboard.html">
+                📊 Dashboard
+            </a>
+
+            <a href="door-access.html">
+                🚪 Door Access
+            </a>
+
+            <a
+                href="image-verification.html"
+                class="active"
+            >
+                📷 Image Verification
+            </a>
+
+            <a href="sensors.html">
+                🌡 Sensors
+            </a>
+
+            <a href="alerts.html">
+                🚨 Safety Alerts
+            </a>
+
+            <a href="access-logs.html">
+                📋 Access Logs
+            </a>
+
+        </div>
+
+
+        <!-- Main -->
+
+        <div class="main">
+
+            <div class="welcome">
+
+                <h1>
+                    📷 Image Verification
+                </h1>
+
+                <p>
+                    Verify a person before allowing door access.
+                </p>
+
+            </div>
+
+
+            <!-- Verification -->
+
+            <div class="verification-card">
+
+                <h2>
+                    Person Verification
+                </h2>
+
+                <div class="camera-box">
+
+                    <div class="camera-icon">
+                        📷
+                    </div>
+
+                    <p>
+                        Camera verification area
+                    </p>
+
+                    <p>
+                        Camera hardware will be connected later.
+                    </p>
+
+                </div>
+
+
+                <div class="buttons">
+
+                    <button
+                        class="capture-button"
+                        onclick="captureImage()"
+                    >
+                        📸 CAPTURE IMAGE
+                    </button>
+
+                    <button
+                        class="verify-button"
+                        onclick="verifyPerson()"
+                    >
+                        🔍 VERIFY PERSON
+                    </button>
+
+                </div>
+
+
+                <div id="result"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // Check login
+
+        const savedUser =
+            localStorage.getItem("user");
+
+
+        if (!savedUser) {
+
+            window.location.href =
+                "login.html";
+
+        } else {
+
+            const user =
+                JSON.parse(savedUser);
+
+            document
+                .getElementById("userName")
+                .textContent = user.name;
+
+        }
+
+
+        // Logout
+
+        function logout() {
+
+            localStorage.removeItem("user");
+
+            window.location.href =
+                "login.html";
+
+        }
+
+
+        // Temporary capture function
+
+        function captureImage() {
+
+            const result =
+                document.getElementById("result");
+
+            result.textContent =
+                "📸 Image captured successfully.";
+
+            result.className =
+                "verified";
+
+        }
+
+
+        // Temporary verification function
+
+        function verifyPerson() {
+
+            const result =
+                document.getElementById("result");
+
+            result.textContent =
+                "🔍 Verification system is ready. Camera integration will be added later.";
+
+            result.className =
+                "verified";
+
+        }
+
+    </script>
+
+</body>
+
+</html>

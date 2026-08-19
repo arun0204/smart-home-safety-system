@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sensors - Smart Home Safety</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef3f8;
+        }
+
+        /* Header */
+
+        .header {
+            height: 70px;
+            background: #17365d;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 30px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logout {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 9px 15px;
+            cursor: pointer;
+        }
+
+        /* Layout */
+
+        .container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            width: 220px;
+            background: white;
+            padding-top: 20px;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 15px 25px;
+            color: #333;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .sidebar a:hover {
+            background: #eef3f8;
+            color: #17365d;
+        }
+
+        .sidebar .active {
+            background: #17365d;
+            color: white;
+        }
+
+        /* Main */
+
+        .main {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .welcome h1 {
+            margin: 0;
+            color: #17365d;
+        }
+
+        .welcome p {
+            color: #666;
+        }
+
+        /* Sensor Cards */
+
+        .sensor-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .sensor-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .sensor-icon {
+            font-size: 40px;
+        }
+
+        .sensor-name {
+            color: #666;
+            margin-top: 15px;
+        }
+
+        .sensor-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #17365d;
+            margin-top: 8px;
+        }
+
+        .normal {
+            color: #27ae60;
+        }
+
+        .warning {
+            color: #f39c12;
+        }
+
+        .danger {
+            color: #e74c3c;
+        }
+
+        /* Status */
+
+        .status {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        /* Information */
+
+        .info-card {
+            background: white;
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .info-card h2 {
+            color: #17365d;
+        }
+
+        .info-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- Header -->
+
+    <div class="header">
+
+        <div class="logo">
+            🏠 Smart Home Safety
+        </div>
+
+        <div class="user-area">
+
+            <span id="userName">
+                User
+            </span>
+
+            <button
+                class="logout"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+        <!-- Sidebar -->
+
+        <div class="sidebar">
+
+            <a href="dashboard.html">
+                📊 Dashboard
+            </a>
+
+            <a href="door-access.html">
+                🚪 Door Access
+            </a>
+
+            <a href="image-verification.html">
+                📷 Image Verification
+            </a>
+
+            <a
+                href="sensors.html"
+                class="active"
+            >
+                🌡 Sensors
+            </a>
+
+            <a href="alerts.html">
+                🚨 Safety Alerts
+            </a>
+
+            <a href="access-logs.html">
+                📋 Access Logs
+            </a>
+
+        </div>
+
+
+        <!-- Main Content -->
+
+        <div class="main">
+
+            <div class="welcome">
+
+                <h1>
+                    🌡 Sensor Monitoring
+                </h1>
+
+                <p>
+                    Monitor the safety sensors in your home.
+                </p>
+
+            </div>
+
+
+            <!-- Sensor Cards -->
+
+            <div class="sensor-grid">
+
+                <!-- Temperature -->
+
+                <div class="sensor-card">
+
+                    <div class="sensor-icon">
+                        🌡️
+                    </div>
+
+                    <div class="sensor-name">
+                        Temperature
+                    </div>
+
+                    <div
+                        class="sensor-value"
+                        id="temperature"
+                    >
+                        25°C
+                    </div>
+
+                    <div class="status normal">
+                        ● NORMAL
+                    </div>
+
+                </div>
+
+
+                <!-- Gas / Smoke -->
+
+                <div class="sensor-card">
+
+                    <div class="sensor-icon">
+                        💨
+                    </div>
+
+                    <div class="sensor-name">
+                        Gas / Smoke
+                    </div>
+
+                    <div
+                        class="sensor-value"
+                        id="gasStatus"
+                    >
+                        NORMAL
+                    </div>
+
+                    <div class="status normal">
+                        ● SAFE
+                    </div>
+
+                </div>
+
+
+                <!-- Motion -->
+
+                <div class="sensor-card">
+
+                    <div class="sensor-icon">
+                        🚶
+                    </div>
+
+                    <div class="sensor-name">
+                        Motion Detection
+                    </div>
+
+                    <div
+                        class="sensor-value"
+                        id="motionStatus"
+                    >
+                        NO MOTION
+                    </div>
+
+                    <div class="status normal">
+                        ● NORMAL
+                    </div>
+
+                </div>
+
+
+                <!-- Door Sensor -->
+
+                <div class="sensor-card">
+
+                    <div class="sensor-icon">
+                        🚪
+                    </div>
+
+                    <div class="sensor-name">
+                        Door Sensor
+                    </div>
+
+                    <div
+                        class="sensor-value"
+                        id="doorSensor"
+                    >
+                        CLOSED
+                    </div>
+
+                    <div class="status normal">
+                        ● SECURE
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Information -->
+
+            <div class="info-card">
+
+                <h2>
+                    Sensor Information
+                </h2>
+
+                <p>
+                    These sensors will monitor important
+                    safety conditions inside the home.
+                </p>
+
+                <p>
+                    The current values shown here are
+                    temporary values. Once the hardware
+                    sensors are connected, the ESP32 will
+                    send real-time readings to the Flask
+                    backend.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // Check login
+
+        const savedUser =
+            localStorage.getItem("user");
+
+
+        if (!savedUser) {
+
+            window.location.href =
+                "login.html";
+
+        } else {
+
+            const user =
+                JSON.parse(savedUser);
+
+            document
+                .getElementById("userName")
+                .textContent = user.name;
+
+        }
+
+
+        // Logout
+
+        function logout() {
+
+            localStorage.removeItem("user");
+
+            window.location.href =
+                "login.html";
+
+        }
+
+    </script>
+
+</body>
+
+</html>
