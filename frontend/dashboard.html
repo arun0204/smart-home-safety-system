@@ -268,6 +268,75 @@
             font-weight: bold;
         }
 
+        /* Recent Activity */
+
+        .activity-box {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .activity-item {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 15px 0;
+
+            border-bottom: 1px solid #eee;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .activity-icon {
+            font-size: 22px;
+        }
+
+        .activity-event {
+            font-weight: bold;
+            color: #17365d;
+        }
+
+        .activity-user {
+            font-size: 13px;
+            color: #777;
+
+            margin-top: 4px;
+        }
+
+        .activity-status {
+            font-weight: bold;
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: #777;
+
+            margin-left: 15px;
+        }
+
+        .no-activity {
+            text-align: center;
+
+            color: #777;
+
+            padding: 20px;
+        }
+
     </style>
 
 </head>
@@ -315,19 +384,19 @@
                 🚪 Door Access
             </a>
 
-            <a href="#">
+            <a href="image-verification.html">
                 📷 Image Verification
             </a>
 
-            <a href="#">
+            <a href="sensors.html">
                 🌡 Sensors
             </a>
 
-            <a href="#">
+            <a href="alerts.html">
                 🚨 Safety Alerts
             </a>
 
-            <a href="#">
+            <a href="access-logs.html">
                 📋 Access Logs
             </a>
 
@@ -355,8 +424,6 @@
 
             <div class="cards">
 
-                <!-- System Status -->
-
                 <div class="card">
 
                     <div class="card-title">
@@ -372,8 +439,6 @@
 
                 </div>
 
-
-                <!-- Door Status -->
 
                 <div class="card">
 
@@ -409,8 +474,6 @@
                 </div>
 
 
-                <!-- Temperature -->
-
                 <div class="card">
 
                     <div class="card-title">
@@ -423,8 +486,6 @@
 
                 </div>
 
-
-                <!-- Active Alerts -->
 
                 <div class="card">
 
@@ -544,6 +605,28 @@
 
                     <div class="no-alerts">
                         No active alerts
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Recent Access Activity -->
+
+            <div class="section">
+
+                <h2>
+                    🕒 Recent Access Activity
+                </h2>
+
+                <div
+                    class="activity-box"
+                    id="activityBox"
+                >
+
+                    <div class="no-activity">
+                        Loading recent activity...
                     </div>
 
                 </div>
@@ -704,6 +787,10 @@
                         result.door_status
                     );
 
+                    // Refresh recent activity
+
+                    loadAccessLogs();
+
                 } else {
 
                     alert(
@@ -772,13 +859,9 @@
                     );
 
 
-                // Update alert count
-
                 alertCount.textContent =
                     alerts.length;
 
-
-                // No active alerts
 
                 if (alerts.length === 0) {
 
@@ -799,8 +882,6 @@
                     return;
                 }
 
-
-                // Active alerts exist
 
                 alertCount.className =
                     "card-value danger";
@@ -854,8 +935,6 @@
                 });
 
 
-                // Update gas status
-
                 const gasAlert =
                     alerts.some(function(alert) {
 
@@ -896,11 +975,152 @@
         }
 
 
-        // Load everything when dashboard opens
+        // Load recent access activity
+
+        async function loadAccessLogs() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://127.0.0.1:5000/access-logs"
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                const logs =
+                    data.logs || [];
+
+
+                const activityBox =
+                    document.getElementById(
+                        "activityBox"
+                    );
+
+
+                if (logs.length === 0) {
+
+                    activityBox.innerHTML =
+                        '<div class="no-activity">' +
+                        'No recent access activity' +
+                        '</div>';
+
+                    return;
+
+                }
+
+
+                // Show only the latest 5 events
+
+                const recentLogs =
+                    logs.slice(0, 5);
+
+
+                activityBox.innerHTML = "";
+
+
+                recentLogs.forEach(function(log) {
+
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+                    item.className =
+                        "activity-item";
+
+
+                    const icon =
+                        log.status === "LOCKED"
+                            ? "🔒"
+                            : "🔓";
+
+
+                    const statusClass =
+                        log.status === "LOCKED"
+                            ? "safe"
+                            : "danger";
+
+
+                    item.innerHTML = `
+
+                        <div class="activity-left">
+
+                            <div class="activity-icon">
+                                ${icon}
+                            </div>
+
+                            <div>
+
+                                <div class="activity-event">
+                                    ${log.event_type}
+                                </div>
+
+                                <div class="activity-user">
+                                    User ID: ${log.user_id}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div>
+
+                            <span class="activity-status ${statusClass}">
+                                ${log.status}
+                            </span>
+
+                            <span class="activity-time">
+                                ${new Date(
+                                    log.timestamp
+                                ).toLocaleString()}
+                            </span>
+
+                        </div>
+
+                    `;
+
+
+                    activityBox.appendChild(
+                        item
+                    );
+
+                });
+
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to load access logs:",
+                    error
+                );
+
+
+                document
+                    .getElementById(
+                        "activityBox"
+                    )
+                    .innerHTML =
+
+                    '<div class="no-activity">' +
+                    'Unable to load recent activity' +
+                    '</div>';
+
+            }
+
+        }
+
+
+        // Load dashboard data
 
         loadDoorStatus();
 
         loadAlerts();
+
+        loadAccessLogs();
 
     </script>
 
