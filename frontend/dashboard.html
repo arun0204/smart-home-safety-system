@@ -2,12 +2,19 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Smart Home Safety</title>
 
+
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -19,6 +26,7 @@
             background: #f5f8fc;
             color: #1d3557;
         }
+
 
         /* ================= HEADER ================= */
 
@@ -53,7 +61,6 @@
             height: 38px;
 
             background: #e9f2ff;
-
             border-radius: 10px;
 
             display: flex;
@@ -93,23 +100,20 @@
 
         .logout {
             border: none;
-
             background: #e85d4a;
             color: white;
 
             padding: 9px 16px;
-
             border-radius: 7px;
 
             font-weight: bold;
             cursor: pointer;
-
-            transition: 0.2s;
         }
 
         .logout:hover {
             background: #d94b39;
         }
+
 
         /* ================= LAYOUT ================= */
 
@@ -118,26 +122,24 @@
             min-height: calc(100vh - 70px);
         }
 
+
         /* ================= SIDEBAR ================= */
 
         .sidebar {
             width: 225px;
-
             background: #ffffff;
-
             border-right: 1px solid #e5ebf2;
 
             padding: 25px 12px;
+            flex-shrink: 0;
         }
 
         .menu-title {
             font-size: 11px;
             font-weight: bold;
-
             color: #9aa8b8;
 
             text-transform: uppercase;
-
             letter-spacing: 1px;
 
             padding: 0 14px 13px;
@@ -146,11 +148,9 @@
         .sidebar a {
             display: flex;
             align-items: center;
-
             gap: 12px;
 
             padding: 13px 14px;
-
             margin-bottom: 5px;
 
             border-radius: 9px;
@@ -177,27 +177,25 @@
 
         .nav-icon {
             width: 24px;
-
             text-align: center;
-
             font-size: 17px;
         }
+
 
         /* ================= MAIN ================= */
 
         .main {
             flex: 1;
-
             padding: 30px;
-
             max-width: 1600px;
+            min-width: 0;
         }
+
 
         /* ================= PAGE HEADER ================= */
 
         .page-header {
             display: flex;
-
             justify-content: space-between;
             align-items: center;
 
@@ -206,28 +204,23 @@
 
         .page-header h1 {
             font-size: 27px;
-
             color: #193c62;
-
             margin-bottom: 6px;
         }
 
         .page-header p {
             color: #7c8a9a;
-
             font-size: 14px;
         }
 
         .online {
             display: flex;
             align-items: center;
-
             gap: 7px;
 
             padding: 8px 13px;
 
             background: #eaf8f0;
-
             color: #24945a;
 
             border-radius: 20px;
@@ -245,17 +238,17 @@
             background: #2bb673;
         }
 
-        /* ================= TOP AREA ================= */
-
-        .top-grid {
-            display: grid;
-
-            grid-template-columns: 1.15fr 1fr 1fr;
-
-            gap: 20px;
-
-            margin-bottom: 22px;
+        .offline {
+            background: #fff3f1;
+            color: #e25543;
         }
+
+        .offline .online-dot {
+            background: #e25543;
+        }
+
+
+        /* ================= COMMON PANEL ================= */
 
         .panel {
             background: #ffffff;
@@ -264,8 +257,24 @@
 
             border-radius: 15px;
 
-            box-shadow: 0 5px 18px rgba(35, 70, 105, 0.06);
+            box-shadow:
+                0 5px 18px rgba(35, 70, 105, 0.06);
         }
+
+
+        /* ================= TOP GRID ================= */
+
+        .top-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.15fr 1fr 1fr;
+
+            gap: 20px;
+
+            margin-bottom: 22px;
+        }
+
 
         /* ================= HOME STATUS ================= */
 
@@ -303,7 +312,6 @@
 
         .safe-circle-text {
             color: #24945a;
-
             font-size: 18px;
             font-weight: bold;
 
@@ -312,7 +320,6 @@
 
         .safe-circle-small {
             color: #6f8a7b;
-
             font-size: 10px;
 
             margin-top: 3px;
@@ -324,7 +331,6 @@
 
         .home-info h2 {
             color: #193c62;
-
             font-size: 20px;
 
             margin-bottom: 9px;
@@ -332,9 +338,7 @@
 
         .home-info p {
             color: #7d8a99;
-
             font-size: 13px;
-
             line-height: 1.6;
         }
 
@@ -342,11 +346,11 @@
             margin-top: 14px;
 
             font-size: 11px;
-
             color: #9aa6b4;
         }
 
-        /* ================= DOOR PANEL ================= */
+
+        /* ================= DOOR CONTROL ================= */
 
         .door-panel {
             padding: 23px;
@@ -354,9 +358,7 @@
 
         .panel-heading {
             display: flex;
-
             align-items: center;
-
             justify-content: space-between;
 
             margin-bottom: 18px;
@@ -364,7 +366,6 @@
 
         .panel-heading h3 {
             font-size: 16px;
-
             color: #1d4168;
         }
 
@@ -373,7 +374,6 @@
             height: 38px;
 
             background: #edf5fd;
-
             border-radius: 9px;
 
             display: flex;
@@ -385,9 +385,7 @@
 
         .door-current {
             display: flex;
-
             align-items: center;
-
             gap: 12px;
 
             padding: 13px;
@@ -405,7 +403,6 @@
 
         .door-current-label {
             color: #8a98a8;
-
             font-size: 11px;
 
             margin-bottom: 3px;
@@ -413,7 +410,6 @@
 
         .door-current-value {
             color: #26975d;
-
             font-size: 16px;
             font-weight: bold;
         }
@@ -436,12 +432,16 @@
             color: white;
 
             font-size: 11px;
-
             font-weight: bold;
 
             cursor: pointer;
 
             transition: 0.2s;
+        }
+
+        .door-buttons button:hover {
+            opacity: 0.85;
+            transform: translateY(-1px);
         }
 
         .lock-button {
@@ -452,23 +452,27 @@
             background: #2eaa6d;
         }
 
-        .door-buttons button:hover {
-            transform: translateY(-1px);
+        #doorMessage {
+            margin-top: 10px;
 
-            opacity: 0.9;
+            font-size: 11px;
+            font-weight: bold;
+
+            text-align: center;
+
+            min-height: 15px;
         }
 
-        /* ================= ALERT PANEL ================= */
+
+        /* ================= ALERT SUMMARY ================= */
 
         .alert-summary {
             padding: 23px;
-
             min-height: 215px;
         }
 
         .alert-number {
             font-size: 42px;
-
             font-weight: bold;
 
             color: #26975d;
@@ -478,7 +482,6 @@
 
         .alert-label {
             color: #7d8a99;
-
             font-size: 13px;
 
             margin-top: 3px;
@@ -492,21 +495,19 @@
             border-radius: 8px;
 
             background: #eefaf3;
-
             color: #28955b;
 
             font-size: 11px;
-
             font-weight: bold;
         }
 
-        /* ================= SENSOR SECTION ================= */
+
+        /* ================= SECTION TITLE ================= */
 
         .section-title {
             display: flex;
 
             justify-content: space-between;
-
             align-items: center;
 
             margin: 28px 0 13px;
@@ -514,21 +515,22 @@
 
         .section-title h2 {
             font-size: 18px;
-
             color: #1b4169;
         }
 
         .section-title span {
             font-size: 11px;
-
             color: #9aa6b4;
         }
+
+
+        /* ================= SENSORS ================= */
 
         .sensor-grid {
             display: grid;
 
             grid-template-columns:
-                repeat(4, 1fr);
+                repeat(5, 1fr);
 
             gap: 16px;
         }
@@ -542,22 +544,19 @@
 
             padding: 18px;
 
-            box-shadow: 0 4px 14px rgba(35, 70, 105, 0.05);
-
-            transition: 0.2s;
-        }
-
-        .sensor-card:hover {
-            transform: translateY(-2px);
-
-            box-shadow: 0 8px 20px rgba(35, 70, 105, 0.09);
+            box-shadow:
+                0 4px 14px rgba(
+                    35,
+                    70,
+                    105,
+                    0.05
+                );
         }
 
         .sensor-top {
             display: flex;
 
             align-items: center;
-
             justify-content: space-between;
         }
 
@@ -580,7 +579,6 @@
             color: #29975e;
 
             font-size: 10px;
-
             font-weight: bold;
         }
 
@@ -588,7 +586,6 @@
             margin-top: 15px;
 
             color: #738295;
-
             font-size: 12px;
         }
 
@@ -598,28 +595,34 @@
             color: #1d4168;
 
             font-size: 19px;
-
             font-weight: bold;
         }
+
+        .safe {
+            color: #26975d !important;
+        }
+
+        .danger {
+            color: #e25543 !important;
+        }
+
 
         /* ================= LOWER GRID ================= */
 
         .lower-grid {
             display: grid;
 
-            grid-template-columns: 1fr 1.15fr;
+            grid-template-columns:
+                1fr 1.15fr;
 
             gap: 20px;
         }
+
 
         /* ================= ALERTS ================= */
 
         .alerts-panel {
             padding: 20px;
-        }
-
-        .alert-list {
-            margin-top: 5px;
         }
 
         .active-alert {
@@ -635,7 +638,8 @@
 
             background: #fff5f3;
 
-            border-left: 4px solid #e85d4a;
+            border-left:
+                4px solid #e85d4a;
         }
 
         .active-alert-icon {
@@ -646,7 +650,6 @@
             color: #d94f3d;
 
             font-size: 12px;
-
             font-weight: bold;
         }
 
@@ -682,18 +685,14 @@
             color: #26945a;
 
             font-size: 12px;
-
             font-weight: bold;
         }
+
 
         /* ================= ACTIVITY ================= */
 
         .activity-panel {
             padding: 20px;
-        }
-
-        .activity-list {
-            margin-top: 3px;
         }
 
         .activity-item {
@@ -705,7 +704,8 @@
 
             padding: 11px 3px;
 
-            border-bottom: 1px solid #edf1f5;
+            border-bottom:
+                1px solid #edf1f5;
         }
 
         .activity-item:last-child {
@@ -737,7 +737,6 @@
             color: #25496e;
 
             font-size: 12px;
-
             font-weight: bold;
         }
 
@@ -755,7 +754,6 @@
 
         .activity-status {
             font-size: 10px;
-
             font-weight: bold;
         }
 
@@ -769,14 +767,6 @@
             font-size: 9px;
         }
 
-        .safe {
-            color: #26975d !important;
-        }
-
-        .danger {
-            color: #e25543 !important;
-        }
-
         .no-activity {
             text-align: center;
 
@@ -787,20 +777,27 @@
             font-size: 12px;
         }
 
+
         /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1250px) {
+
+            .sensor-grid {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+        }
 
         @media (max-width: 1150px) {
 
             .top-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns:
+                    1fr 1fr;
             }
 
             .home-status {
                 grid-column: span 2;
-            }
-
-            .sensor-grid {
-                grid-template-columns: repeat(2, 1fr);
             }
 
         }
@@ -817,7 +814,6 @@
 
             .sidebar a {
                 justify-content: center;
-
                 padding: 14px 5px;
             }
 
@@ -827,6 +823,11 @@
 
             .lower-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .sensor-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
             }
 
         }
@@ -854,7 +855,8 @@
             }
 
             .sensor-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns:
+                    1fr 1fr;
             }
 
             .page-header {
@@ -881,18 +883,904 @@
 
             .home-info {
                 margin-left: 0;
-
                 margin-top: 20px;
             }
 
         }
-    </style>
+
+
+        /* ================= FRIENDLY AI BUDDY ================= */
+
+        .main {
+            position: relative;
+            padding-right: 360px;
+        }
+
+        .ai-assistant-panel {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 320px;
+            min-height: 650px;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(180deg, #f8fcff 0%, #ffffff 55%, #f4f9ff 100%);
+            border: 1px solid #dceafa;
+            border-radius: 24px;
+            box-shadow: 0 12px 35px rgba(32, 92, 150, 0.12);
+        }
+
+        .ai-buddy-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 18px 14px;
+            border-bottom: 1px solid #e8f0f8;
+        }
+
+        .ai-buddy-title {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .ai-buddy-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #dff1ff, #b9ddff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            box-shadow: inset 0 0 0 1px #c8e4fb;
+        }
+
+        .ai-buddy-name {
+            color: #173f6c;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .ai-buddy-subtitle {
+            margin-top: 3px;
+            color: #8295aa;
+            font-size: 10px;
+        }
+
+        .ai-buddy-online {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 9px;
+            border-radius: 20px;
+            background: #eaf9f1;
+            color: #24945a;
+            font-size: 9px;
+            font-weight: bold;
+        }
+
+        .ai-buddy-online-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #2bb673;
+        }
+
+        .ai-buddy-body {
+            padding: 16px;
+        }
+
+        .ai-buddy-face {
+            width: 155px;
+            height: 155px;
+            margin: 3px auto 12px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #e9f6ff, #cce8ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(48, 130, 197, 0.12);
+        }
+
+        .ai-buddy-face::before {
+            content: "";
+            position: absolute;
+            width: 105px;
+            height: 70px;
+            border-radius: 35px;
+            background: #173e67;
+            box-shadow: inset 0 0 0 4px #4b9fe2;
+        }
+
+        .ai-buddy-eyes {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            gap: 23px;
+            margin-top: -4px;
+        }
+
+        .ai-buddy-eye {
+            width: 13px;
+            height: 19px;
+            border-radius: 50%;
+            background: #64c8ff;
+            box-shadow: 0 0 10px rgba(66, 188, 255, 0.9);
+        }
+
+        .ai-buddy-smile {
+            position: absolute;
+            z-index: 3;
+            width: 27px;
+            height: 13px;
+            border-bottom: 4px solid #64c8ff;
+            border-radius: 0 0 25px 25px;
+            top: 88px;
+        }
+
+        .ai-buddy-antenna {
+            position: absolute;
+            width: 5px;
+            height: 25px;
+            background: #3187c8;
+            top: -17px;
+            left: 75px;
+            border-radius: 5px;
+        }
+
+        .ai-buddy-antenna::before {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #43aef0;
+            border-radius: 50%;
+            left: -3.5px;
+            top: -7px;
+            box-shadow: 0 0 10px rgba(67, 174, 240, 0.6);
+        }
+
+        .ai-buddy-greeting {
+            background: #ffffff;
+            border: 1px solid #e2edf8;
+            border-radius: 16px;
+            padding: 13px;
+            color: #25496e;
+            font-size: 11px;
+            line-height: 1.55;
+            box-shadow: 0 5px 15px rgba(35, 70, 105, 0.05);
+            margin-bottom: 13px;
+        }
+
+        .ai-buddy-greeting strong {
+            color: #173f6c;
+            font-size: 12px;
+        }
+
+        .ai-quick-title {
+            color: #8394a7;
+            font-size: 9px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            margin: 13px 2px 8px;
+        }
+
+        .ai-quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .ai-quick-button {
+            width: 100%;
+            border: 1px solid #dceafa;
+            background: #ffffff;
+            color: #24517d;
+            border-radius: 12px;
+            padding: 10px 12px;
+            text-align: left;
+            font-size: 10px;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .ai-quick-button:hover {
+            background: #eef7ff;
+            border-color: #a9d2f4;
+            transform: translateY(-1px);
+        }
+
+        .ai-chat-box {
+            height: 135px;
+            overflow-y: auto;
+            margin-top: 12px;
+            padding: 8px;
+            background: #f7fbff;
+            border: 1px solid #e5eef7;
+            border-radius: 13px;
+        }
+
+        .ai-message {
+            max-width: 90%;
+            padding: 8px 10px;
+            border-radius: 10px;
+            margin-bottom: 7px;
+            font-size: 10px;
+            line-height: 1.5;
+            white-space: pre-line;
+        }
+
+        .ai-message.assistant {
+            background: #e7f3ff;
+            color: #25496e;
+            margin-right: auto;
+        }
+
+        .ai-message.user {
+            background: #214b75;
+            color: #ffffff;
+            margin-left: auto;
+        }
+
+        .ai-input-row {
+            display: flex;
+            gap: 7px;
+            margin-top: 9px;
+        }
+
+        .ai-input {
+            min-width: 0;
+            flex: 1;
+            border: 1px solid #d8e5f1;
+            border-radius: 12px;
+            padding: 10px;
+            font-size: 10px;
+            outline: none;
+            background: #ffffff;
+        }
+
+        .ai-input:focus {
+            border-color: #55a2dc;
+        }
+
+        .ai-send-button {
+            width: 39px;
+            border: none;
+            border-radius: 12px;
+            background: #2476c5;
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .ai-send-button:hover {
+            background: #195d9e;
+        }
+
+        .ai-send-button:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+        }
+
+        .ai-status {
+            margin-top: 6px;
+            color: #8b9aaa;
+            font-size: 8px;
+            text-align: center;
+        }
+
+        .ai-buddy-footer {
+            margin-top: 10px;
+            text-align: center;
+            color: #4c87b7;
+            font-size: 9px;
+        }
+
+        @media (max-width: 1150px) {
+
+            .main {
+                padding-right: 30px;
+            }
+
+            .ai-assistant-panel {
+                position: relative;
+                top: auto;
+                right: auto;
+                width: 100%;
+                min-height: auto;
+                margin-top: 25px;
+            }
+
+            .ai-buddy-face {
+                width: 125px;
+                height: 125px;
+            }
+
+            .ai-buddy-face::before {
+                width: 88px;
+                height: 60px;
+            }
+
+            .ai-buddy-smile {
+                top: 75px;
+            }
+
+            .ai-chat-box {
+                height: 180px;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .main {
+                padding-right: 18px;
+            }
+
+            .ai-assistant-panel {
+                border-radius: 18px;
+            }
+        }
+
+    
+        /* ================= AI DOLL POPUP MODE ================= */
+
+        .main {
+            padding-right: 30px !important;
+        }
+
+        .ai-assistant-panel {
+            position: fixed !important;
+            top: auto !important;
+            right: 28px !important;
+            bottom: 28px !important;
+            width: 340px !important;
+            min-height: 0 !important;
+            max-height: calc(100vh - 56px);
+            z-index: 9998;
+            display: none;
+            overflow: hidden;
+            animation: aiPanelIn .25s ease;
+        }
+
+        .ai-assistant-panel.ai-open {
+            display: block;
+        }
+
+        .ai-buddy-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ai-close-button {
+            width: 30px;
+            height: 30px;
+            border: 0;
+            border-radius: 50%;
+            background: #eef5fc;
+            color: #244b78;
+            font-size: 23px;
+            line-height: 1;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .ai-close-button:hover {
+            background: #dcecff;
+            transform: scale(1.06);
+        }
+
+        .ai-doll-button {
+            position: fixed;
+            right: 28px;
+            bottom: 28px;
+            width: 118px;
+            height: 118px;
+            border: 0;
+            border-radius: 38px;
+            cursor: pointer;
+            z-index: 9997;
+            background: linear-gradient(145deg, #eaf7ff, #c9e7ff);
+            box-shadow:
+                0 16px 35px rgba(27, 91, 151, .20),
+                inset 0 0 0 2px rgba(255,255,255,.75);
+            transition: transform .2s ease, box-shadow .2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ai-doll-button:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow:
+                0 20px 42px rgba(27, 91, 151, .25),
+                inset 0 0 0 2px rgba(255,255,255,.85);
+        }
+
+        .ai-doll-button:active {
+            transform: scale(.97);
+        }
+
+        .ai-doll-face {
+            position: relative;
+            width: 72px;
+            height: 62px;
+            margin-top: 12px;
+            border-radius: 24px;
+            background: linear-gradient(145deg, #123f70, #0c2c52);
+            box-shadow:
+                inset 0 0 0 3px #65b9ff,
+                0 8px 16px rgba(13, 62, 105, .22);
+        }
+
+        .ai-doll-antenna {
+            position: absolute;
+            width: 5px;
+            height: 18px;
+            top: 10px;
+            left: 56px;
+            border-radius: 5px;
+            background: #2679c9;
+        }
+
+        .ai-doll-antenna::before {
+            content: "";
+            position: absolute;
+            width: 11px;
+            height: 11px;
+            left: -3px;
+            top: -8px;
+            border-radius: 50%;
+            background: #3ea5ff;
+            box-shadow: 0 0 10px rgba(62,165,255,.7);
+        }
+
+        .ai-doll-eyes {
+            position: absolute;
+            left: 16px;
+            top: 22px;
+            display: flex;
+            gap: 22px;
+        }
+
+        .ai-doll-eyes span {
+            width: 10px;
+            height: 14px;
+            border-radius: 50%;
+            background: #55c8ff;
+            box-shadow: 0 0 9px rgba(85,200,255,.9);
+        }
+
+        .ai-doll-smile {
+            position: absolute;
+            left: 27px;
+            top: 42px;
+            width: 18px;
+            height: 9px;
+            border-bottom: 3px solid #55c8ff;
+            border-radius: 0 0 18px 18px;
+        }
+
+        .ai-doll-hand {
+            position: absolute;
+            right: 3px;
+            top: 21px;
+            font-size: 23px;
+            animation: aiWave 1.8s ease-in-out infinite;
+        }
+
+        .ai-doll-label {
+            position: absolute;
+            left: 50%;
+            bottom: 6px;
+            transform: translateX(-50%);
+            padding: 4px 9px;
+            border-radius: 12px;
+            background: #ffffff;
+            color: #164a7d;
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(27,91,151,.12);
+        }
+
+        @keyframes aiWave {
+            0%, 100% { transform: rotate(0deg); }
+            20% { transform: rotate(12deg); }
+            40% { transform: rotate(-10deg); }
+            60% { transform: rotate(8deg); }
+            80% { transform: rotate(-5deg); }
+        }
+
+        @keyframes aiPanelIn {
+            from {
+                opacity: 0;
+                transform: translateY(18px) scale(.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @media (max-width: 650px) {
+            .ai-doll-button {
+                right: 16px;
+                bottom: 16px;
+                width: 94px;
+                height: 94px;
+                border-radius: 30px;
+            }
+
+            .ai-doll-face {
+                transform: scale(.82);
+            }
+
+            .ai-doll-antenna {
+                left: 48px;
+            }
+
+            .ai-doll-label {
+                font-size: 9px;
+            }
+
+            .ai-assistant-panel {
+                left: 12px !important;
+                right: 12px !important;
+                bottom: 12px !important;
+                width: auto !important;
+                max-height: calc(100vh - 24px);
+            }
+        }
+
+    
+/* ============================================================
+   ANIMATED AI ROBOT BUDDY - STEP 1
+   ============================================================ */
+.ai-doll-button { animation: robotFloat 3.2s ease-in-out infinite; position: relative; }
+.ai-doll-button::after {
+    content:""; position:absolute; inset:-7px; border-radius:43px;
+    border:2px solid rgba(85,200,255,.20);
+    animation:robotPulse 2.2s ease-in-out infinite; pointer-events:none;
+}
+.ai-doll-face { animation:robotFaceFloat 2.8s ease-in-out infinite; }
+.ai-doll-antenna::before { animation:robotAntenna 1.5s ease-in-out infinite; }
+.ai-doll-eyes span { animation:robotBlink 4.5s infinite; transform-origin:center; }
+.ai-doll-eyes span:nth-child(2) { animation-delay:.12s; }
+
+.ai-buddy-face {
+    transition:background .35s ease,box-shadow .35s ease,transform .35s ease;
+    animation:buddyIdle 3.4s ease-in-out infinite;
+}
+.ai-buddy-eye {
+    transition:background .25s ease,box-shadow .25s ease,transform .25s ease;
+    animation:buddyBlink 4.2s infinite; transform-origin:center;
+}
+.ai-buddy-eye:nth-child(2){animation-delay:.10s;}
+.ai-buddy-smile { transition:all .25s ease; }
+
+.ai-assistant-panel.robot-listening .ai-buddy-face { animation:buddyListening .75s ease-in-out infinite alternate; }
+.ai-assistant-panel.robot-thinking .ai-buddy-face { animation:buddyThinking 1s ease-in-out infinite; }
+.ai-assistant-panel.robot-thinking .ai-buddy-eye { animation:buddyThinkEyes 1.2s ease-in-out infinite; }
+.ai-assistant-panel.robot-speaking .ai-buddy-face { animation:buddySpeaking .34s ease-in-out infinite alternate; }
+.ai-assistant-panel.robot-speaking .ai-buddy-smile { animation:buddyMouth .34s ease-in-out infinite alternate; }
+
+.ai-assistant-panel.robot-warning .ai-buddy-face {
+    background:linear-gradient(145deg,#fff7d6,#ffe7a3);
+    box-shadow:0 10px 30px rgba(224,167,44,.22);
+}
+.ai-assistant-panel.robot-warning .ai-buddy-face::before {
+    background:#5d4811; box-shadow:inset 0 0 0 4px #e5ae35;
+}
+.ai-assistant-panel.robot-warning .ai-buddy-eye {
+    background:#ffd45b; box-shadow:0 0 12px rgba(255,205,63,.95);
+}
+.ai-assistant-panel.robot-warning .ai-buddy-smile {
+    border-bottom-color:#ffd45b; width:19px; transform:rotate(180deg);
+}
+
+.ai-assistant-panel.robot-alert .ai-buddy-face,
+.ai-assistant-panel.robot-danger .ai-buddy-face {
+    background:linear-gradient(145deg,#ffe3e0,#ffc8c2);
+    box-shadow:0 10px 30px rgba(226,85,67,.28);
+    animation:buddyAlertPulse 1s ease-in-out infinite;
+}
+.ai-assistant-panel.robot-alert .ai-buddy-face::before,
+.ai-assistant-panel.robot-danger .ai-buddy-face::before {
+    background:#5b1f25; box-shadow:inset 0 0 0 4px #e25543;
+}
+.ai-assistant-panel.robot-alert .ai-buddy-eye,
+.ai-assistant-panel.robot-danger .ai-buddy-eye {
+    background:#ff7065; box-shadow:0 0 13px rgba(255,80,70,1);
+}
+.ai-assistant-panel.robot-alert .ai-buddy-smile,
+.ai-assistant-panel.robot-danger .ai-buddy-smile {
+    border-bottom-color:#ff7065; width:17px; height:5px; border-radius:0;
+}
+
+.ai-assistant-panel.robot-success .ai-buddy-face {
+    background:linear-gradient(145deg,#e6fff1,#c8f4da);
+    box-shadow:0 10px 30px rgba(43,182,115,.20);
+}
+.ai-assistant-panel.robot-success .ai-buddy-face::before { box-shadow:inset 0 0 0 4px #2bb673; }
+.ai-assistant-panel.robot-success .ai-buddy-eye {
+    background:#55e39a; box-shadow:0 0 12px rgba(67,220,143,.95);
+}
+.ai-assistant-panel.robot-success .ai-buddy-smile { border-bottom-color:#55e39a; width:32px; height:15px; }
+
+.ai-assistant-panel.robot-listening .ai-buddy-eye {
+    background:#a06cff; box-shadow:0 0 13px rgba(160,108,255,.95);
+}
+.ai-assistant-panel.robot-speaking .ai-buddy-eye {
+    background:#65e6ff; box-shadow:0 0 15px rgba(90,225,255,1);
+}
+
+.robot-status-line {
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    min-height:18px; margin:-3px 0 10px;
+    color:#5c7894; font-size:9px; font-weight:700;
+}
+.robot-status-dot {
+    width:6px; height:6px; border-radius:50%;
+    background:#55c8ff; box-shadow:0 0 8px rgba(85,200,255,.8);
+}
+
+@keyframes robotFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes robotPulse{0%,100%{transform:scale(.96);opacity:.25}50%{transform:scale(1.04);opacity:.75}}
+@keyframes robotFaceFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes robotAntenna{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.25);opacity:1}}
+@keyframes robotBlink{0%,42%,46%,100%{transform:scaleY(1)}44%{transform:scaleY(.08)}}
+@keyframes buddyBlink{0%,40%,44%,100%{transform:scaleY(1)}42%{transform:scaleY(.08)}}
+@keyframes buddyIdle{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3px) rotate(.5deg)}}
+@keyframes buddyListening{from{transform:scale(1)}to{transform:scale(1.035)}}
+@keyframes buddyThinking{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-4px) rotate(1deg)}}
+@keyframes buddyThinkEyes{0%,100%{transform:translateX(-2px)}50%{transform:translateX(3px)}}
+@keyframes buddySpeaking{from{transform:scale(1)}to{transform:scale(1.045)}}
+@keyframes buddyMouth{from{transform:scaleY(.65)}to{transform:scaleY(1.25)}}
+@keyframes buddyAlertPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+@media (prefers-reduced-motion:reduce){
+    .ai-doll-button,.ai-doll-button::after,.ai-doll-face,.ai-doll-antenna::before,
+    .ai-doll-eyes span,.ai-buddy-face,.ai-buddy-eye,
+    .ai-assistant-panel.robot-thinking .ai-buddy-eye{animation:none!important}
+}
+
+    
+
+/* ============================================================
+   DRAGGABLE AI BUDDY - DASHBOARD DESIGN
+   ============================================================ */
+.ai-draggable-buddy {
+    position: fixed !important;
+    width: 155px !important;
+    height: 185px !important;
+    right: 28px;
+    bottom: 28px;
+    border-radius: 28px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+    cursor: grab !important;
+    touch-action: none;
+    user-select: none;
+    transition: filter .2s ease, transform .15s ease;
+}
+.ai-draggable-buddy.dragging { cursor: grabbing !important; }
+.ai-draggable-buddy:hover { transform: translateY(-4px) scale(1.02); }
+.ai-draggable-buddy::after { display:none !important; }
+
+.buddy-head {
+    position:absolute; left:31px; top:30px; width:94px; height:70px;
+    border-radius:30px 30px 25px 25px;
+    background:linear-gradient(145deg,#f9fdff,#d9edff);
+    border:2px solid #a9d8fa;
+    box-shadow:0 10px 24px rgba(25,96,155,.20), inset 0 0 0 4px rgba(255,255,255,.8);
+    z-index:4;
+}
+.buddy-screen {
+    position:absolute; left:11px; top:12px; width:68px; height:46px;
+    border-radius:20px; background:linear-gradient(145deg,#173f6c,#092b50);
+    box-shadow:inset 0 0 0 3px #5cc9ff, 0 4px 10px rgba(12,61,102,.2);
+}
+.buddy-eyes { position:absolute; left:17px; top:14px; display:flex; gap:19px; }
+.buddy-eyes i { display:block; width:8px; height:12px; border-radius:50%; background:#5fd5ff; box-shadow:0 0 9px #42c5ff; animation:buddyBlink2 4.5s infinite; }
+.buddy-eyes i:nth-child(2){animation-delay:.12s;}
+.buddy-smile { position:absolute; left:27px; top:29px; width:17px; height:8px; border-bottom:3px solid #5fd5ff; border-radius:0 0 15px 15px; }
+.buddy-antenna-line { position:absolute; left:75px; top:10px; width:5px; height:25px; border-radius:5px; background:#287fc8; z-index:3; }
+.buddy-antenna-dot { position:absolute; left:70px; top:0; width:15px; height:15px; border-radius:50%; background:#45b8ff; box-shadow:0 0 13px rgba(69,184,255,.8); z-index:5; animation:buddyGlow2 1.5s infinite; }
+.buddy-ear { position:absolute; top:55px; width:14px; height:27px; border-radius:9px; background:#80cfff; border:2px solid #3d9cdb; z-index:3; }
+.buddy-ear-left{left:23px}.buddy-ear-right{right:23px}
+.buddy-body {
+    position:absolute; left:48px; top:94px; width:60px; height:60px;
+    border-radius:20px 20px 23px 23px; background:linear-gradient(145deg,#eef9ff,#b9e0fa);
+    border:2px solid #9ccff1; box-shadow:0 9px 20px rgba(25,96,155,.16); z-index:3;
+}
+.buddy-chest {
+    position:absolute; left:14px; top:13px; width:29px; height:29px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; background:#164a7d; color:#6ed8ff;
+    font-weight:900; font-size:10px; box-shadow:inset 0 0 0 3px #52bfff;
+}
+.buddy-arm { position:absolute; top:104px; width:18px; height:47px; border-radius:13px; background:linear-gradient(#cdeaff,#8cccf1); border:2px solid #78bde7; z-index:2; }
+.buddy-arm-left{left:32px; transform:rotate(22deg)}
+.buddy-arm-right{right:30px; transform:rotate(-25deg); font-size:20px; background:transparent; border:0; width:27px; height:27px; top:104px; animation:buddyWave2 1.8s infinite;}
+.buddy-leg { position:absolute; top:148px; width:21px; height:28px; border-radius:8px 8px 13px 13px; background:#8cc9ee; border:2px solid #67add9; z-index:2; }
+.buddy-leg-left{left:54px}.buddy-leg-right{right:54px}
+.buddy-label { position:absolute; left:50%; bottom:-1px; transform:translateX(-50%); padding:5px 12px; border-radius:14px; background:#fff; color:#174b7e; font-size:10px; font-weight:800; box-shadow:0 5px 14px rgba(27,91,151,.16); white-space:nowrap; z-index:8; }
+.buddy-drag-hint { position:absolute; left:-12px; bottom:28px; padding:7px 10px; border:1px dashed #62aef0; border-radius:12px; background:rgba(255,255,255,.94); color:#2a679b; font-size:9px; font-weight:800; opacity:0; transition:.2s; z-index:9; pointer-events:none; }
+.ai-draggable-buddy:hover .buddy-drag-hint { opacity:1; }
+.buddy-speech-bubble { position:absolute; right:112px; top:2px; width:145px; padding:10px 12px; border-radius:16px; background:#fff; color:#173f6c; box-shadow:0 10px 28px rgba(30,85,135,.16); font-size:11px; line-height:1.35; text-align:left; opacity:.98; z-index:10; pointer-events:none; }
+.buddy-speech-bubble::after { content:""; position:absolute; right:-10px; top:35px; border-width:8px 0 8px 12px; border-style:solid; border-color:transparent transparent transparent #fff; }
+.buddy-speech-bubble small { color:#55728d; font-size:9px; }
+
+/* NOVA stays on the right. The chat opens beside it. */
+.ai-draggable-buddy {
+    position: fixed !important;
+    right: 28px !important;
+    left: auto !important;
+    top: 50% !important;
+    bottom: auto !important;
+    transform: translateY(-50%);
+    z-index: 1000 !important;
+}
+.ai-assistant-panel {
+    position: fixed !important;
+    right: 198px !important;
+    left: auto !important;
+    top: 50% !important;
+    bottom: auto !important;
+    transform: translateY(-50%);
+    width:340px !important;
+    min-height:0 !important;
+    max-height:calc(100vh - 40px) !important;
+    overflow-y:auto !important;
+    z-index: 1001 !important;
+}
+.ai-assistant-panel.ai-open { display:block; }
+
+@keyframes buddyBlink2{0%,42%,46%,100%{transform:scaleY(1)}44%{transform:scaleY(.08)}}
+@keyframes buddyGlow2{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.22);opacity:1}}
+@keyframes buddyWave2{0%,100%{transform:rotate(-25deg)}25%{transform:rotate(-8deg)}50%{transform:rotate(-30deg)}75%{transform:rotate(-12deg)}}
+
+@media (max-width:650px){
+    .ai-draggable-buddy{width:125px !important;height:155px !important;}
+    .buddy-head{transform:scale(.82);transform-origin:top left;}
+    .buddy-body,.buddy-arm,.buddy-leg,.buddy-ear,.buddy-antenna-line,.buddy-antenna-dot{transform-origin:center;}
+    .buddy-speech-bubble{right:92px; width:125px; font-size:10px;}
+    .ai-assistant-panel{left:12px !important; right:12px !important; width:auto !important;}
+}
+
+/* ============================================================
+   AI BUDDY TOOLS / WORKING ASSISTANT UI
+   ============================================================ */
+.buddy-tools{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 8px}
+.buddy-tools button{border:1px solid #d9e8f5;background:#f5f9fd;color:#24547d;border-radius:10px;padding:6px 9px;font-size:10px;font-weight:700;cursor:pointer}
+.buddy-tools button:hover{background:#eaf4fd}
+.buddy-result{margin-top:8px;padding:9px 10px;border-radius:10px;background:#f6f9fc;color:#49657d;font-size:10px;line-height:1.45;white-space:pre-line}
+.ai-quick-actions{max-height:190px;overflow:auto;padding-right:3px}
+.ai-quick-button{cursor:pointer}
+
+        /* ================= DASHBOARD UNLOCK PIN MODAL ================= */
+
+        .unlock-pin-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 48, 76, 0.42);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 20000;
+            padding: 20px;
+            backdrop-filter: blur(3px);
+        }
+
+        .unlock-pin-modal.show {
+            display: flex;
+        }
+
+        .unlock-pin-card {
+            width: min(360px, 100%);
+            background: #ffffff;
+            border: 1px solid #dce8f3;
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 18px 55px rgba(20, 60, 100, 0.22);
+        }
+
+        .unlock-pin-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            border-radius: 14px;
+            background: #eaf5ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .unlock-pin-title {
+            text-align: center;
+            color: #173f6c;
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .unlock-pin-subtitle {
+            margin: 7px 0 18px;
+            text-align: center;
+            color: #7b8da0;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .unlock-pin-input {
+            width: 100%;
+            border: 1px solid #d5e2ee;
+            border-radius: 11px;
+            padding: 13px;
+            outline: none;
+            text-align: center;
+            letter-spacing: 6px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #173f6c;
+        }
+
+        .unlock-pin-input:focus {
+            border-color: #4d9ddd;
+            box-shadow: 0 0 0 3px rgba(77, 157, 221, 0.12);
+        }
+
+        .unlock-pin-message {
+            min-height: 18px;
+            margin-top: 9px;
+            text-align: center;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .unlock-pin-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 9px;
+            margin-top: 15px;
+        }
+
+        .unlock-pin-actions button {
+            border: none;
+            border-radius: 9px;
+            padding: 11px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .unlock-pin-cancel {
+            background: #eef4f9;
+            color: #4e657b;
+        }
+
+        .unlock-pin-confirm {
+            background: #2eaa6d;
+            color: #ffffff;
+        }
+
+        .unlock-pin-actions button:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+</style>
 
 </head>
 
+
 <body>
 
-    <!-- HEADER -->
+
+    <!-- ================= HEADER ================= -->
 
     <header class="header">
 
@@ -902,7 +1790,9 @@
                 🏠
             </div>
 
-            <span>Smart Home Safety</span>
+            <span>
+                Smart Home Safety
+            </span>
 
         </div>
 
@@ -935,9 +1825,12 @@
     </header>
 
 
+    <!-- ================= LAYOUT ================= -->
+
     <div class="layout">
 
-        <!-- SIDEBAR -->
+
+        <!-- ================= SIDEBAR ================= -->
 
         <aside class="sidebar">
 
@@ -950,14 +1843,21 @@
                 href="#"
                 class="active"
             >
-                <span class="nav-icon">📊</span>
-                <span class="nav-text">Dashboard</span>
+                <span class="nav-icon">
+                    📊
+                </span>
+
+                <span class="nav-text">
+                    Dashboard
+                </span>
             </a>
 
 
             <a href="door-access.html">
 
-                <span class="nav-icon">🚪</span>
+                <span class="nav-icon">
+                    🚪
+                </span>
 
                 <span class="nav-text">
                     Door Access
@@ -968,7 +1868,9 @@
 
             <a href="image-verification.html">
 
-                <span class="nav-icon">📷</span>
+                <span class="nav-icon">
+                    📷
+                </span>
 
                 <span class="nav-text">
                     Image Verification
@@ -979,7 +1881,9 @@
 
             <a href="sensors.html">
 
-                <span class="nav-icon">🌡️</span>
+                <span class="nav-icon">
+                    🌡️
+                </span>
 
                 <span class="nav-text">
                     Sensors
@@ -990,7 +1894,9 @@
 
             <a href="alerts.html">
 
-                <span class="nav-icon">🚨</span>
+                <span class="nav-icon">
+                    🚨
+                </span>
 
                 <span class="nav-text">
                     Safety Alerts
@@ -1001,7 +1907,9 @@
 
             <a href="access-logs.html">
 
-                <span class="nav-icon">📋</span>
+                <span class="nav-icon">
+                    📋
+                </span>
 
                 <span class="nav-text">
                     Access Logs
@@ -1012,7 +1920,7 @@
         </aside>
 
 
-        <!-- MAIN -->
+        <!-- ================= MAIN ================= -->
 
         <main class="main">
 
@@ -1024,8 +1932,17 @@
                 <div>
 
                     <h1>
-                        Good to see you, <span id="welcomeName">Arun</span> 👋
+
+                        Good to see you,
+
+                        <span id="welcomeName">
+                            Arun
+                        </span>
+
+                        👋
+
                     </h1>
+
 
                     <p>
                         Here's the current status of your home safety system.
@@ -1034,18 +1951,23 @@
                 </div>
 
 
-                <div class="online">
+                <div
+                    class="online"
+                    id="systemStatus"
+                >
 
                     <span class="online-dot"></span>
 
-                    System Online
+                    <span id="systemStatusText">
+                        Checking ESP32...
+                    </span>
 
                 </div>
 
             </div>
 
 
-            <!-- TOP GRID -->
+            <!-- ================= TOP GRID ================= -->
 
             <div class="top-grid">
 
@@ -1054,7 +1976,10 @@
 
                 <div class="panel home-status">
 
-                    <div class="safe-circle">
+                    <div
+                        class="safe-circle"
+                        id="safeCircle"
+                    >
 
                         <div class="safe-circle-icon">
                             🛡️
@@ -1064,7 +1989,7 @@
                             class="safe-circle-text"
                             id="circleStatus"
                         >
-                            SAFE
+                            CHECKING
                         </div>
 
                         <div class="safe-circle-small">
@@ -1076,17 +2001,19 @@
 
                     <div class="home-info">
 
-                        <h2>
-                            Your home is secure
+                        <h2 id="homeStatusTitle">
+                            Checking home status...
                         </h2>
 
-                        <p>
-                            All monitored safety systems
-                            are currently operating normally.
+                        <p id="homeStatusText">
+                            Connecting to the smart home safety system.
                         </p>
 
-                        <div class="last-check">
-                            ● Monitoring active
+                        <div
+                            class="last-check"
+                            id="lastCheck"
+                        >
+                            ● Waiting for sensor data
                         </div>
 
                     </div>
@@ -1123,14 +2050,14 @@
                         <div>
 
                             <div class="door-current-label">
-                                Current Status
+                                Lock Status
                             </div>
 
                             <div
                                 class="door-current-value"
                                 id="doorStatus"
                             >
-                                LOCKED
+                                UNKNOWN
                             </div>
 
                         </div>
@@ -1156,6 +2083,9 @@
                         </button>
 
                     </div>
+
+
+                    <div id="doorMessage"></div>
 
                 </div>
 
@@ -1202,7 +2132,7 @@
             </div>
 
 
-            <!-- SENSOR SECTION -->
+            <!-- ================= SENSOR SECTION ================= -->
 
             <div class="section-title">
 
@@ -1211,7 +2141,7 @@
                 </h2>
 
                 <span>
-                    Current readings
+                    Live readings
                 </span>
 
             </div>
@@ -1220,28 +2150,77 @@
             <div class="sensor-grid">
 
 
-                <!-- MOTION -->
+                <!-- REED SWITCH -->
 
                 <div class="sensor-card">
 
                     <div class="sensor-top">
 
-                        <div class="sensor-icon">
-                            🚶
+                        <div
+                            class="sensor-icon"
+                            id="reedIcon"
+                        >
+                            🚪
                         </div>
 
-                        <span class="sensor-status">
-                            ● NORMAL
+                        <span
+                            class="sensor-status"
+                            id="reedSensorStatus"
+                        >
+                            ● CHECKING
                         </span>
 
                     </div>
+
+
+                    <div class="sensor-name">
+                        Reed Switch
+                    </div>
+
+
+                    <div
+                        class="sensor-value"
+                        id="reedSensorValue"
+                    >
+                        Checking...
+                    </div>
+
+                </div>
+
+
+                <!-- PIR -->
+
+                <div class="sensor-card">
+
+                    <div class="sensor-top">
+
+                        <div
+                            class="sensor-icon"
+                            id="motionIcon"
+                        >
+                            🚶
+                        </div>
+
+                        <span
+                            class="sensor-status"
+                            id="motionSensorStatus"
+                        >
+                            ● CHECKING
+                        </span>
+
+                    </div>
+
 
                     <div class="sensor-name">
                         Motion Detection
                     </div>
 
-                    <div class="sensor-value">
-                        No Motion
+
+                    <div
+                        class="sensor-value"
+                        id="motionSensorValue"
+                    >
+                        Checking...
                     </div>
 
                 </div>
@@ -1253,7 +2232,10 @@
 
                     <div class="sensor-top">
 
-                        <div class="sensor-icon">
+                        <div
+                            class="sensor-icon"
+                            id="gasIcon"
+                        >
                             💨
                         </div>
 
@@ -1261,20 +2243,22 @@
                             class="sensor-status"
                             id="gasSensorStatus"
                         >
-                            ● NORMAL
+                            ● CHECKING
                         </span>
 
                     </div>
+
 
                     <div class="sensor-name">
                         Gas / Smoke
                     </div>
 
+
                     <div
                         class="sensor-value"
                         id="gasSensorValue"
                     >
-                        Normal
+                        Checking...
                     </div>
 
                 </div>
@@ -1290,45 +2274,61 @@
                             🌡️
                         </div>
 
-                        <span class="sensor-status">
-                            ● NORMAL
+                        <span
+                            class="sensor-status"
+                            id="temperatureStatus"
+                        >
+                            ● CHECKING
                         </span>
 
                     </div>
+
 
                     <div class="sensor-name">
                         Temperature
                     </div>
 
-                    <div class="sensor-value">
-                        25°C
+
+                    <div
+                        class="sensor-value"
+                        id="temperatureValue"
+                    >
+                        Checking...
                     </div>
 
                 </div>
 
 
-                <!-- CAMERA -->
+                <!-- HUMIDITY -->
 
                 <div class="sensor-card">
 
                     <div class="sensor-top">
 
                         <div class="sensor-icon">
-                            📷
+                            💧
                         </div>
 
-                        <span class="sensor-status">
-                            ● ONLINE
+                        <span
+                            class="sensor-status"
+                            id="humidityStatus"
+                        >
+                            ● CHECKING
                         </span>
 
                     </div>
 
+
                     <div class="sensor-name">
-                        Camera
+                        Humidity
                     </div>
 
-                    <div class="sensor-value">
-                        Online
+
+                    <div
+                        class="sensor-value"
+                        id="humidityValue"
+                    >
+                        Checking...
                     </div>
 
                 </div>
@@ -1336,7 +2336,7 @@
             </div>
 
 
-            <!-- LOWER SECTION -->
+            <!-- ================= LOWER SECTION ================= -->
 
             <div class="lower-grid">
 
@@ -1419,12 +2419,322 @@
             </div>
 
 
+
+            <!-- ================= FLOATING AI DOLL ================= -->
+
+            <button
+                type="button"
+                class="ai-doll-button ai-draggable-buddy"
+                id="aiDollButton"
+                aria-label="Open NOVA"
+                title="NOVA — Click to talk"
+            >
+                <span class="buddy-speech-bubble">Hi Arun! 👋<br><small>I'm your NOVA. How can I help?</small></span>
+                <span class="buddy-antenna-line"></span>
+                <span class="buddy-antenna-dot"></span>
+                <span class="buddy-head">
+                    <span class="buddy-screen">
+                        <span class="buddy-eyes"><i></i><i></i></span>
+                        <span class="buddy-smile"></span>
+                    </span>
+                </span>
+                <span class="buddy-ear buddy-ear-left"></span>
+                <span class="buddy-ear buddy-ear-right"></span>
+                <span class="buddy-body">
+                    <span class="buddy-chest">AI</span>
+                </span>
+                <span class="buddy-arm buddy-arm-left"></span>
+                <span class="buddy-arm buddy-arm-right">👋</span>
+                <span class="buddy-leg buddy-leg-left"></span>
+                <span class="buddy-leg buddy-leg-right"></span>
+                <span class="buddy-label">NOVA</span>
+            </button>
+
+
+            <!-- ================= AI HOME ASSISTANT BUDDY ================= -->
+
+            <div class="panel ai-assistant-panel">
+
+                <div class="ai-buddy-header">
+
+                    <div class="ai-buddy-title">
+
+                        <div class="ai-buddy-avatar">
+                            🤖
+                        </div>
+
+                        <div>
+
+                            <div class="ai-buddy-name">
+                                NOVA
+                            </div>
+
+                            <div class="ai-buddy-subtitle">
+                                Your friendly safety buddy ❤️
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="ai-buddy-header-actions">
+                        <div class="ai-buddy-online">
+                            <span class="ai-buddy-online-dot"></span>
+                            ONLINE
+                        </div>
+
+                        <button
+                            type="button"
+                            class="ai-close-button"
+                            onclick="toggleAIAssistant(false)"
+                            aria-label="Close NOVA"
+                            title="Close"
+                        >
+                            ×
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <div class="ai-buddy-body">
+
+                    <div class="ai-buddy-face">
+
+                        <div class="ai-buddy-antenna"></div>
+
+                        <div class="ai-buddy-eyes">
+
+                            <span class="ai-buddy-eye"></span>
+                            <span class="ai-buddy-eye"></span>
+
+                        </div>
+
+                        <div class="ai-buddy-smile"></div>
+
+                    </div>
+                    <div class="robot-status-line" id="robotStatusLine">
+                        <span class="robot-status-dot"></span>
+                        <span id="robotStatusText">Ready to help</span>
+                    </div>
+
+
+                    <div class="ai-buddy-greeting">
+
+                        <strong>
+                            Hi Arun! 👋
+                        </strong>
+
+                        <br>
+
+                        I'm your Home Assistant!
+
+                        <br>
+
+                        Ask me anything about your home safety.
+
+                    </div>
+
+
+                    <div class="ai-quick-title">
+                        Quick questions
+                    </div>
+
+
+                    <div class="ai-quick-actions">
+
+                        <button
+                            type="button"
+                            class="ai-quick-button"
+                            onclick="askAIQuick('Is my home safe?')"
+                        >
+                            🛡️ Is my home safe?
+                        </button>
+
+                        <button
+                            type="button"
+                            class="ai-quick-button"
+                            onclick="askAIQuick('What is the current temperature?')"
+                        >
+                            🌡️ What's the temperature?
+                        </button>
+
+                        <button
+                            type="button"
+                            class="ai-quick-button"
+                            onclick="askAIQuick('Is the door locked?')"
+                        >
+                            🔒 Is the door locked?
+                        </button>
+
+                        <button
+                            type="button"
+                            class="ai-quick-button"
+                            onclick="askAIQuick('Are there any active alerts?')"
+                        >
+                            🚨 Are there any alerts?
+                        </button>
+
+                        <button
+                            type="button"
+                            class="ai-quick-button"
+                            onclick="askAIQuick('Show me recent activity')"
+                        >
+                            📋 Show recent activity
+                        </button>
+
+                        <button type="button" class="ai-quick-button" onclick="buddyAction('daily')">📅 Daily summary</button>
+                        <button type="button" class="ai-quick-button" onclick="buddyAction('recommend')">💡 Smart recommendations</button>
+                        <button type="button" class="ai-quick-button" onclick="buddyAction('health')">🩺 System health</button>
+                        <button type="button" class="ai-quick-button" onclick="buddyAction('user')">👤 My information</button>
+                        <button type="button" class="ai-quick-button" onclick="buddyAction('face')">📷 Face verification</button>
+                        <button type="button" class="ai-quick-button" onclick="buddyAction('intrusion')">🛡️ Intrusion check</button>
+                        <button type="button" class="ai-quick-button" onclick="buddyAction('notifications')">🔔 Notifications</button>
+                        <button type="button" class="ai-quick-button" onclick="buddyAction('lock')">🔒 Lock door</button>
+                        <button type="button" class="ai-quick-button" onclick="buddyAction('unlock')">🔓 Unlock door</button>
+
+                    </div>
+
+
+                    <div
+                        class="ai-chat-box"
+                        id="aiChatBox"
+                    >
+
+                        <div class="ai-message assistant">
+                            I'm here to help with your home safety. 🤖
+                        </div>
+
+                    </div>
+
+
+                    <div class="ai-input-row">
+
+                        <input
+                            type="text"
+                            id="aiInput"
+                            class="ai-input"
+                            placeholder="Ask me anything..."
+                            autocomplete="off"
+                        >
+
+                        <button
+                            type="button"
+                            id="aiSendButton"
+                            class="ai-send-button"
+                            onclick="sendAIMessage()"
+                        >
+                            ➤
+                        </button>
+
+                    </div>
+
+
+                    <div class="buddy-tools">
+                        <button type="button" onclick="buddyAction('safe')">🛡️ Safety</button>
+                        <button type="button" onclick="buddyAction('sensors')">🌡️ Sensors</button>
+                        <button type="button" onclick="buddyAction('alerts')">🚨 Alerts</button>
+                        <button type="button" onclick="buddyAction('logs')">📋 Logs</button>
+                        <button type="button" onclick="clearAIChat()">🧹 Clear</button>
+                    </div>
+
+                    <div class="ai-status" id="aiStatus">Live ESP32 + MySQL home data</div>
+                    <div class="buddy-result" id="buddyResult">Ready. I can monitor your home, explain alerts, control the door, and help with your project.</div>
+
+
+                    <div class="ai-buddy-footer">
+                        I'm always here for you! 😊
+                    </div>
+
+                </div>
+
+            </div>
+
         </main>
 
     </div>
 
 
+
+    <!-- ================= DASHBOARD UNLOCK PIN ================= -->
+
+    <div
+        class="unlock-pin-modal"
+        id="unlockPinModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="unlockPinTitle"
+    >
+        <div class="unlock-pin-card">
+
+            <div class="unlock-pin-icon">🔐</div>
+
+            <div
+                class="unlock-pin-title"
+                id="unlockPinTitle"
+            >
+                Enter Unlock PIN
+            </div>
+
+            <div class="unlock-pin-subtitle">
+                Enter your 6-digit door PIN to unlock the door.
+            </div>
+
+            <input
+                type="password"
+                id="dashboardUnlockPin"
+                class="unlock-pin-input"
+                inputmode="numeric"
+                maxlength="6"
+                autocomplete="off"
+                placeholder="••••••"
+                aria-label="Door unlock PIN"
+            >
+
+            <div
+                class="unlock-pin-message"
+                id="unlockPinMessage"
+            ></div>
+
+            <div class="unlock-pin-actions">
+
+                <button
+                    type="button"
+                    class="unlock-pin-cancel"
+                    id="unlockPinCancel"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="button"
+                    class="unlock-pin-confirm"
+                    id="unlockPinConfirm"
+                >
+                    Unlock Door
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT ================= -->
+
     <script>
+
+
+        /* ================= API ================= */
+
+        const API =
+            "http://127.0.0.1:5001";
+
+
+        /* ================= GAS ================= */
+
+        const GAS_THRESHOLD =
+            750;
+
 
         /* ================= LOGIN ================= */
 
@@ -1437,30 +2747,45 @@
             window.location.href =
                 "login.html";
 
-        } else {
+        }
+        else {
 
-            const user =
-                JSON.parse(savedUser);
+            try {
 
-
-            document
-                .getElementById("userName")
-                .textContent =
-                user.name;
+                const user =
+                    JSON.parse(savedUser);
 
 
-            document
-                .getElementById("welcomeName")
-                .textContent =
-                user.name;
+                document
+                    .getElementById("userName")
+                    .textContent =
+                    user.name || "User";
 
 
-            document
-                .getElementById("userAvatar")
-                .textContent =
-                user.name
-                    ? user.name.charAt(0).toUpperCase()
-                    : "U";
+                document
+                    .getElementById("welcomeName")
+                    .textContent =
+                    user.name || "User";
+
+
+                document
+                    .getElementById("userAvatar")
+                    .textContent =
+                    user.name
+                        ? user.name
+                            .charAt(0)
+                            .toUpperCase()
+                        : "U";
+
+            }
+            catch (error) {
+
+                console.error(
+                    "User data error:",
+                    error
+                );
+
+            }
 
         }
 
@@ -1477,64 +2802,186 @@
         }
 
 
-        /* ================= DOOR STATUS ================= */
+        /* ================= SYSTEM STATUS ================= */
 
-        function updateDoorStatus(status) {
+        function updateSystemStatus(
+            online
+        ) {
 
-            const doorStatus =
+            const systemStatus =
+                document.getElementById(
+                    "systemStatus"
+                );
+
+
+            const systemStatusText =
+                document.getElementById(
+                    "systemStatusText"
+                );
+
+
+            if (online) {
+
+                systemStatus
+                    .classList
+                    .remove("offline");
+
+                systemStatusText.textContent =
+                    "System Online";
+
+            }
+            else {
+
+                systemStatus
+                    .classList
+                    .add("offline");
+
+                systemStatusText.textContent =
+                    "ESP32 Offline";
+
+            }
+
+        }
+
+
+        /* ================= LOCK STATUS ================= */
+
+        function updateLockStatus(
+            status
+        ) {
+
+            const value =
                 document.getElementById(
                     "doorStatus"
                 );
 
-            const doorIcon =
+
+            const icon =
                 document.getElementById(
                     "doorIcon"
                 );
 
 
-            const circleStatus =
+            if (status === "LOCKED") {
+
+                value.textContent =
+                    "LOCKED";
+
+                value.className =
+                    "door-current-value safe";
+
+                icon.textContent =
+                    "🔒";
+
+            }
+
+            else if (
+                status === "UNLOCKED"
+            ) {
+
+                value.textContent =
+                    "UNLOCKED";
+
+                value.className =
+                    "door-current-value danger";
+
+                icon.textContent =
+                    "🔓";
+
+            }
+
+            else {
+
+                value.textContent =
+                    "UNKNOWN";
+
+                value.className =
+                    "door-current-value danger";
+
+                icon.textContent =
+                    "❓";
+
+            }
+
+        }
+
+
+        /* ================= REED SWITCH ================= */
+
+        function updateReedSwitch(
+            status
+        ) {
+
+            const value =
                 document.getElementById(
-                    "circleStatus"
+                    "reedSensorValue"
                 );
 
 
-            if (status === "LOCKED") {
-
-                doorStatus.textContent =
-                    "LOCKED";
-
-                doorStatus.className =
-                    "door-current-value";
+            const sensorStatus =
+                document.getElementById(
+                    "reedSensorStatus"
+                );
 
 
-                doorIcon.textContent =
-                    "🔒";
+            const icon =
+                document.getElementById(
+                    "reedIcon"
+                );
 
 
-                circleStatus.textContent =
-                    "SAFE";
+            if (status === "CLOSED") {
 
-                circleStatus.style.color =
-                    "#24945a";
+                value.textContent =
+                    "DOOR CLOSED";
 
+                value.className =
+                    "sensor-value safe";
 
-            } else {
+                sensorStatus.textContent =
+                    "● NORMAL";
 
-                doorStatus.textContent =
-                    "UNLOCKED";
+                sensorStatus.style.color =
+                    "#29975e";
 
-                doorStatus.className =
-                    "door-current-value danger";
+                icon.textContent =
+                    "🚪";
 
+            }
 
-                doorIcon.textContent =
-                    "🔓";
+            else if (
+                status === "OPEN"
+            ) {
 
+                value.textContent =
+                    "DOOR OPEN";
 
-                circleStatus.textContent =
-                    "CHECK";
+                value.className =
+                    "sensor-value danger";
 
-                circleStatus.style.color =
+                sensorStatus.textContent =
+                    "● OPEN";
+
+                sensorStatus.style.color =
+                    "#e25543";
+
+                icon.textContent =
+                    "🚨";
+
+            }
+
+            else {
+
+                value.textContent =
+                    "UNKNOWN";
+
+                value.className =
+                    "sensor-value danger";
+
+                sensorStatus.textContent =
+                    "● OFFLINE";
+
+                sensorStatus.style.color =
                     "#e25543";
 
             }
@@ -1542,87 +2989,937 @@
         }
 
 
-        /* ================= LOAD DOOR ================= */
+        /* ================= PIR ================= */
 
-        async function loadDoorStatus() {
+        function updateMotion(
+            motion
+        ) {
 
-            try {
-
-                const response =
-                    await fetch(
-                        "http://127.0.0.1:5000/door-status"
-                    );
-
-
-                const data =
-                    await response.json();
-
-
-                updateDoorStatus(
-                    data.door_status
+            const value =
+                document.getElementById(
+                    "motionSensorValue"
                 );
 
 
-            } catch (error) {
-
-                console.error(
-                    "Unable to load door status:",
-                    error
+            const status =
+                document.getElementById(
+                    "motionSensorStatus"
                 );
+
+
+            const icon =
+                document.getElementById(
+                    "motionIcon"
+                );
+
+
+            if (
+                motion === "DETECTED"
+            ) {
+
+                value.textContent =
+                    "MOTION DETECTED";
+
+                value.className =
+                    "sensor-value danger";
+
+                status.textContent =
+                    "● DETECTED";
+
+                status.style.color =
+                    "#e25543";
+
+                icon.textContent =
+                    "🚨";
+
+            }
+
+            else if (
+                motion === "NONE"
+            ) {
+
+                value.textContent =
+                    "NO MOTION";
+
+                value.className =
+                    "sensor-value safe";
+
+                status.textContent =
+                    "● NORMAL";
+
+                status.style.color =
+                    "#29975e";
+
+                icon.textContent =
+                    "🚶";
+
+            }
+
+            else {
+
+                value.textContent =
+                    "UNKNOWN";
+
+                value.className =
+                    "sensor-value danger";
+
+                status.textContent =
+                    "● OFFLINE";
+
+                status.style.color =
+                    "#e25543";
 
             }
 
         }
 
 
-        /* ================= CONTROL DOOR ================= */
+        /* ================= GAS ================= */
 
-        async function controlDoor(action) {
+        function updateGas(
+            gas
+        ) {
+
+            const value =
+                document.getElementById(
+                    "gasSensorValue"
+                );
+
+
+            const status =
+                document.getElementById(
+                    "gasSensorStatus"
+                );
+
+
+            const icon =
+                document.getElementById(
+                    "gasIcon"
+                );
+
+
+            if (
+                gas === null ||
+                gas === undefined
+            ) {
+
+                value.textContent =
+                    "UNKNOWN";
+
+                value.className =
+                    "sensor-value danger";
+
+                status.textContent =
+                    "● OFFLINE";
+
+                status.style.color =
+                    "#e25543";
+
+                return;
+
+            }
+
+
+            const numericGas =
+                Number(gas);
+
+
+            if (
+                numericGas >=
+                GAS_THRESHOLD
+            ) {
+
+                value.textContent =
+                    "ALERT (" +
+                    numericGas +
+                    ")";
+
+                value.className =
+                    "sensor-value danger";
+
+                status.textContent =
+                    "● GAS ALERT";
+
+                status.style.color =
+                    "#e25543";
+
+                icon.textContent =
+                    "🚨";
+
+            }
+            else {
+
+                value.textContent =
+                    "NORMAL (" +
+                    numericGas +
+                    ")";
+
+                value.className =
+                    "sensor-value safe";
+
+                status.textContent =
+                    "● NORMAL";
+
+                status.style.color =
+                    "#29975e";
+
+                icon.textContent =
+                    "💨";
+
+            }
+
+        }
+
+
+        /* ================= TEMPERATURE ================= */
+
+        function updateTemperature(
+            temperature
+        ) {
+
+            const value =
+                document.getElementById(
+                    "temperatureValue"
+                );
+
+
+            const status =
+                document.getElementById(
+                    "temperatureStatus"
+                );
+
+
+            if (
+                temperature === null ||
+                temperature === undefined
+            ) {
+
+                value.textContent =
+                    "UNKNOWN";
+
+                status.textContent =
+                    "● OFFLINE";
+
+                status.style.color =
+                    "#e25543";
+
+                return;
+
+            }
+
+
+            value.textContent =
+                Number(
+                    temperature
+                ).toFixed(1) +
+                "°C";
+
+
+            status.textContent =
+                "● NORMAL";
+
+            status.style.color =
+                "#29975e";
+
+        }
+
+
+        /* ================= HUMIDITY ================= */
+
+        function updateHumidity(
+            humidity
+        ) {
+
+            const value =
+                document.getElementById(
+                    "humidityValue"
+                );
+
+
+            const status =
+                document.getElementById(
+                    "humidityStatus"
+                );
+
+
+            if (
+                humidity === null ||
+                humidity === undefined
+            ) {
+
+                value.textContent =
+                    "UNKNOWN";
+
+                status.textContent =
+                    "● OFFLINE";
+
+                status.style.color =
+                    "#e25543";
+
+                return;
+
+            }
+
+
+            value.textContent =
+                Number(
+                    humidity
+                ).toFixed(1) +
+                "%";
+
+
+            status.textContent =
+                "● NORMAL";
+
+            status.style.color =
+                "#29975e";
+
+        }
+
+
+        /* ================= HOME STATUS ================= */
+
+        function updateHomeStatus(
+            data
+        ) {
+
+            const circle =
+                document.getElementById(
+                    "circleStatus"
+                );
+
+
+            const title =
+                document.getElementById(
+                    "homeStatusTitle"
+                );
+
+
+            const text =
+                document.getElementById(
+                    "homeStatusText"
+                );
+
+
+            const lastCheck =
+                document.getElementById(
+                    "lastCheck"
+                );
+
+
+            const gasDanger =
+                Number(
+                    data.gas || 0
+                ) >= GAS_THRESHOLD;
+
+
+            const motionDanger =
+                data.motion ===
+                "DETECTED";
+
+
+            const doorDanger =
+                data.door_status ===
+                "OPEN";
+
+
+            if (
+                gasDanger ||
+                motionDanger ||
+                doorDanger
+            ) {
+
+                circle.textContent =
+                    "CHECK";
+
+                circle.style.color =
+                    "#e25543";
+
+                title.textContent =
+                    "Safety attention required";
+
+                text.textContent =
+                    "One or more monitored conditions require attention.";
+
+                lastCheck.textContent =
+                    "● Live monitoring active";
+
+            }
+            else {
+
+                circle.textContent =
+                    "SAFE";
+
+                circle.style.color =
+                    "#24945a";
+
+                title.textContent =
+                    "Your home is secure";
+
+                text.textContent =
+                    "All monitored safety systems are currently operating normally.";
+
+                lastCheck.textContent =
+                    "● Live monitoring active";
+
+            }
+
+        }
+
+
+        /* ================= ESP32 STATUS ================= */
+
+        async function loadESP32Status() {
 
             try {
 
                 const response =
                     await fetch(
-                        "http://127.0.0.1:5000/door-control",
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body: JSON.stringify({
-                                action: action
-                            })
-
-                        }
+                        API +
+                        "/esp32-status"
                     );
 
 
-                const result =
-                    await response.json();
+                if (!response.ok) {
 
-
-                if (response.ok) {
-
-                    updateDoorStatus(
-                        result.door_status
-                    );
-
-
-                    loadAccessLogs();
-
-                } else {
-
-                    alert(
-                        result.message
+                    throw new Error(
+                        "ESP32 status HTTP " +
+                        response.status
                     );
 
                 }
 
 
-            } catch (error) {
+                const data =
+                    await response.json();
+
+
+                updateSystemStatus(
+                    data.esp32 ===
+                    "ONLINE"
+                );
+
+
+                updateLockStatus(
+                    data.lock_status
+                );
+
+
+                updateReedSwitch(
+                    data.door_status
+                );
+
+
+                updateMotion(
+                    data.motion
+                );
+
+
+                updateGas(
+                    data.gas
+                );
+
+
+                updateTemperature(
+                    data.temperature
+                );
+
+
+                updateHumidity(
+                    data.humidity
+                );
+
+
+                updateHomeStatus(
+                    data
+                );
+
+                updateRobotFromHomeData(data);
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "ESP32 status error:",
+                    error
+                );
+
+
+                updateSystemStatus(
+                    false
+                );
+
+
+                updateLockStatus(
+                    "UNKNOWN"
+                );
+
+
+                updateReedSwitch(
+                    "UNKNOWN"
+                );
+
+
+                updateMotion(
+                    "UNKNOWN"
+                );
+
+
+                updateGas(
+                    null
+                );
+
+
+                updateTemperature(
+                    null
+                );
+
+
+                updateHumidity(
+                    null
+                );
+
+                setRobotState("warning", "ESP32 connection unavailable");
+
+            }
+
+        }
+
+
+        /* ==================================================
+           FIXED DOOR CONTROL
+           ================================================== */
+
+        /* ================= DASHBOARD UNLOCK PIN ================= */
+
+        let dashboardUnlockResolver = null;
+
+        function openDashboardUnlockPin() {
+            return new Promise(function(resolve) {
+
+                const modal =
+                    document.getElementById("unlockPinModal");
+
+                const input =
+                    document.getElementById("dashboardUnlockPin");
+
+                const message =
+                    document.getElementById("unlockPinMessage");
+
+                const confirmButton =
+                    document.getElementById("unlockPinConfirm");
+
+                if (!modal || !input || !message || !confirmButton) {
+                    resolve(null);
+                    return;
+                }
+
+                dashboardUnlockResolver = resolve;
+
+                input.value = "";
+                message.textContent = "";
+                message.style.color = "#7b8da0";
+                confirmButton.disabled = false;
+                confirmButton.textContent = "Unlock Door";
+
+                modal.classList.add("show");
+
+                setTimeout(function() {
+                    input.focus();
+                }, 80);
+            });
+        }
+
+        function closeDashboardUnlockPin(value) {
+            const modal =
+                document.getElementById("unlockPinModal");
+
+            const input =
+                document.getElementById("dashboardUnlockPin");
+
+            if (modal) {
+                modal.classList.remove("show");
+            }
+
+            if (input) {
+                input.value = "";
+            }
+
+            if (dashboardUnlockResolver) {
+                const resolve = dashboardUnlockResolver;
+                dashboardUnlockResolver = null;
+                resolve(value);
+            }
+        }
+
+        function initDashboardUnlockPin() {
+
+            const modal =
+                document.getElementById("unlockPinModal");
+
+            const input =
+                document.getElementById("dashboardUnlockPin");
+
+            const confirmButton =
+                document.getElementById("unlockPinConfirm");
+
+            const cancelButton =
+                document.getElementById("unlockPinCancel");
+
+            if (!modal || !input || !confirmButton || !cancelButton) {
+                return;
+            }
+
+            input.addEventListener("input", function() {
+                input.value =
+                    input.value.replace(/\D/g, "").slice(0, 6);
+            });
+
+            confirmButton.addEventListener("click", function() {
+
+                const pin = input.value.trim();
+
+                const message =
+                    document.getElementById("unlockPinMessage");
+
+                if (!/^\d{6}$/.test(pin)) {
+
+                    message.textContent =
+                        "Please enter your 6-digit PIN.";
+
+                    message.style.color =
+                        "#e25543";
+
+                    input.focus();
+                    return;
+                }
+
+                closeDashboardUnlockPin(pin);
+            });
+
+            cancelButton.addEventListener("click", function() {
+                closeDashboardUnlockPin(null);
+            });
+
+            input.addEventListener("keydown", function(event) {
+
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    confirmButton.click();
+                }
+
+                if (event.key === "Escape") {
+                    event.preventDefault();
+                    closeDashboardUnlockPin(null);
+                }
+
+            });
+
+            modal.addEventListener("click", function(event) {
+                if (event.target === modal) {
+                    closeDashboardUnlockPin(null);
+                }
+            });
+        }
+
+        initDashboardUnlockPin();
+
+
+        /* ================= CONTROL DOOR ================= */
+
+        async function controlDoor(
+            action
+        ) {
+
+            const message =
+                document.getElementById(
+                    "doorMessage"
+                );
+
+            /*
+             * LOCK does not require the PIN.
+             * UNLOCK always opens the secure PIN dialog.
+             */
+            let unlockPin = null;
+
+            if (action === "UNLOCK") {
+
+                unlockPin =
+                    await openDashboardUnlockPin();
+
+                if (!unlockPin) {
+
+                    message.textContent =
+                        "Unlock cancelled.";
+
+                    message.style.color =
+                        "#7b8da0";
+
+                    return false;
+                }
+
+            }
+
+            message.textContent =
+                action === "LOCK"
+                    ? "Locking door..."
+                    : "Verifying PIN...";
+
+            message.style.color =
+                "#17365d";
+
+
+            try {
+
+                /* ==============================
+                   GET LOGGED-IN USER
+                ============================== */
+
+                const savedUser =
+                    localStorage.getItem(
+                        "user"
+                    );
+
+
+                if (!savedUser) {
+
+                    message.textContent =
+                        "Please login again.";
+
+                    message.style.color =
+                        "red";
+
+                    return false;
+
+                }
+
+
+                let currentUser;
+
+
+                try {
+
+                    currentUser =
+                        JSON.parse(
+                            savedUser
+                        );
+
+                }
+                catch (error) {
+
+                    console.error(
+                        "User JSON error:",
+                        error
+                    );
+
+                    message.textContent =
+                        "Invalid user session.";
+
+                    message.style.color =
+                        "red";
+
+                    return false;
+
+                }
+
+
+                /* ==============================
+                   GET USER ID
+                ============================== */
+
+                const userId =
+                    currentUser.user_id ??
+                    currentUser.id ??
+                    null;
+
+
+                if (
+                    userId === null ||
+                    userId === undefined ||
+                    userId === ""
+                ) {
+
+                    message.textContent =
+                        "User ID not found. Please login again.";
+
+                    message.style.color =
+                        "red";
+
+                    return false;
+
+                }
+
+
+                /* ==============================
+                   SEND COMMAND TO FLASK
+                ============================== */
+
+                const requestData = {
+
+                    action:
+                        action,
+
+                    user_id:
+                        Number(userId)
+
+                };
+
+                /*
+                 * The PIN is sent only for UNLOCK.
+                 * The Flask backend remains the final security check.
+                 */
+                if (action === "UNLOCK") {
+                    requestData.pin = unlockPin;
+                }
+
+
+                console.log(
+                    "Sending door command:",
+                    {
+                        action: action,
+                        user_id: Number(userId),
+                        pin: action === "UNLOCK" ? "[PROTECTED]" : undefined
+                    }
+                );
+
+
+                const response =
+                    await fetch(
+                        API +
+                        "/door-control",
+                        {
+
+                            method:
+                                "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    requestData
+                                )
+
+                        }
+                    );
+
+
+                /* ==============================
+                   READ RESPONSE
+                ============================== */
+
+                const result =
+                    await response.json();
+
+
+                console.log(
+                    "Flask door response:",
+                    result
+                );
+
+
+                /* ==============================
+                   ERROR
+                ============================== */
+
+                if (
+                    !response.ok
+                ) {
+
+                    message.textContent =
+                        result.message ||
+                        "Door control failed.";
+
+                    message.style.color =
+                        "red";
+
+                    /*
+                     * If the backend rejects the PIN,
+                     * do not claim the door was unlocked.
+                     */
+                    if (
+                        action === "UNLOCK" &&
+                        (
+                            response.status === 401 ||
+                            response.status === 403 ||
+                            String(result.message || "")
+                                .toLowerCase()
+                                .includes("pin")
+                        )
+                    ) {
+                        setRobotState(
+                            "warning",
+                            "Unlock PIN rejected"
+                        );
+                    }
+
+                    return false;
+
+                }
+
+
+                /* ==============================
+                   UPDATE DOOR STATUS
+                ============================== */
+
+                updateLockStatus(
+                    result.lock_status
+                );
+
+
+                /* ==============================
+                   SUCCESS MESSAGE
+                ============================== */
+
+                if (
+                    action === "LOCK"
+                ) {
+
+                    message.textContent =
+                        "🔒 Door locked successfully";
+
+                }
+                else {
+
+                    message.textContent =
+                        "🔓 Door unlocked successfully";
+
+                }
+
+
+                message.style.color =
+                    "green";
+
+
+                /* ==============================
+                   REFRESH STATUS
+                ============================== */
+
+                setTimeout(
+                    loadESP32Status,
+                    500
+                );
+
+
+                /* ==============================
+                   REFRESH ACTIVITY
+                ============================== */
+
+                setTimeout(
+                    loadAccessLogs,
+                    700
+                );
+
+                return true;
+
+
+            }
+            catch (error) {
 
                 console.error(
                     "Door control error:",
@@ -1630,16 +3927,19 @@
                 );
 
 
-                alert(
-                    "Unable to connect to the server."
-                );
+                message.textContent =
+                    "Unable to connect to Flask server.";
+
+                message.style.color =
+                    "red";
+
+                return false;
 
             }
 
         }
 
-
-        /* ================= LOAD ALERTS ================= */
+        /* ================= ALERTS ================= */
 
         async function loadAlerts() {
 
@@ -1647,8 +3947,19 @@
 
                 const response =
                     await fetch(
-                        "http://127.0.0.1:5000/alerts"
+                        API +
+                        "/alerts"
                     );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "HTTP " +
+                        response.status
+                    );
+
+                }
 
 
                 const data =
@@ -1677,80 +3988,48 @@
                     );
 
 
-                const gasStatus =
-                    document.getElementById(
-                        "gasSensorStatus"
-                    );
-
-
-                const gasValue =
-                    document.getElementById(
-                        "gasSensorValue"
-                    );
-
-
                 alertCount.textContent =
                     alerts.length;
 
 
-                if (alerts.length === 0) {
-
-                    alertCount.className =
-                        "alert-number";
-
+                if (
+                    alerts.length === 0
+                ) {
 
                     alertSummary.textContent =
                         "✓ No active safety threats";
 
-
                     alertSummary.style.background =
                         "#eefaf3";
-
 
                     alertSummary.style.color =
                         "#28955b";
 
 
-                    alertBox.innerHTML =
-                        `
+                    alertBox.innerHTML = `
+
                         <div class="no-alerts">
+
                             🛡️
+
                             <span>
                                 No active safety alerts
                             </span>
+
                         </div>
-                        `;
 
+                    `;
 
-                    gasStatus.textContent =
-                        "● NORMAL";
+                }
+                else {
 
-
-                    gasStatus.style.color =
-                        "#29975e";
-
-
-                    gasValue.textContent =
-                        "Normal";
-
-
-                    gasValue.className =
-                        "sensor-value";
-
-
-                } else {
-
-                    alertCount.className =
-                        "alert-number danger";
-
+                    updateRobotFromAlerts(alerts);
 
                     alertSummary.textContent =
                         "⚠ Active safety issue detected";
 
-
                     alertSummary.style.background =
                         "#fff3f1";
-
 
                     alertSummary.style.color =
                         "#d94f3d";
@@ -1773,31 +4052,54 @@
                                 "active-alert";
 
 
-                            item.innerHTML =
-                                `
-                                <div class="active-alert-icon">
+                            item.innerHTML = `
+
+                                <div
+                                    class="active-alert-icon"
+                                >
                                     🚨
                                 </div>
 
                                 <div>
 
-                                    <div class="active-alert-title">
-                                        ${alert.severity} -
-                                        ${alert.alert_type}
+                                    <div
+                                        class="active-alert-title"
+                                    >
+                                        ${
+                                            alert.severity ||
+                                            "ALERT"
+                                        }
+                                        -
+                                        ${
+                                            alert.alert_type ||
+                                            "SAFETY"
+                                        }
                                     </div>
 
-                                    <div class="active-alert-text">
-                                        ${alert.message}
+                                    <div
+                                        class="active-alert-text"
+                                    >
+                                        ${
+                                            alert.message ||
+                                            ""
+                                        }
                                     </div>
 
-                                    <div class="active-alert-time">
-                                        ${new Date(
+                                    <div
+                                        class="active-alert-time"
+                                    >
+                                        ${
                                             alert.timestamp
-                                        ).toLocaleString()}
+                                                ? new Date(
+                                                    alert.timestamp
+                                                ).toLocaleString()
+                                                : ""
+                                        }
                                     </div>
 
                                 </div>
-                                `;
+
+                            `;
 
 
                             alertBox.appendChild(
@@ -1807,38 +4109,11 @@
                         }
                     );
 
-
-                    const gasAlert =
-                        alerts.some(
-                            function(alert) {
-
-                                return alert.alert_type ===
-                                    "GAS_SMOKE";
-
-                            }
-                        );
-
-
-                    if (gasAlert) {
-
-                        gasStatus.textContent =
-                            "● ALERT";
-
-                        gasStatus.style.color =
-                            "#e25543";
-
-                        gasValue.textContent =
-                            "Alert";
-
-                        gasValue.className =
-                            "sensor-value danger";
-
-                    }
-
                 }
 
+            }
 
-            } catch (error) {
+            catch (error) {
 
                 console.error(
                     "Unable to load alerts:",
@@ -1850,7 +4125,7 @@
         }
 
 
-        /* ================= LOAD ACTIVITY ================= */
+        /* ================= ACCESS LOGS ================= */
 
         async function loadAccessLogs() {
 
@@ -1858,8 +4133,19 @@
 
                 const response =
                     await fetch(
-                        "http://127.0.0.1:5000/access-logs"
+                        API +
+                        "/access-logs"
                     );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "HTTP " +
+                        response.status
+                    );
+
+                }
 
 
                 const data =
@@ -1876,14 +4162,19 @@
                     );
 
 
-                if (logs.length === 0) {
+                if (
+                    logs.length === 0
+                ) {
 
-                    activityBox.innerHTML =
-                        `
+                    activityBox.innerHTML = `
+
                         <div class="no-activity">
+
                             No recent access activity
+
                         </div>
-                        `;
+
+                    `;
 
                     return;
 
@@ -1899,6 +4190,7 @@
                     .forEach(
                         function(log) {
 
+
                             const item =
                                 document.createElement(
                                     "div"
@@ -1910,7 +4202,10 @@
 
 
                             const locked =
-                                log.status === "LOCKED";
+                                log.status ===
+                                "LOCKED" ||
+                                log.status ===
+                                "CLOSED";
 
 
                             const icon =
@@ -1925,38 +4220,85 @@
                                     : "danger";
 
 
-                            item.innerHTML =
-                                `
-                                <div class="activity-icon">
+                            let userText =
+                                "Unknown";
+
+
+                            if (
+                                log.user_id !==
+                                null &&
+                                log.user_id !==
+                                undefined
+                            ) {
+
+                                userText =
+                                    "User ID: " +
+                                    log.user_id;
+
+                            }
+
+
+                            item.innerHTML = `
+
+                                <div
+                                    class="activity-icon"
+                                >
                                     ${icon}
                                 </div>
 
-                                <div class="activity-content">
 
-                                    <div class="activity-event">
-                                        ${log.event_type}
+                                <div
+                                    class="activity-content"
+                                >
+
+                                    <div
+                                        class="activity-event"
+                                    >
+                                        ${
+                                            log.event_type ||
+                                            "DOOR EVENT"
+                                        }
                                     </div>
 
-                                    <div class="activity-user">
-                                        User ID: ${log.user_id}
+
+                                    <div
+                                        class="activity-user"
+                                    >
+                                        ${userText}
                                     </div>
 
                                 </div>
 
-                                <div class="activity-right">
 
-                                    <div class="activity-status ${statusClass}">
-                                        ${log.status}
+                                <div
+                                    class="activity-right"
+                                >
+
+                                    <div
+                                        class="activity-status ${statusClass}"
+                                    >
+                                        ${
+                                            log.status ||
+                                            "-"
+                                        }
                                     </div>
 
-                                    <span class="activity-time">
-                                        ${new Date(
+
+                                    <span
+                                        class="activity-time"
+                                    >
+                                        ${
                                             log.timestamp
-                                        ).toLocaleString()}
+                                                ? new Date(
+                                                    log.timestamp
+                                                ).toLocaleString()
+                                                : ""
+                                        }
                                     </span>
 
                                 </div>
-                                `;
+
+                            `;
 
 
                             activityBox.appendChild(
@@ -1966,8 +4308,9 @@
                         }
                     );
 
+            }
 
-            } catch (error) {
+            catch (error) {
 
                 console.error(
                     "Unable to load access logs:",
@@ -1979,11 +4322,14 @@
                     .getElementById(
                         "activityBox"
                     )
-                    .innerHTML =
-                    `
-                    <div class="no-activity">
-                        Unable to load recent activity
-                    </div>
+                    .innerHTML = `
+
+                        <div class="no-activity">
+
+                            Unable to load recent activity
+
+                        </div>
+
                     `;
 
             }
@@ -1993,13 +4339,1103 @@
 
         /* ================= INITIAL LOAD ================= */
 
-        loadDoorStatus();
+        loadESP32Status();
 
         loadAlerts();
 
         loadAccessLogs();
 
-    </script>
+
+        /* ================= LIVE UPDATES ================= */
+
+        setInterval(
+            loadESP32Status,
+            1000
+        );
+
+
+        setInterval(
+            loadAlerts,
+            3000
+        );
+
+
+        setInterval(
+            loadAccessLogs,
+            3000
+        );
+
+
+
+
+        /* ================= AI DOLL TOGGLE ================= */
+
+        function toggleAIAssistant(forceState) {
+
+            const panel =
+                document.querySelector(".ai-assistant-panel");
+
+            const doll =
+                document.getElementById("aiDollButton");
+
+            if (!panel || !doll) {
+                return;
+            }
+
+            const shouldOpen =
+                typeof forceState === "boolean"
+                    ? forceState
+                    : !panel.classList.contains("ai-open");
+
+            panel.classList.toggle("ai-open", shouldOpen);
+
+            doll.style.display =
+                shouldOpen ? "none" : "flex";
+
+            if (!shouldOpen) {
+                stopNovaWakeWordListener();
+                setRobotState("idle", "Ready to help");
+            }
+
+            if (shouldOpen) {
+
+                setRobotState("listening", 'Listening for "Hey NOVA"...');
+
+                // The panel opening is a user gesture, so Chrome can request
+                // microphone permission here without a microphone button.
+                setTimeout(() => {
+                    startNovaWakeWordListener();
+                }, 250);
+
+                setTimeout(() => {
+
+                    const input =
+                        document.getElementById("aiInput");
+
+                    if (input) {
+                        input.focus();
+                    }
+
+                }, 180);
+
+            }
+
+        }
+
+
+        /* ==================================================
+           ANIMATED ROBOT BUDDY CONTROLLER
+           ================================================== */
+
+        const robotPanel = document.querySelector(".ai-assistant-panel");
+        const robotStatusText = document.getElementById("robotStatusText");
+
+        function setRobotState(state, message) {
+            if (!robotPanel) return;
+
+            robotPanel.classList.remove(
+                "robot-listening","robot-thinking","robot-speaking",
+                "robot-warning","robot-alert","robot-danger","robot-success"
+            );
+
+            const className = {
+                listening:"robot-listening",
+                thinking:"robot-thinking",
+                speaking:"robot-speaking",
+                warning:"robot-warning",
+                alert:"robot-alert",
+                danger:"robot-danger",
+                success:"robot-success"
+            }[state];
+
+            if (className) robotPanel.classList.add(className);
+
+            const labels = {
+                idle:"Ready to help",
+                listening:"Listening...",
+                thinking:"Thinking...",
+                speaking:"Speaking...",
+                safe:"Home monitoring is normal",
+                warning:"Safety warning",
+                alert:"Safety alert",
+                danger:"Critical safety alert",
+                success:"All clear"
+            };
+
+            if (robotStatusText) {
+                robotStatusText.textContent = message || labels[state] || labels.idle;
+            }
+        }
+
+        function updateRobotFromHomeData(data) {
+            if (!data) return;
+
+            const gasDanger = Number(data.gas || 0) >= GAS_THRESHOLD;
+            const motionDanger = data.motion === "DETECTED";
+            const doorDanger = data.door_status === "OPEN";
+
+            if (gasDanger) {
+                setRobotState("danger", "Gas alert detected");
+            } else if (motionDanger || doorDanger) {
+                setRobotState("alert", doorDanger ? "Door is open" : "Motion detected");
+            } else if (data.esp32 === "ONLINE") {
+                setRobotState("safe", "Home monitoring is normal");
+            } else {
+                setRobotState("warning", "Checking home connection");
+            }
+        }
+
+        function updateRobotFromAlerts(alerts) {
+            if (!Array.isArray(alerts) || alerts.length === 0) return;
+
+            const critical = alerts.some(function(alert) {
+                const severity = String(alert.severity || "").toUpperCase();
+                return severity === "CRITICAL" || severity === "DANGER";
+            });
+
+            setRobotState(
+                critical ? "danger" : "warning",
+                critical ? "Critical safety alert" : "Safety alert needs attention"
+            );
+        }
+
+        /* ================= AI HOME ASSISTANT ================= */
+
+        function addAIMessage(
+            message,
+            type
+        ) {
+
+            const chatBox =
+                document.getElementById(
+                    "aiChatBox"
+                );
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "ai-message " + type;
+
+            item.textContent =
+                message;
+
+            chatBox.appendChild(
+                item
+            );
+
+            chatBox.scrollTop =
+                chatBox.scrollHeight;
+
+        }
+
+
+        function askAIQuick(
+            message
+        ) {
+
+            const input =
+                document.getElementById(
+                    "aiInput"
+                );
+
+            input.value =
+                message;
+
+            sendAIMessage();
+
+        }
+
+
+        async function sendAIMessage() {
+
+            const input =
+                document.getElementById(
+                    "aiInput"
+                );
+
+            const button =
+                document.getElementById(
+                    "aiSendButton"
+                );
+
+            const status =
+                document.getElementById(
+                    "aiStatus"
+                );
+
+            const message =
+                input.value.trim();
+
+
+            if (!message) {
+
+                return;
+
+            }
+
+
+            const savedUser =
+                localStorage.getItem(
+                    "user"
+                );
+
+            let userId = null;
+
+
+            if (savedUser) {
+
+                try {
+
+                    const currentUser =
+                        JSON.parse(
+                            savedUser
+                        );
+
+                    userId =
+                        currentUser.user_id ??
+                        currentUser.id ??
+                        null;
+
+                }
+                catch (error) {
+
+                    console.error(
+                        "AI user data error:",
+                        error
+                    );
+
+                }
+
+            }
+
+
+            addAIMessage(
+                message,
+                "user"
+            );
+
+
+            input.value = "";
+
+            button.disabled = true;
+
+            status.textContent =
+                "Checking your home...";
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        API +
+                        "/ai-assistant",
+                        {
+
+                            method:
+                                "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    message:
+                                        message,
+
+                                    user_id:
+                                        userId
+
+                                })
+
+                        }
+                    );
+
+
+                const result =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        result.message ||
+                        "NOVA request failed."
+                    );
+
+                }
+
+
+                const assistantReply =
+                    result.reply ||
+                    "I couldn't find a response.";
+
+                addAIMessage(
+                    assistantReply,
+                    "assistant"
+                );
+
+                setRobotState("speaking", "Here's what I found...");
+                speakBuddy(assistantReply);
+
+                // NOVA is ready for the next wake phrase after
+                // its answer has finished playing.
+                novaWaitingForReply = false;
+                novaScheduleRestart(2200);
+// After NOVA answers, return to waiting for "Hey NOVA".
+                novaRestartWakeListener(1800);
+
+
+                if (
+                    result.ai_api_connected ===
+                    false
+                ) {
+
+                    status.textContent =
+                        "Live ESP32 + MySQL home data";
+
+                }
+                else {
+
+                    status.textContent =
+                        "NOVA connected";
+
+                }
+
+            }
+            catch (error) {
+
+                console.error(
+                    "NOVA error:",
+                    error
+                );
+
+
+                addAIMessage(
+                    "Sorry, I couldn't connect to the home safety system right now.",
+                    "assistant"
+                );
+
+                setRobotState("warning", "Assistant connection unavailable");
+
+
+                status.textContent =
+                    "Assistant connection unavailable.";
+
+            }
+            finally {
+
+                button.disabled = false;
+
+                setTimeout(function() {
+                    if (robotPanel && robotPanel.classList.contains("ai-open")) {
+                        setRobotState("idle", "Ready for your next question");
+                    }
+                }, 1800);
+
+                input.focus();
+
+            }
+
+        }
+
+
+        document
+            .getElementById(
+                "aiInput"
+            )
+            .addEventListener(
+                "keydown",
+                function(event) {
+
+                    if (
+                        event.key ===
+                        "Enter"
+                    ) {
+
+                        event.preventDefault();
+
+                        sendAIMessage();
+
+                    }
+
+                }
+            );
+
+    
+
+        /* ==================================================
+           FULL AI BUDDY ASSISTANT FEATURES
+           ================================================== */
+        let latestHomeData = null;
+        let latestAlerts = [];
+        let latestLogs = [];
+        let notificationReady = false;
+
+        function buddyResult(text) {
+            const el = document.getElementById("buddyResult");
+            if (el) el.textContent = text;
+        }
+
+        function clearAIChat() {
+            const box = document.getElementById("aiChatBox");
+            if (!box) return;
+            box.innerHTML = '<div class="ai-message assistant">Chat cleared. I\'m ready. 🤖</div>';
+            buddyResult("Ready for your next question.");
+        }
+
+        async function getHomeDataFresh() {
+            const response = await fetch(API + "/esp32-status", {cache:"no-store"});
+            const data = await response.json();
+            latestHomeData = data;
+            return data;
+        }
+
+        async function getAlertsFresh() {
+            const response = await fetch(API + "/alerts", {cache:"no-store"});
+            const data = await response.json();
+            latestAlerts = data.alerts || [];
+            return latestAlerts;
+        }
+
+        async function getLogsFresh() {
+            const response = await fetch(API + "/access-logs", {cache:"no-store"});
+            const data = await response.json();
+            latestLogs = data.logs || [];
+            return latestLogs;
+        }
+
+        function safetyAssessment(data, alerts) {
+            if (!data || data.esp32 === "OFFLINE") return {state:"warning", title:"🟡 WARNING", text:"ESP32 is offline, so I cannot confirm live home safety."};
+            const gas = Number(data.gas || 0);
+            const motion = String(data.motion || "").toUpperCase() === "DETECTED";
+            const door = String(data.door_status || "").toUpperCase() === "OPEN";
+            const critical = alerts.some(a => ["CRITICAL","DANGER"].includes(String(a.severity||"").toUpperCase()));
+            if (critical || gas >= GAS_THRESHOLD) return {state:"danger", title:"🔴 DANGER", text:"A critical safety condition or high gas reading needs attention."};
+            if (alerts.length || motion || door) return {state:"warning", title:"🟡 WARNING", text:"The system is online, but one or more conditions need attention."};
+            return {state:"safe", title:"🟢 SAFE", text:"Live monitored conditions are currently normal."};
+        }
+
+        async function buddyAction(action) {
+            toggleAIAssistant(true);
+            setRobotState("thinking", "Checking your home...");
+            try {
+                if (action === "safe") {
+                    const [d,a] = await Promise.all([getHomeDataFresh(), getAlertsFresh()]);
+                    const s = safetyAssessment(d,a); setRobotState(s.state,s.title); buddyResult(s.text); addAIMessage(s.title + "\n" + s.text,"assistant"); return;
+                }
+                if (action === "sensors") {
+                    const d = await getHomeDataFresh();
+                    const text = `Temperature: ${d.temperature ?? "N/A"}\nHumidity: ${d.humidity ?? "N/A"}%\nGas: ${d.gas ?? "N/A"} (${d.gas_status ?? "UNKNOWN"})\nMotion: ${d.motion ?? "UNKNOWN"}\nDoor: ${d.door_status ?? "UNKNOWN"}\nLock: ${d.lock_status ?? "UNKNOWN"}`;
+                    setRobotState("speaking","Live sensor readings"); buddyResult(text); addAIMessage(text,"assistant"); return;
+                }
+                if (action === "alerts") {
+                    const a = await getAlertsFresh();
+                    const text = a.length ? a.slice(0,8).map(x=>`${x.severity}: ${x.message}`).join("\n") : "There are no active safety alerts.";
+                    setRobotState(a.length?"warning":"success",a.length?"Safety alerts need attention":"No active alerts"); buddyResult(text); addAIMessage(text,"assistant"); return;
+                }
+                if (action === "logs") {
+                    const logs = await getLogsFresh();
+                    const text = logs.length ? logs.slice(0,8).map(x=>`${x.event_type} — ${x.status} — User ${x.user_id ?? "N/A"} — ${new Date(x.timestamp).toLocaleString()}`).join("\n") : "No recent access logs.";
+                    setRobotState("speaking","Recent activity"); buddyResult(text); addAIMessage(text,"assistant"); return;
+                }
+                if (action === "daily") {
+                    const [d,a,l] = await Promise.all([getHomeDataFresh(),getAlertsFresh(),getLogsFresh()]);
+                    const text = `Daily summary\n• ESP32: ${d.esp32}\n• Active alerts: ${a.length}\n• Recent access events: ${l.length}\n• Door: ${d.door_status}\n• Lock: ${d.lock_status}\n• Temperature: ${d.temperature}\n• Gas: ${d.gas}`;
+                    setRobotState("speaking","Daily summary ready"); buddyResult(text); addAIMessage(text,"assistant"); return;
+                }
+                if (action === "recommend") {
+                    const [d,a] = await Promise.all([getHomeDataFresh(),getAlertsFresh()]);
+                    const rec=[];
+                    if (d.esp32 === "OFFLINE") rec.push("Check the ESP32 Wi‑Fi connection.");
+                    if (Number(d.gas||0)>=GAS_THRESHOLD) rec.push("Check the area for gas or smoke and follow your safety procedure.");
+                    if (String(d.motion).toUpperCase()==="DETECTED") rec.push("Check the camera if the motion is unexpected.");
+                    if (String(d.door_status).toUpperCase()==="OPEN") rec.push("Check that the door is closed when you are finished.");
+                    if (!rec.length && !a.length) rec.push("No immediate dashboard recommendations. Keep monitoring the live sensors.");
+                    const text=rec.map((x,i)=>`${i+1}. ${x}`).join("\n"); setRobotState("speaking","Recommendations ready"); buddyResult(text); addAIMessage(text,"assistant"); return;
+                }
+                if (action === "health") {
+                    const [d,a] = await Promise.all([getHomeDataFresh(),getAlertsFresh()]);
+                    let db="UNKNOWN";
+                    try { const r=await fetch(API+"/test-db"); db=r.ok?"CONNECTED":"ERROR"; } catch(e){db="ERROR";}
+                    const text=`System health\n• Flask API: CONNECTED\n• MySQL: ${db}\n• ESP32: ${d.esp32}\n• Active alerts: ${a.length}\n• Face verification page: AVAILABLE`;
+                    setRobotState("speaking","System health checked"); buddyResult(text); addAIMessage(text,"assistant"); return;
+                }
+                if (action === "user") {
+                    const u=JSON.parse(localStorage.getItem("user")||"{}");
+                    const text=`User information\n• Name: ${u.name||"Unknown"}\n• Email: ${u.email||"Not available"}\n• User ID: ${u.user_id??u.id??"Not available"}\n• Role: ${u.role||"user"}`;
+                    setRobotState("speaking","User information"); buddyResult(text); addAIMessage(text,"assistant"); return;
+                }
+                if (action === "face") { setRobotState("speaking","Opening face verification"); window.location.href="image-verification.html"; return; }
+                if (action === "intrusion") {
+                    const d=await getHomeDataFresh();
+                    const suspicious=String(d.door_status).toUpperCase()==="OPEN" && String(d.lock_status).toUpperCase()==="LOCKED";
+                    const text=suspicious?"⚠️ Possible door intrusion condition: the door is OPEN while the lock reports LOCKED.":(String(d.motion).toUpperCase()==="DETECTED"?"Motion is detected. Check the camera if this is unexpected.":"No current intrusion condition detected from the available sensors.");
+                    setRobotState(suspicious?"danger":String(d.motion).toUpperCase()==="DETECTED"?"warning":"safe",suspicious?"Possible intrusion":"Intrusion check complete"); buddyResult(text); addAIMessage(text,"assistant"); return;
+                }
+                if (action === "notifications") {
+                    if (!("Notification" in window)) { buddyResult("Browser notifications are not supported here."); return; }
+                    const permission=await Notification.requestPermission(); notificationReady=permission==="granted";
+                    buddyResult(notificationReady?"Notifications enabled. I will notify you when the dashboard detects a new active alert.":"Notifications were not enabled."); addAIMessage("Notifications updated.","assistant"); return;
+                }
+                if (action === "lock" || action === "unlock") {
+                    const success =
+                        await controlDoor(
+                            action === "lock" ? "LOCK" : "UNLOCK"
+                        );
+
+                    if (success) {
+                        setRobotState(
+                            "success",
+                            action === "lock"
+                                ? "Door locked"
+                                : "Door unlocked"
+                        );
+
+                        buddyResult(
+                            action === "lock"
+                                ? "The lock command was sent successfully."
+                                : "The unlock command was sent successfully."
+                        );
+                    } else {
+                        setRobotState(
+                            "warning",
+                            action === "lock"
+                                ? "Door lock was not completed"
+                                : "Unlock was not completed"
+                        );
+                    }
+
+                    return;
+                }
+            } catch (e) {
+                console.error("Buddy action error",e);
+                setRobotState("warning","Assistant connection unavailable");
+                buddyResult("I couldn't complete that action. Check that Flask, MySQL and the ESP32 are running.");
+            }
+        }
+
+        let novaVoiceRecognition = null;
+        let novaVoiceListening = false;
+
+        async function startVoiceAssistant() {
+            const voiceButton = document.getElementById("aiVoiceButton");
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+            if (!SpeechRecognition) {
+                buddyResult("Voice control is not supported by this browser. Please use Google Chrome.");
+                setRobotState("warning", "Voice control unavailable");
+                return;
+            }
+
+            if (novaVoiceListening) {
+                try { if (novaVoiceRecognition) novaVoiceRecognition.stop(); } catch (e) {}
+                return;
+            }
+
+            try {
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    stream.getTracks().forEach(track => track.stop());
+                }
+            } catch (error) {
+                console.error("NOVA microphone permission error:", error);
+                buddyResult("Microphone access is blocked. Allow microphone access for this dashboard in Chrome, then click the microphone again.");
+                setRobotState("warning", "Microphone permission needed");
+                return;
+            }
+
+            const recognition = new SpeechRecognition();
+            novaVoiceRecognition = recognition;
+            recognition.lang = "en-IN";
+            recognition.continuous = true;
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            novaVoiceListening = true;
+            if (voiceButton) {
+                voiceButton.textContent = "🔴";
+                voiceButton.title = "NOVA is listening — click to stop";
+                voiceButton.setAttribute("aria-label", "Stop NOVA voice input");
+            }
+            setRobotState("listening", "Listening...");
+            buddyResult("I'm listening...");
+
+            recognition.onresult = function(event) {
+                const transcript = event.results && event.results[0] && event.results[0][0]
+                    ? event.results[0][0].transcript.trim()
+                    : "";
+
+                if (transcript) {
+                    const input = document.getElementById("aiInput");
+                    if (input) input.value = transcript;
+                    sendAIMessage();
+                } else {
+                    setRobotState("warning", "I didn't hear anything");
+                }
+            };
+
+            recognition.onerror = function(event) {
+                console.error("NOVA voice error:", event.error);
+                const messages = {
+                    "not-allowed": "Microphone permission was denied. Allow the microphone in Chrome.",
+                    "audio-capture": "No working microphone was found.",
+                    "no-speech": "I didn't hear anything. Click the microphone and try again.",
+                    "network": "Voice recognition needs a network connection.",
+                    "aborted": "Voice input stopped."
+                };
+                buddyResult(messages[event.error] || "Voice input could not start. Please try again.");
+                setRobotState("warning", "Voice input unavailable");
+            };
+
+            recognition.onend = function() {
+                novaVoiceListening = false;
+                novaVoiceRecognition = null;
+                if (voiceButton) {
+                    voiceButton.textContent = "🎤";
+                    voiceButton.title = "Voice assistant";
+                    voiceButton.setAttribute("aria-label", "Voice assistant");
+                }
+            };
+
+            try {
+                recognition.start();
+            } catch (error) {
+                console.error("NOVA voice start error:", error);
+                novaVoiceListening = false;
+                novaVoiceRecognition = null;
+                if (voiceButton) voiceButton.textContent = "🎤";
+                buddyResult("Voice input could not start. Please click the microphone again.");
+                setRobotState("warning", "Voice input unavailable");
+            }
+        }
+
+        // Override the voice quick action without requiring another HTML change.
+        const originalBuddyAction = buddyAction;
+        buddyAction = function(action){ if(action==="voice"){ startVoiceAssistant(); return; } return originalBuddyAction(action); };
+
+        function speakBuddy(text) {
+            if (!window.speechSynthesis) return;
+            window.speechSynthesis.cancel();
+            const u=new SpeechSynthesisUtterance(text); u.rate=1; u.pitch=1.05; window.speechSynthesis.speak(u);
+        }
+
+
+        /* ==================================================
+           NOVA VOICE - STABLE WAKE/COMMAND LOOP
+           One recognition session at a time.
+           It automatically restarts after Chrome ends a session.
+           ================================================== */
+
+        let novaRecognition = null;
+        let novaStarting = false;
+        let novaStopped = false;
+        let novaWaitingForReply = false;
+        let novaRestartTimer = null;
+
+        function novaSpeechRecognition() {
+            return window.SpeechRecognition ||
+                   window.webkitSpeechRecognition;
+        }
+
+        function novaScheduleRestart(delay) {
+            if (novaStopped || novaWaitingForReply) return;
+
+            clearTimeout(novaRestartTimer);
+
+            novaRestartTimer = setTimeout(function () {
+                startNovaVoiceLoop();
+            }, delay || 500);
+        }
+
+        function novaNormalizeSpeech(text) {
+            return String(text || "")
+                .toLowerCase()
+                .replace(/[.,!?;:]/g, " ")
+                .replace(/\s+/g, " ")
+                .trim();
+        }
+
+        function novaExtractCommand(transcript) {
+            const normalized = novaNormalizeSpeech(transcript);
+
+            /*
+             * Chrome sometimes hears "Hey NOVA" as "Innova".
+             * Accept that only when it appears at the beginning.
+             */
+            const patterns = [
+                /^(?:hey\s+nova)\b\s*(.*)$/i,
+                /^(?:hi\s+nova)\b\s*(.*)$/i,
+                /^(?:hello\s+nova)\b\s*(.*)$/i,
+                /^(?:innova)\b\s*(.*)$/i
+            ];
+
+            for (const pattern of patterns) {
+                const match = normalized.match(pattern);
+
+                if (match) {
+                    return {
+                        wakeDetected: true,
+                        command: (match[1] || "").trim()
+                    };
+                }
+            }
+
+            return {
+                wakeDetected: false,
+                command: ""
+            };
+        }
+
+        function startNovaVoiceLoop() {
+            const SpeechRecognition = novaSpeechRecognition();
+
+            if (!SpeechRecognition) {
+                buddyResult(
+                    "Voice control needs Google Chrome."
+                );
+                setRobotState(
+                    "warning",
+                    "Voice control unavailable"
+                );
+                return;
+            }
+
+            if (
+                novaStopped ||
+                novaStarting ||
+                novaWaitingForReply ||
+                novaRecognition
+            ) {
+                return;
+            }
+
+            novaStarting = true;
+
+            const recognition = new SpeechRecognition();
+            novaRecognition = recognition;
+
+            recognition.lang = "en-IN";
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 3;
+
+            recognition.onstart = function () {
+                novaStarting = false;
+
+                console.log(
+                    "NOVA: listening started"
+                );
+
+                setRobotState(
+                    "listening",
+                    'Listening for "Hey NOVA"...'
+                );
+            };
+
+            recognition.onresult = function (event) {
+                let transcript = "";
+
+                try {
+                    for (
+                        let i = event.resultIndex || 0;
+                        i < event.results.length;
+                        i++
+                    ) {
+                        if (
+                            event.results[i] &&
+                            event.results[i][0]
+                        ) {
+                            transcript +=
+                                " " +
+                                event.results[i][0].transcript;
+                        }
+                    }
+                } catch (error) {
+                    console.error(
+                        "NOVA result error:",
+                        error
+                    );
+                    return;
+                }
+
+                transcript = transcript.trim();
+
+                console.log(
+                    "NOVA heard:",
+                    transcript
+                );
+
+                const result =
+                    novaExtractCommand(transcript);
+
+                if (!result.wakeDetected) {
+                    console.log(
+                        "NOVA: wake word not detected"
+                    );
+                    return;
+                }
+
+                console.log(
+                    "NOVA: WAKE WORD DETECTED"
+                );
+
+                /*
+                 * Case 1:
+                 * "Hey NOVA, is my door locked?"
+                 * We already have the command.
+                 */
+                if (result.command) {
+                    console.log(
+                        "NOVA command extracted:",
+                        result.command
+                    );
+
+                    const input =
+                        document.getElementById(
+                            "aiInput"
+                        );
+
+                    if (!input) {
+                        console.error(
+                            "NOVA: aiInput not found"
+                        );
+                        return;
+                    }
+
+                    input.value = result.command;
+
+                    novaWaitingForReply = true;
+
+                    setRobotState(
+                        "thinking",
+                        "Checking..."
+                    );
+
+                    buddyResult(
+                        "Checking your home..."
+                    );
+
+                    console.log(
+                        "NOVA: sending command to /ai-assistant"
+                    );
+
+                    sendAIMessage();
+
+                    return;
+                }
+
+                /*
+                 * Case 2:
+                 * User only said "Hey NOVA".
+                 *
+                 * Speak first, then restart listening after
+                 * the speech finishes so NOVA does not hear its
+                 * own "I'm listening" response.
+                 */
+                novaWaitingForReply = true;
+
+                setRobotState(
+                    "speaking",
+                    "I'm listening"
+                );
+
+                buddyResult(
+                    "Yes Arun, I'm listening."
+                );
+
+                speakBuddy(
+                    "Yes Arun, I'm listening."
+                );
+
+                setTimeout(function () {
+                    novaWaitingForReply = false;
+                    novaScheduleRestart(300);
+                }, 2200);
+            };
+
+            recognition.onerror = function (event) {
+                console.warn(
+                    "NOVA voice error:",
+                    event.error
+                );
+
+                novaStarting = false;
+                novaRecognition = null;
+
+                if (event.error === "not-allowed") {
+                    novaStopped = true;
+
+                    buddyResult(
+                        "Microphone permission is required. Allow the microphone in Chrome."
+                    );
+
+                    setRobotState(
+                        "warning",
+                        "Microphone permission needed"
+                    );
+
+                    return;
+                }
+
+                if (event.error === "audio-capture") {
+                    novaStopped = true;
+
+                    buddyResult(
+                        "No working microphone was found."
+                    );
+
+                    setRobotState(
+                        "warning",
+                        "Microphone unavailable"
+                    );
+
+                    return;
+                }
+
+                if (event.error === "network") {
+                    buddyResult(
+                        "Voice recognition needs a network connection."
+                    );
+
+                    setRobotState(
+                        "warning",
+                        "Voice network unavailable"
+                    );
+                }
+
+                /*
+                 * no-speech and aborted are normal browser events.
+                 * Restart automatically.
+                 */
+                novaScheduleRestart(500);
+            };
+
+            recognition.onend = function () {
+                novaStarting = false;
+                novaRecognition = null;
+
+                console.log(
+                    "NOVA: listening ended"
+                );
+
+                /*
+                 * Chrome normally ends a SpeechRecognition session
+                 * after an utterance. Restart it automatically.
+                 */
+                if (
+                    !novaStopped &&
+                    !novaWaitingForReply
+                ) {
+                    novaScheduleRestart(350);
+                }
+            };
+
+            try {
+                recognition.start();
+            } catch (error) {
+                novaStarting = false;
+                novaRecognition = null;
+
+                console.warn(
+                    "NOVA start retry:",
+                    error
+                );
+
+                novaScheduleRestart(800);
+            }
+        }
+
+        function initNovaAlwaysListening() {
+            novaStopped = false;
+
+            setTimeout(function () {
+                console.log(
+                    "NOVA: starting automatic voice listener"
+                );
+
+                startNovaVoiceLoop();
+            }, 1200);
+        }
+
+        if (
+            document.readyState === "loading"
+        ) {
+            document.addEventListener(
+                "DOMContentLoaded",
+                initNovaAlwaysListening
+            );
+        } else {
+            initNovaAlwaysListening();
+        }
+
+        // Notify when a new active alert appears.
+        let previousAlertIds = new Set();
+        async function checkProactiveAlerts(){
+            try{
+                const alerts=await getAlertsFresh();
+                const ids=new Set(alerts.map(a=>String(a.alert_id??a.timestamp??a.message)));
+                const fresh=alerts.filter(a=>!previousAlertIds.has(String(a.alert_id??a.timestamp??a.message)));
+                if(previousAlertIds.size && fresh.length){
+                    const msg=`New safety alert: ${fresh[0].message||fresh[0].alert_type||"Please check the dashboard."}`;
+                    setRobotState("alert","New safety alert"); buddyResult(msg);
+                    if(notificationReady) new Notification("Smart Home Safety",{body:msg});
+                    speakBuddy(msg);
+
+                novaVoiceBusy = false;
+
+                // Return to waiting for the next "Hey NOVA"
+                // after NOVA finishes speaking.
+                setTimeout(function () {
+                    startNovaListening();
+                }, 1800);
+                }
+                previousAlertIds=ids;
+            }catch(e){console.debug("Proactive alert check failed",e);}
+        }
+        setTimeout(checkProactiveAlerts,2500);
+        setInterval(checkProactiveAlerts,10000);
+
+        /* ==================================================
+           NOVA BUDDY - FIXED RIGHT SIDE
+           ================================================== */
+        (function initBuddy() {
+            const buddy = document.getElementById("aiDollButton");
+            const panel = document.querySelector(".ai-assistant-panel");
+            if (!buddy) return;
+
+            // Remove any old saved position from previous draggable versions.
+            try { localStorage.removeItem("aiBuddyPosition"); } catch (e) {}
+
+            // The buddy is intentionally fixed on the right and is not draggable.
+            buddy.style.left = "auto";
+            buddy.style.right = "28px";
+            buddy.style.top = "50%";
+            buddy.style.bottom = "auto";
+
+            buddy.addEventListener("click", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleAIAssistant();
+            });
+
+            window.addEventListener("resize", function() {
+                if (panel && panel.classList.contains("ai-open")) {
+                    panel.style.right = "198px";
+                    panel.style.left = "auto";
+                    panel.style.top = "50%";
+                    panel.style.bottom = "auto";
+                }
+            });
+        })();
+</script>
 
 </body>
 

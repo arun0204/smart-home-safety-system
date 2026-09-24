@@ -4,26 +4,39 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Image Verification - Smart Home Safety</title>
+
 
     <style>
 
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
+
 
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #eef3f8;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f3f6fa;
+            color: #263746;
+            min-height: 100vh;
         }
 
-        /* Header */
+
+        /* =========================
+           HEADER
+        ========================== */
 
         .header {
-            height: 70px;
+            height: 72px;
+
             background: #17365d;
             color: white;
 
@@ -32,182 +45,1272 @@
             justify-content: space-between;
 
             padding: 0 30px;
+
+            box-shadow:
+                0 2px 10px rgba(0, 0, 0, 0.12);
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
+
         .logo {
-            font-size: 22px;
-            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            font-size: 21px;
+            font-weight: 700;
         }
+
 
         .user-area {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 16px;
         }
 
+
+        .user-name {
+            font-size: 14px;
+            color: rgba(255,255,255,0.9);
+        }
+
+
         .logout {
+            border: none;
+            border-radius: 8px;
+
+            padding: 9px 16px;
+
             background: #e74c3c;
             color: white;
 
-            border: none;
-            border-radius: 6px;
-
-            padding: 9px 15px;
+            font-size: 13px;
+            font-weight: 600;
 
             cursor: pointer;
+
+            transition: 0.2s ease;
         }
 
-        /* Layout */
+
+        .logout:hover {
+            background: #c0392b;
+        }
+
+
+        /* =========================
+           LAYOUT
+        ========================== */
 
         .container {
             display: flex;
-            min-height: calc(100vh - 70px);
+
+            min-height:
+                calc(100vh - 72px);
         }
 
-        /* Sidebar */
+
+        /* =========================
+           SIDEBAR
+        ========================== */
 
         .sidebar {
-            width: 220px;
+            width: 235px;
+
             background: white;
 
-            padding-top: 20px;
+            padding: 22px 12px;
 
-            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+            box-shadow:
+                2px 0 12px rgba(0, 0, 0, 0.06);
+
+            flex-shrink: 0;
         }
+
+
+        .sidebar-title {
+            padding:
+                8px 15px 15px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            color: #9aa6b2;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.8px;
+        }
+
 
         .sidebar a {
-            display: block;
+            display: flex;
 
-            padding: 15px 25px;
+            align-items: center;
 
-            color: #333;
+            gap: 11px;
+
+            padding: 13px 15px;
+
+            margin-bottom: 4px;
+
+            border-radius: 9px;
+
+            color: #526170;
+
             text-decoration: none;
 
-            font-size: 15px;
+            font-size: 14px;
+
+            font-weight: 500;
+
+            transition: 0.2s ease;
         }
+
 
         .sidebar a:hover {
             background: #eef3f8;
+
             color: #17365d;
         }
 
-        .sidebar .active {
+
+        .sidebar a.active {
             background: #17365d;
+
             color: white;
+
+            font-weight: 600;
         }
 
-        /* Main */
+
+        .nav-icon {
+            width: 22px;
+
+            text-align: center;
+
+            font-size: 16px;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================== */
 
         .main {
             flex: 1;
-            padding: 30px;
+
+            padding: 32px;
+
+            max-width: 1500px;
+
+            min-width: 0;
         }
 
-        .welcome h1 {
-            margin: 0;
+
+        .page-header {
+            margin-bottom: 24px;
+        }
+
+
+        .page-header h1 {
             color: #17365d;
+
+            font-size: 29px;
+
+            margin-bottom: 7px;
         }
 
-        .welcome p {
-            color: #666;
+
+        .page-header p {
+            color: #71808f;
+
+            font-size: 14px;
         }
 
-        /* Verification Card */
 
-        .verification-card {
+        /* =========================
+           STATUS CARDS
+        ========================== */
+
+        .status-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 18px;
+
+            margin-bottom: 22px;
+        }
+
+
+        .status-card {
             background: white;
 
-            margin-top: 25px;
+            border-radius: 13px;
 
-            padding: 35px;
+            padding: 20px;
 
-            border-radius: 12px;
+            border: 1px solid #edf1f5;
 
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-
-            text-align: center;
-        }
-
-        .camera-box {
-            width: 100%;
-            max-width: 500px;
-            height: 280px;
-
-            margin: auto;
-
-            background: #eef3f8;
-
-            border: 2px dashed #17365d;
-            border-radius: 12px;
+            box-shadow:
+                0 4px 16px rgba(
+                    23,
+                    54,
+                    93,
+                    0.07
+                );
 
             display: flex;
+
             align-items: center;
-            justify-content: center;
-
-            flex-direction: column;
-        }
-
-        .camera-icon {
-            font-size: 65px;
-        }
-
-        .camera-box p {
-            color: #666;
-        }
-
-        /* Buttons */
-
-        .buttons {
-            margin-top: 25px;
-
-            display: flex;
-            justify-content: center;
 
             gap: 15px;
         }
 
-        button {
-            padding: 13px 25px;
 
-            border: none;
-            border-radius: 8px;
+        .status-icon {
+            width: 46px;
 
-            color: white;
+            height: 46px;
 
-            font-size: 15px;
-            font-weight: bold;
+            border-radius: 12px;
 
-            cursor: pointer;
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 21px;
+
+            background: #eaf8f0;
         }
 
-        .verify-button {
-            background: #17365d;
+
+        .status-info {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 3px;
         }
 
-        .capture-button {
-            background: #27ae60;
-        }
 
-        button:hover {
-            opacity: 0.85;
-        }
-
-        /* Result */
-
-        #result {
-            margin-top: 25px;
-
+        .status-value {
             font-size: 18px;
 
-            font-weight: bold;
-        }
+            font-weight: 700;
 
-        .verified {
             color: #27ae60;
         }
 
-        .failed {
-            color: #e74c3c;
+
+        .status-label {
+            font-size: 12px;
+
+            color: #7b8794;
+        }
+
+
+        /* =========================
+           MAIN CARD
+        ========================== */
+
+        .verification-card {
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 28px;
+
+            border: 1px solid #edf1f5;
+
+            box-shadow:
+                0 4px 18px rgba(
+                    23,
+                    54,
+                    93,
+                    0.07
+                );
+        }
+
+
+        .section-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .section-header h2 {
+            color: #17365d;
+
+            font-size: 20px;
+        }
+
+
+        .active-badge {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            background: #eaf8f0;
+
+            color: #18864b;
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+
+        .active-dot {
+            width: 8px;
+
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #27ae60;
+        }
+
+
+        .description {
+            color: #71808f;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =========================
+           REGISTERED FACES
+        ========================== */
+
+        .section-title {
+            color: #17365d;
+
+            font-size: 17px;
+
+            margin-bottom: 14px;
+        }
+
+
+        #registeredFacesList {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+        }
+
+
+        .registered-face {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 16px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e7edf2;
+
+            border-radius: 10px;
+
+            transition: 0.2s ease;
+        }
+
+
+        .registered-face:hover {
+            border-color: #d6e0e8;
+
+            box-shadow:
+                0 3px 10px rgba(
+                    23,
+                    54,
+                    93,
+                    0.05
+                );
+        }
+
+
+        .face-info {
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+        }
+
+
+        .face-avatar {
+            width: 42px;
+
+            height: 42px;
+
+            border-radius: 11px;
+
+            background: #eaf0f6;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 19px;
+
+            flex-shrink: 0;
+        }
+
+
+        .face-details {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 4px;
+        }
+
+
+        .face-name {
+            font-weight: 700;
+
+            color: #344352;
+
+            font-size: 14px;
+        }
+
+
+        .face-id {
+            font-size: 11px;
+
+            color: #8a96a1;
+        }
+
+
+        .face-actions {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .face-status {
+            color: #18864b;
+
+            background: #eaf8f0;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+
+        .face-status.registered {\n            color: #18864b;\n            background: #eaf8f0;\n        }\n\n        .face-status.missing {\n            color: #8a5a00;\n            background: #fef5e7;\n        }\n\n        .delete-button {
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 8px 12px;
+
+            background: #e74c3c;
+
+            color: white;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+
+        .delete-button:hover {
+            background: #c0392b;
+        }
+
+
+        .delete-user-button {
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 8px 12px;
+
+            background: #7f1d1d;
+
+            color: white;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+
+        .delete-user-button:hover {
+            background: #5f1515;
+        }
+
+
+        /* =========================
+           ADD FACE BUTTON
+        ========================== */
+
+        .add-face-button {
+            margin-top: 16px;
+
+            width: 100%;
+
+            height: 46px;
+
+            border: 1px dashed #9fb0c0;
+
+            border-radius: 9px;
+
+            background: #f8fafc;
+
+            color: #17365d;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+
+        .add-face-button:hover {
+            background: #eef3f8;
+
+            border-color: #17365d;
+        }
+
+
+        /* =========================
+           ADD USER AREA
+        ========================== */
+
+        #addFaceArea {
+            display: none;
+
+            margin-top: 22px;
+
+            padding: 24px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e3e9ef;
+
+            border-radius: 12px;
+        }
+
+
+        .sub-heading {
+            color: #17365d;
+
+            font-size: 18px;
+
+            margin-bottom: 7px;
+        }
+
+
+        .sub-description {
+            color: #71808f;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+            margin-bottom: 20px;
+        }
+
+
+        .form-group {
+            max-width: 500px;
+
+            margin-bottom: 16px;
+        }
+
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #354250;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        .form-group input {
+            width: 100%;
+
+            height: 45px;
+
+            border: 1px solid #d6dde5;
+
+            border-radius: 9px;
+
+            padding: 0 13px;
+
+            background: white;
+
+            color: #263746;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.2s ease;
+        }
+
+
+        .form-group input:focus {
+            border-color: #2d6da3;
+
+            box-shadow:
+                0 0 0 3px rgba(
+                    45,
+                    109,
+                    163,
+                    0.10
+                );
+        }
+
+
+        .form-actions {
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+
+            margin-top: 8px;
+        }
+
+
+        .primary-button,
+        .secondary-button {
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 10px 17px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+
+        .primary-button {
+            background: #17365d;
+
+            color: white;
+        }
+
+
+        .primary-button:hover {
+            background: #0f2744;
+        }
+
+
+        .secondary-button {
+            background: #e8edf2;
+
+            color: #526170;
+        }
+
+
+        .secondary-button:hover {
+            background: #dce3e9;
+        }
+
+
+        .primary-button:disabled,
+        .secondary-button:disabled {
+            opacity: 0.6;
+
+            cursor: not-allowed;
+        }
+
+
+        .form-message {
+            max-width: 500px;
+
+            margin: 13px 0;
+
+            padding: 11px 13px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================
+           REGISTRATION AREA
+        ========================== */
+
+        #registrationArea {
+            display: none;
+
+            margin-top: 22px;
+
+            padding: 24px;
+
+            background: #f8fafc;
+
+            border: 1px solid #dce5ed;
+
+            border-radius: 12px;
+        }
+
+
+        .selected-user {
+            padding: 12px 14px;
+
+            background: #eaf8f0;
+
+            color: #18864b;
+
+            border: 1px solid #d5efdf;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            margin-bottom: 18px;
+        }
+
+
+        /* =========================
+           CAMERA
+        ========================== */
+
+        #cameraArea,
+        #deleteCameraArea {
+            display: none;
+
+            margin: 18px 0;
+
+            padding: 18px;
+
+            background: #172333;
+
+            border-radius: 12px;
+        }
+
+
+        .camera-title {
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            margin-bottom: 12px;
+        }
+
+
+        #webcam,
+        #deleteWebcam {
+            width: 100%;
+
+            max-width: 650px;
+
+            display: block;
+
+            margin: 0 auto;
+
+            border-radius: 9px;
+
+            background: #000;
+
+            transform: scaleX(-1);
+        }
+
+
+        .camera-status {
+            margin-top: 12px;
+
+            padding: 10px 12px;
+
+            border-radius: 8px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+
+        .camera-status.verified {
+            color: #18864b;
+
+            background: #eaf8f0;
+        }
+
+
+        .camera-status.failed {
+            color: #c0392b;
+
+            background: #fdecea;
+        }
+
+
+        .camera-status.warning {
+            color: #8a5a00;
+
+            background: #fef5e7;
+        }
+
+
+        /* =========================
+           PROGRESS
+        ========================== */
+
+        .progress {
+            margin: 20px 0;
+        }
+
+
+        #progressText {
+            color: #526170;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 8px;
+        }
+
+
+        .progress-track {
+            width: 100%;
+
+            height: 10px;
+
+            background: #dfe5eb;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+
+        .progress-bar {
+            height: 100%;
+
+            width: 0%;
+
+            background: #27ae60;
+
+            border-radius: 10px;
+
+            transition: width 0.2s;
+        }
+
+
+        /* =========================
+           DELETE VERIFICATION
+        ========================== */
+
+        #deleteVerificationArea {
+            display: none;
+
+            margin-top: 22px;
+
+            padding: 24px;
+
+            background: #fff8f8;
+
+            border: 1px solid #f1dada;
+
+            border-radius: 12px;
+        }
+
+
+        .delete-title {
+            color: #c0392b;
+
+            font-size: 18px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .delete-selected-user {
+            padding: 12px 14px;
+
+            background: #fdecea;
+
+            border: 1px solid #f2ceca;
+
+            color: #c0392b;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            margin: 15px 0;
+        }
+
+
+        .security-message {
+            color: #667482;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            margin-bottom: 15px;
+        }
+
+
+        /* =========================
+           RESULT
+        ========================== */
+
+        .current-verification {
+            margin-top: 28px;
+
+            padding-top: 24px;
+
+            border-top: 1px solid #e5e9ee;
+        }
+
+
+        .result-box {
+            margin-top: 13px;
+
+            padding: 15px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            line-height: 1.5;
+        }
+
+
+        .result-box.verified {
+            color: #18864b;
+
+            background: #eaf8f0;
+
+            border: 1px solid #d5efdf;
+        }
+
+
+        .result-box.failed {
+            color: #c0392b;
+
+            background: #fdecea;
+
+            border: 1px solid #f2ceca;
+        }
+
+
+        .result-box.warning {
+            color: #8a5a00;
+
+            background: #fef5e7;
+
+            border: 1px solid #f5dfb5;
+        }
+
+
+        /* =========================
+           LOADING USER MESSAGE
+        ========================== */
+
+        .users-loading {
+            padding: 18px;
+
+            text-align: center;
+
+            color: #71808f;
+
+            background: #f8fafc;
+
+            border: 1px solid #e7edf2;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        .users-error {
+            padding: 18px;
+
+            text-align: center;
+
+            color: #c0392b;
+
+            background: #fdecea;
+
+            border: 1px solid #f2ceca;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+
+        .existing-user-row {
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:15px;
+            padding:14px;
+            margin-bottom:10px;
+            background:white;
+            border:1px solid #e1e7ed;
+            border-radius:10px;
+        }
+
+        .existing-user-info {
+            display:flex;
+            flex-direction:column;
+            gap:4px;
+        }
+
+        .existing-user-name {
+            color:#344352;
+            font-size:14px;
+            font-weight:700;
+        }
+
+        .existing-user-details {
+            color:#8a96a1;
+            font-size:11px;
+        }
+
+        .register-existing-button {
+            border:none;
+            border-radius:8px;
+            padding:9px 13px;
+            background:#17365d;
+            color:white;
+            font-size:12px;
+            font-weight:600;
+            cursor:pointer;
+            white-space:nowrap;
+        }
+
+        .register-existing-button:hover {
+            background:#0f2744;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 950px) {
+
+            .status-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .sidebar {
+                width: 205px;
+            }
+
+            .main {
+                padding: 25px;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 0 18px;
+            }
+
+
+            .logo {
+                font-size: 17px;
+            }
+
+
+            .user-name {
+                display: none;
+            }
+
+
+            .container {
+                flex-direction: column;
+            }
+
+
+            .sidebar {
+                width: 100%;
+
+                display: flex;
+
+                overflow-x: auto;
+
+                padding: 10px;
+
+                box-shadow:
+                    0 2px 8px rgba(
+                        0,
+                        0,
+                        0,
+                        0.06
+                    );
+            }
+
+
+            .sidebar-title {
+                display: none;
+            }
+
+
+            .sidebar a {
+                flex-shrink: 0;
+
+                margin: 0 3px;
+
+                padding: 10px 13px;
+
+                font-size: 12px;
+            }
+
+
+            .main {
+                padding: 20px 15px;
+            }
+
+
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .registered-face {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .face-actions {
+                width: 100%;
+
+                justify-content:
+                    space-between;
+            }
+
+        }
+
+
+        @media (max-width: 480px) {
+
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+
+            .verification-card {
+                padding: 18px;
+            }
+
+
+            .section-header {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .face-info {
+                width: 100%;
+            }
+
+
+            .face-actions {
+                flex-direction: column;
+
+                align-items: stretch;
+            }
+
+
+            .face-status,
+            .delete-button,
+            .delete-user-button {
+                text-align: center;
+
+                width: 100%;
+            }
+
         }
 
     </style>
@@ -217,19 +1320,27 @@
 
 <body>
 
-    <!-- Header -->
 
-    <div class="header">
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header class="header">
 
         <div class="logo">
             🏠 Smart Home Safety
         </div>
 
+
         <div class="user-area">
 
-            <span id="userName">
+            <span
+                class="user-name"
+                id="userName"
+            >
                 User
             </span>
+
 
             <button
                 class="logout"
@@ -240,184 +1351,2902 @@
 
         </div>
 
-    </div>
+    </header>
 
 
     <div class="container">
 
-        <!-- Sidebar -->
 
-        <div class="sidebar">
+        <!-- =========================
+             SIDEBAR
+        ========================== -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-title">
+                Navigation
+            </div>
+
 
             <a href="dashboard.html">
-                📊 Dashboard
+
+                <span class="nav-icon">
+                    📊
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
             </a>
 
+
             <a href="door-access.html">
-                🚪 Door Access
+
+                <span class="nav-icon">
+                    🚪
+                </span>
+
+                <span>
+                    Door Access
+                </span>
+
             </a>
+
 
             <a
                 href="image-verification.html"
                 class="active"
             >
-                📷 Image Verification
+
+                <span class="nav-icon">
+                    📷
+                </span>
+
+                <span>
+                    Image Verification
+                </span>
+
             </a>
+
 
             <a href="sensors.html">
-                🌡 Sensors
+
+                <span class="nav-icon">
+                    🌡
+                </span>
+
+                <span>
+                    Sensors
+                </span>
+
             </a>
+
 
             <a href="alerts.html">
-                🚨 Safety Alerts
+
+                <span class="nav-icon">
+                    🚨
+                </span>
+
+                <span>
+                    Safety Alerts
+                </span>
+
             </a>
+
 
             <a href="access-logs.html">
-                📋 Access Logs
+
+                <span class="nav-icon">
+                    📋
+                </span>
+
+                <span>
+                    Access Logs
+                </span>
+
             </a>
 
-        </div>
+        </aside>
 
 
-        <!-- Main -->
+        <!-- =========================
+             MAIN
+        ========================== -->
 
-        <div class="main">
+        <main class="main">
 
-            <div class="welcome">
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
 
                 <h1>
                     📷 Image Verification
                 </h1>
 
                 <p>
-                    Verify a person before allowing door access.
+                    Manage registered faces and automatic door access.
                 </p>
 
             </div>
 
 
-            <!-- Verification -->
+            <!-- STATUS CARDS -->
 
-            <div class="verification-card">
+            <div class="status-grid">
 
-                <h2>
-                    Person Verification
-                </h2>
 
-                <div class="camera-box">
+                <div class="status-card">
 
-                    <div class="camera-icon">
-                        📷
+                    <div class="status-icon">
+                        🟢
                     </div>
 
-                    <p>
-                        Camera verification area
-                    </p>
 
-                    <p>
-                        Camera hardware will be connected later.
-                    </p>
+                    <div class="status-info">
 
-                </div>
+                        <div class="status-value">
+                            Active
+                        </div>
 
+                        <div class="status-label">
+                            Face Verification
+                        </div>
 
-                <div class="buttons">
-
-                    <button
-                        class="capture-button"
-                        onclick="captureImage()"
-                    >
-                        📸 CAPTURE IMAGE
-                    </button>
-
-                    <button
-                        class="verify-button"
-                        onclick="verifyPerson()"
-                    >
-                        🔍 VERIFY PERSON
-                    </button>
+                    </div>
 
                 </div>
 
 
-                <div id="result"></div>
+                <div class="status-card">
+
+                    <div class="status-icon">
+                        👤
+                    </div>
+
+
+                    <div class="status-info">
+
+                        <div
+                            class="status-value"
+                            id="faceCount"
+                        >
+                            0
+                        </div>
+
+                        <div class="status-label">
+                            Registered Faces
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="status-card">
+
+                    <div class="status-icon">
+                        🔐
+                    </div>
+
+
+                    <div class="status-info">
+
+                        <div class="status-value">
+                            Protected
+                        </div>
+
+                        <div class="status-label">
+                            Delete Verification
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
 
-        </div>
+
+            <!-- MAIN CARD -->
+
+            <section class="verification-card">
+
+
+                <div class="section-header">
+
+                    <h2>
+                        🔐 Face Verification
+                    </h2>
+
+
+                    <div class="active-badge">
+
+                        <span class="active-dot"></span>
+
+                        FACE VERIFICATION ACTIVE
+
+                    </div>
+
+                </div>
+
+
+                <p class="description">
+
+                    Face recognition is automatically active when
+                    the recognition system is running. Registered
+                    faces can be used for secure automatic door access.
+
+                </p>
+
+
+                <!-- REGISTERED FACES -->
+
+                <h3 class="section-title">
+                    👤 Registered Faces
+                </h3>
+
+
+                <div id="registeredFacesList">
+
+                    <div class="users-loading">
+                        ⏳ Loading registered faces...
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="add-face-button"
+                    onclick="addNewFace()"
+                >
+                    ➕ ADD NEW FACE
+                </button>
+
+
+                <!-- =========================
+                     ADD FACE
+                ========================== -->
+
+                <div id="addFaceArea">
+
+
+                    <h3 class="sub-heading">
+                        👤 Add New Face
+                    </h3>
+
+
+                    <p class="sub-description">
+
+                        Create a family-member account first. The
+                        account will belong to the logged-in family
+                        owner. After the account is created, the
+                        system will open the camera so 30 face
+                        images can be captured.
+
+                    </p>
+
+
+                    <div class="form-group">
+
+                        <label for="newUserName">
+                            Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="newUserName"
+                            placeholder="Enter user name"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="newUserEmail">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="newUserEmail"
+                            placeholder="Enter email address"
+                        >
+
+                    </div>
+                    <div class="form-group">
+
+                        <label for="newUserPassword">
+                            Account Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="newUserPassword"
+                            placeholder="Create password (minimum 6 characters)"
+                            minlength="6"
+                        >
+
+                    </div>
+
+
+                    <div
+                        id="newUserMessage"
+                        class="form-message"
+                        style="display:none;"
+                    >
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <button
+                            id="createUserButton"
+                            class="primary-button"
+                            onclick="createFaceUser()"
+                        >
+                            Create User →
+                        </button>
+
+
+                        <button
+                            class="secondary-button"
+                            onclick="cancelRegistration()"
+                        >
+                            Cancel
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =========================
+                     REGISTRATION
+                ========================== -->
+
+                <div id="registrationArea">
+
+
+                    <h3 class="sub-heading">
+                        📷 Register New Face
+                    </h3>
+
+
+                    <div
+                        id="selectedUser"
+                        class="selected-user"
+                    >
+                    </div>
+
+
+                    <p class="sub-description">
+
+                        Look directly at the MacBook camera.
+                        The system will automatically capture
+                        30 images for face registration.
+
+                    </p>
+
+
+                    <div id="cameraArea">
+
+                        <div class="camera-title">
+                            📷 MacBook Camera
+                        </div>
+
+
+                        <video
+                            id="webcam"
+                            autoplay
+                            playsinline
+                        ></video>
+
+
+                        <div
+                            id="registrationCameraStatus"
+                            class="camera-status warning"
+                        >
+                            🟡 Camera not started.
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress">
+
+                        <div id="progressText">
+                            Images captured: 0 / 30
+                        </div>
+
+
+                        <div class="progress-track">
+
+                            <div
+                                id="progressBar"
+                                class="progress-bar"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <button
+                            id="captureStartButton"
+                            class="primary-button"
+                            onclick="startFaceRegistration()"
+                        >
+                            📷 START FACE CAPTURE
+                        </button>
+
+
+                        <button
+                            class="secondary-button"
+                            onclick="cancelRegistration()"
+                        >
+                            Cancel
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     DELETE VERIFICATION
+                ========================== -->
+
+                <div id="deleteVerificationArea">
+
+
+                    <h3 class="delete-title">
+                        🔐 Verify Identity Before Deleting
+                    </h3>
+
+
+                    <div
+                        id="deleteSelectedUser"
+                        class="delete-selected-user"
+                    >
+                    </div>
+
+
+                    <p class="security-message">
+
+                        ⚠️ For security, the face must be verified
+                        before this registered face can be deleted.
+
+                        <br><br>
+
+                        The system compares the camera image with
+                        the selected registered face. If verification
+                        fails, nothing is deleted.
+
+                    </p>
+
+
+                    <div id="deleteCameraArea">
+
+                        <div class="camera-title">
+                            📷 MacBook Camera
+                        </div>
+
+
+                        <p
+                            style="
+                                color:#d9e2ea;
+                                font-size:12px;
+                                margin-bottom:12px;
+                            "
+                        >
+                            Look directly at the camera.
+                        </p>
+
+
+                        <video
+                            id="deleteWebcam"
+                            autoplay
+                            playsinline
+                        ></video>
+
+
+                        <div
+                            id="cameraStatus"
+                            class="camera-status warning"
+                        >
+                            🟡 Camera not started.
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <button
+                            id="verifyDeleteButton"
+                            class="delete-button"
+                            onclick="startDeleteVerification()"
+                        >
+                            📷 VERIFY FACE
+                        </button>
+
+
+                        <button
+                            class="secondary-button"
+                            onclick="cancelDelete()"
+                        >
+                            Cancel
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     CURRENT VERIFICATION
+                ========================== -->
+
+                <div class="current-verification">
+
+                    <h3 class="section-title">
+                        🔍 Current Verification
+                    </h3>
+
+
+                    <div
+                        id="result"
+                        class="result-box verified"
+                    >
+                        🟢 Face recognition system is active.
+                        Known faces can automatically unlock the door.
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+        </main>
 
     </div>
 
 
-    <script>
+<script>
 
-        // Check login
+/* =====================================================
+   LOGIN
+===================================================== */
 
-        const savedUser =
-            localStorage.getItem("user");
+const savedUser =
+    localStorage.getItem("user");
 
 
-        if (!savedUser) {
+if(!savedUser){
 
-            window.location.href =
-                "login.html";
+    window.location.href =
+        "login.html";
 
-        } else {
+}
+else{
 
-            const user =
-                JSON.parse(savedUser);
+    try{
 
-            document
-                .getElementById("userName")
-                .textContent = user.name;
+        const user =
+            JSON.parse(savedUser);
+
+        document
+            .getElementById("userName")
+            .textContent =
+            user.name || "User";
+
+        if(!isFamilyOwner(user)){
+
+            console.warn(
+                "Logged-in account is a family member. Add Family Member is disabled."
+            );
+
+        }
+
+    }
+    catch(error){
+
+        localStorage.removeItem("user");
+
+        window.location.href =
+            "login.html";
+
+    }
+
+}
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let selectedUserId = null;
+
+let selectedUserName = null;
+
+let selectedUserEmail = null;
+
+let selectedUserPassword = null;
+
+let deleteUserId = null;
+
+let deleteUserName = null;
+
+let deleteCameraStream = null;
+
+let registrationCameraStream = null;
+
+let capturedRegistrationImages = [];
+
+const TOTAL_IMAGES = 30;
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout(){
+
+    localStorage.removeItem("user");
+
+    window.location.href =
+        "login.html";
+}
+
+
+/* =====================================================
+   RESULT MESSAGE
+===================================================== */
+
+function showResult(
+    message,
+    type = ""
+){
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+    result.textContent =
+        message;
+
+    result.className =
+        "result-box " + type;
+
+}
+
+
+/* =====================================================
+   CURRENT LOGGED-IN USER
+===================================================== */
+
+function getCurrentLoggedInUser(){
+
+    const savedUser =
+        localStorage.getItem("user");
+
+
+    if(!savedUser){
+
+        return null;
+
+    }
+
+
+    try{
+
+        return JSON.parse(savedUser);
+
+    }
+    catch(error){
+
+        console.error(
+            "INVALID SAVED USER:",
+            error
+        );
+
+        return null;
+
+    }
+
+}
+
+
+/* =====================================================
+   FAMILY OWNER CHECK
+===================================================== */
+
+function isFamilyOwner(user){
+
+    if(!user){
+
+        return false;
+
+    }
+
+
+    /*
+     * A root family owner has no family_owner_id.
+     * Arun T / User 4 is currently the family owner
+     * in this project, but the check stays dynamic.
+     */
+
+    return (
+        user.family_owner_id === null
+        ||
+        user.family_owner_id === undefined
+        ||
+        user.family_owner_id === ""
+    );
+
+}
+
+
+/* =====================================================
+   ADD NEW FACE
+===================================================== */
+
+function addNewFace(){
+
+    const currentUser =
+        getCurrentLoggedInUser();
+
+
+    if(!currentUser){
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+
+    if(!isFamilyOwner(currentUser)){
+
+        showResult(
+            "❌ Only the family owner can add a new family member.",
+            "failed"
+        );
+
+        return;
+
+    }
+
+
+    stopRegistrationCamera();
+
+    stopDeleteCamera();
+
+    document.getElementById(
+        "addFaceArea"
+    ).style.display =
+        "block";
+
+    document.getElementById(
+        "registrationArea"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "deleteVerificationArea"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "existingFaceArea"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "newUserName"
+    ).value = "";
+
+    document.getElementById(
+        "newUserEmail"
+    ).value = "";
+
+    document.getElementById(
+        "newUserPassword"
+    ).value = "";
+
+    document.getElementById(
+        "newUserMessage"
+    ).style.display =
+        "none";
+
+    showResult(
+        "👤 Enter the name and email of the new user.",
+        "warning"
+    );
+
+}
+
+
+/* =====================================================
+   CREATE USER
+===================================================== */
+
+async function createFaceUser(){
+
+    const nameInput =
+        document.getElementById(
+            "newUserName"
+        );
+
+    const emailInput =
+        document.getElementById(
+            "newUserEmail"
+        );
+
+    const passwordInput =
+        document.getElementById(
+            "newUserPassword"
+        );
+
+    const messageBox =
+        document.getElementById(
+            "newUserMessage"
+        );
+
+    const createButton =
+        document.getElementById(
+            "createUserButton"
+        );
+
+    const name =
+        nameInput.value.trim();
+
+    const email =
+        emailInput.value.trim();
+
+    const password =
+        passwordInput.value;
+
+
+    const currentUser =
+        getCurrentLoggedInUser();
+
+
+    if(!currentUser){
+
+        messageBox.style.display =
+            "block";
+
+        messageBox.style.color =
+            "#e74c3c";
+
+        messageBox.style.background =
+            "#fdecea";
+
+        messageBox.textContent =
+            "❌ Please log in again before adding a family member.";
+
+        return;
+
+    }
+
+
+    const ownerUserId =
+        Number(
+            currentUser.user_id
+            || currentUser.id
+        );
+
+
+    if(!ownerUserId){
+
+        messageBox.style.display =
+            "block";
+
+        messageBox.style.color =
+            "#e74c3c";
+
+        messageBox.style.background =
+            "#fdecea";
+
+        messageBox.textContent =
+            "❌ Could not determine the family owner account.";
+
+        return;
+
+    }
+
+
+    if(!name){
+
+        messageBox.style.display =
+            "block";
+
+        messageBox.style.color =
+            "#e74c3c";
+
+        messageBox.style.background =
+            "#fdecea";
+
+        messageBox.textContent =
+            "❌ Please enter the user's name.";
+
+        nameInput.focus();
+
+        return;
+
+    }
+
+
+    if(!email){
+
+        messageBox.style.display =
+            "block";
+
+        messageBox.style.color =
+            "#e74c3c";
+
+        messageBox.style.background =
+            "#fdecea";
+
+        messageBox.textContent =
+            "❌ Please enter the user's email.";
+
+        emailInput.focus();
+
+        return;
+
+    }
+
+
+    if(password.length < 6){
+
+        messageBox.style.display =
+            "block";
+
+        messageBox.style.color =
+            "#e74c3c";
+
+        messageBox.style.background =
+            "#fdecea";
+
+        messageBox.textContent =
+            "❌ Password must contain at least 6 characters.";
+
+        passwordInput.focus();
+
+        return;
+
+    }
+
+
+    createButton.disabled =
+        true;
+
+    createButton.textContent =
+        "⏳ Creating User...";
+
+
+    messageBox.style.display =
+        "block";
+
+    messageBox.style.color =
+        "#8a5a00";
+
+    messageBox.style.background =
+        "#fef5e7";
+
+    messageBox.textContent =
+        "⏳ Creating user...";
+
+
+    try{
+
+        const response =
+            await fetch(
+                "/create-face-user",
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            name:name,
+                            email:email,
+                            password:password,
+                            owner_user_id:ownerUserId
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "CREATE FACE USER RESPONSE:",
+            data
+        );
+
+
+        if(
+            response.ok &&
+            data.user
+        ){
+
+            selectedUserId =
+                data.user.user_id;
+
+            selectedUserName =
+                data.user.name;
+
+            selectedUserEmail =
+                data.user.email;
+
+
+            messageBox.style.color =
+                "#27ae60";
+
+            messageBox.style.background =
+                "#eaf8f0";
+
+            messageBox.textContent =
+                "✅ User created successfully. User ID: " +
+                selectedUserId;
+
+
+            localStorage.setItem(
+                "selectedFaceUser",
+                JSON.stringify({
+                    user_id:selectedUserId,
+                    name:selectedUserName,
+                    email:selectedUserEmail,
+                    family_owner_id:ownerUserId
+                })
+            );
+
+
+            setTimeout(
+                function(){
+
+                    document.getElementById(
+                        "addFaceArea"
+                    ).style.display =
+                        "none";
+
+
+                    document.getElementById(
+                        "registrationArea"
+                    ).style.display =
+                        "block";
+
+
+                    document.getElementById(
+                        "selectedUser"
+                    ).textContent =
+                        "Selected User: " +
+                        selectedUserName +
+                        " (ID: " +
+                        selectedUserId +
+                        ")";
+
+
+                    showResult(
+                        "👤 User created. Click START FACE CAPTURE to begin.",
+                        "verified"
+                    );
+
+
+                    createButton.disabled =
+                        false;
+
+                    createButton.textContent =
+                        "Create User →";
+
+                },
+                500
+            );
+
+        }
+        else{
+
+            messageBox.style.color =
+                "#e74c3c";
+
+            messageBox.style.background =
+                "#fdecea";
+
+            messageBox.textContent =
+                "❌ " +
+                (
+                    data.message ||
+                    "Could not create user."
+                );
+
+
+            createButton.disabled =
+                false;
+
+            createButton.textContent =
+                "Create User →";
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "CREATE USER ERROR:",
+            error
+        );
+
+
+        messageBox.style.color =
+            "#e74c3c";
+
+        messageBox.style.background =
+            "#fdecea";
+
+        messageBox.textContent =
+            "❌ Could not connect to Flask server.";
+
+
+        createButton.disabled =
+            false;
+
+        createButton.textContent =
+            "Create User →";
+
+    }
+
+}
+
+
+/* =====================================================
+   START FACE REGISTRATION
+===================================================== */
+
+async function startFaceRegistration(){
+
+    if(
+        selectedUserId === null
+    ){
+
+        alert(
+            "Please create a user first."
+        );
+
+        return;
+
+    }
+
+
+    const cameraArea =
+        document.getElementById(
+            "cameraArea"
+        );
+
+    const video =
+        document.getElementById(
+            "webcam"
+        );
+
+    const status =
+        document.getElementById(
+            "registrationCameraStatus"
+        );
+
+    const startButton =
+        document.getElementById(
+            "captureStartButton"
+        );
+
+
+    try{
+
+        startButton.disabled =
+            true;
+
+        startButton.textContent =
+            "⏳ Starting Camera...";
+
+
+        capturedRegistrationImages =
+            [];
+
+
+        document.getElementById(
+            "progressText"
+        ).textContent =
+            "Images captured: 0 / 30";
+
+
+        document.getElementById(
+            "progressBar"
+        ).style.width =
+            "0%";
+
+
+        cameraArea.style.display =
+            "block";
+
+
+        status.textContent =
+            "🟡 Starting MacBook camera...";
+
+        status.className =
+            "camera-status warning";
+
+
+        if(
+            !navigator.mediaDevices ||
+            !navigator.mediaDevices.getUserMedia
+        ){
+
+            throw new Error(
+                "Browser does not support camera access."
+            );
 
         }
 
 
-        // Logout
+        if(
+            registrationCameraStream
+        ){
 
-        function logout() {
-
-            localStorage.removeItem("user");
-
-            window.location.href =
-                "login.html";
+            stopRegistrationCamera();
 
         }
 
 
-        // Temporary capture function
+        registrationCameraStream =
+            await navigator.mediaDevices
+                .getUserMedia({
 
-        function captureImage() {
+                    video:{
+                        facingMode:"user",
 
-            const result =
-                document.getElementById("result");
+                        width:{
+                            ideal:1280
+                        },
+
+                        height:{
+                            ideal:720
+                        }
+                    },
+
+                    audio:false
+
+                });
+
+
+        video.srcObject =
+            registrationCameraStream;
+
+
+        await video.play();
+
+
+        status.textContent =
+            "🟢 Camera active. Hold your face steady.";
+
+        status.className =
+            "camera-status verified";
+
+
+        showResult(
+            "📷 Camera ready. Capturing 30 face images...",
+            "verified"
+        );
+
+
+        await captureRegistrationImages();
+
+    }
+    catch(error){
+
+        console.error(
+            "REGISTRATION CAMERA ERROR:",
+            error
+        );
+
+
+        status.textContent =
+            "🔴 Could not access camera.";
+
+        status.className =
+            "camera-status failed";
+
+
+        showResult(
+            "❌ " + error.message,
+            "failed"
+        );
+
+
+        startButton.disabled =
+            false;
+
+        startButton.textContent =
+            "📷 START FACE CAPTURE";
+
+    }
+
+}
+
+
+/* =====================================================
+   CAPTURE ONE REGISTRATION IMAGE
+===================================================== */
+
+function captureRegistrationFrame(){
+
+    const video =
+        document.getElementById(
+            "webcam"
+        );
+
+
+    if(
+        !video ||
+        video.readyState <
+        HTMLMediaElement.HAVE_CURRENT_DATA
+    ){
+
+        throw new Error(
+            "Camera image is not ready yet."
+        );
+
+    }
+
+
+    const canvas =
+        document.createElement(
+            "canvas"
+        );
+
+
+    canvas.width =
+        video.videoWidth;
+
+    canvas.height =
+        video.videoHeight;
+
+
+    const context =
+        canvas.getContext(
+            "2d"
+        );
+
+
+    context.drawImage(
+        video,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    return new Promise(
+        function(
+            resolve,
+            reject
+        ){
+
+            canvas.toBlob(
+                function(blob){
+
+                    if(!blob){
+
+                        reject(
+                            new Error(
+                                "Could not capture camera image."
+                            )
+                        );
+
+                        return;
+
+                    }
+
+
+                    resolve(blob);
+
+                },
+                "image/jpeg",
+                0.90
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   WAIT
+===================================================== */
+
+function wait(
+    milliseconds
+){
+
+    return new Promise(
+        function(resolve){
+
+            setTimeout(
+                resolve,
+                milliseconds
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   CAPTURE 30 IMAGES
+===================================================== */
+
+async function captureRegistrationImages(){
+
+    const progressText =
+        document.getElementById(
+            "progressText"
+        );
+
+    const progressBar =
+        document.getElementById(
+            "progressBar"
+        );
+
+    const status =
+        document.getElementById(
+            "registrationCameraStatus"
+        );
+
+
+    for(
+        let i = 1;
+        i <= TOTAL_IMAGES;
+        i++
+    ){
+
+        try{
+
+            await wait(120);
+
+
+            const blob =
+                await captureRegistrationFrame();
+
+
+            capturedRegistrationImages
+                .push(blob);
+
+
+            progressText.textContent =
+                "Images captured: " +
+                i +
+                " / " +
+                TOTAL_IMAGES;
+
+
+            progressBar.style.width =
+                (
+                    (i / TOTAL_IMAGES) *
+                    100
+                ) +
+                "%";
+
+
+            status.textContent =
+                "🟢 Capturing image " +
+                i +
+                " of " +
+                TOTAL_IMAGES +
+                "...";
+
+        }
+        catch(error){
+
+            console.error(
+                "CAPTURE ERROR:",
+                error
+            );
+
+            i--;
+
+            await wait(200);
+
+        }
+
+    }
+
+
+    status.textContent =
+        "🟢 30 images captured. Uploading and training model...";
+
+
+    showResult(
+        "⏳ Uploading face images and training the model...",
+        "warning"
+    );
+
+
+    await uploadRegistrationImages();
+
+}
+
+
+/* =====================================================
+   UPLOAD FACE IMAGES
+===================================================== */
+
+async function uploadRegistrationImages(){
+
+    const status =
+        document.getElementById(
+            "registrationCameraStatus"
+        );
+
+    const startButton =
+        document.getElementById(
+            "captureStartButton"
+        );
+
+
+    try{
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "user_id",
+            selectedUserId
+        );
+
+
+        capturedRegistrationImages.forEach(
+            function(
+                blob,
+                index
+            ){
+
+                formData.append(
+                    "images",
+                    blob,
+                    "face_" +
+                    String(
+                        index + 1
+                    ).padStart(
+                        3,
+                        "0"
+                    ) +
+                    ".jpg"
+                );
+
+            }
+        );
+
+
+        const response =
+            await fetch(
+                "/register-face-images",
+                {
+                    method:"POST",
+
+                    body:formData
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "REGISTER FACE RESPONSE:",
+            data
+        );
+
+
+        if(
+            response.ok &&
+            data.registered === true
+        ){
+
+            status.textContent =
+                "🟢 Face registration completed successfully.";
+
+            status.className =
+                "camera-status verified";
+
+
+            showResult(
+                "✅ Face registered successfully for " +
+                selectedUserName +
+                ". Total images: " +
+                data.saved_images,
+                "verified"
+            );
+
+
+            stopRegistrationCamera();
+
+            await loadRegisteredUsers();
+
+
+            startButton.textContent =
+                "✅ FACE REGISTERED";
+
+
+            startButton.disabled =
+                true;
+
+
+            updateFaceCount();
+
+        }
+        else{
+
+            throw new Error(
+                data.message ||
+                "Face registration failed."
+            );
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "FACE REGISTRATION ERROR:",
+            error
+        );
+
+
+        status.textContent =
+            "🔴 Face registration failed.";
+
+        status.className =
+            "camera-status failed";
+
+
+        showResult(
+            "❌ " + error.message,
+            "failed"
+        );
+
+
+        startButton.disabled =
+            false;
+
+
+        startButton.textContent =
+            "📷 RETRY FACE CAPTURE";
+
+    }
+
+}
+
+
+/* =====================================================
+   ADD FAMILY USER TO LIST
+===================================================== */
+
+function addUserToList(user){
+
+    const list = document.getElementById("registeredFacesList");
+    const row = document.createElement("div");
+    row.className = "registered-face";
+    row.dataset.userId = user.user_id;
+
+    row.innerHTML =
+        '<div class="face-info">' +
+            '<div class="face-avatar">👤</div>' +
+            '<div class="face-details">' +
+                '<span class="face-name"></span>' +
+                '<span class="face-role"></span>' +
+                '<span class="face-id"></span>' +
+            '</div>' +
+        '</div>' +
+        '<div class="face-actions">' +
+            '<span class="face-status"></span>' +
+            '<button class="register-existing-button" style="display:none;">📷 Register Face</button>' +
+            '<button class="delete-button" style="display:none;">🗑️ Delete Face</button>' +
+            '<button class="delete-user-button" style="display:none;">❌ Delete User</button>' +
+        '</div>';
+
+    row.querySelector(".face-name").textContent = user.name;
+
+    const currentUser = getCurrentLoggedInUser();
+    const currentId = currentUser ? Number(currentUser.user_id || currentUser.id) : null;
+    const thisId = Number(user.user_id);
+    const ownerRow = currentId === thisId && isFamilyOwner(currentUser);
+    const hasFace = user.face_registered === true || user.registered === true;
+
+    row.querySelector(".face-role").textContent =
+        ownerRow ? "Family Owner" : "Family Member";
+
+    row.querySelector(".face-id").textContent =
+        "User ID: " + user.user_id;
+
+    const status = row.querySelector(".face-status");
+    status.textContent = hasFace ? "✓ Face Registered" : "⚠️ Face Not Registered";
+    status.className = "face-status " + (hasFace ? "registered" : "missing");
+
+    const registerButton = row.querySelector(".register-existing-button");
+    const deleteFaceButton = row.querySelector(".delete-button");
+    const deleteUserButton = row.querySelector(".delete-user-button");
+
+    if(hasFace){
+        deleteFaceButton.style.display = "inline-block";
+        deleteFaceButton.onclick = function(){
+            requestDelete(user.user_id, user.name);
+        };
+    }else if(isFamilyOwner(currentUser) && !ownerRow){
+        registerButton.style.display = "inline-block";
+        registerButton.onclick = function(){
+            selectedUserId = thisId;
+            selectedUserName = user.name;
+            selectedUserEmail = user.email;
+            stopRegistrationCamera();
+            stopDeleteCamera();
+
+            document.getElementById("addFaceArea").style.display = "none";
+            document.getElementById("registrationArea").style.display = "block";
+            document.getElementById("deleteVerificationArea").style.display = "none";
+            document.getElementById("selectedUser").textContent =
+                "Selected Existing User: " + selectedUserName +
+                " (ID: " + selectedUserId + ")";
+            document.getElementById("captureStartButton").disabled = false;
+            document.getElementById("captureStartButton").textContent = "📷 START FACE CAPTURE";
+            showResult("👤 Existing user selected. Click START FACE CAPTURE to register the face.", "verified");
+        };
+    }
+
+    if(isFamilyOwner(currentUser) && currentId !== null && currentId !== thisId){
+        deleteUserButton.style.display = "inline-block";
+        deleteUserButton.onclick = function(){
+            requestDeleteUser(user.user_id, user.name);
+        };
+    }
+
+    list.appendChild(row);
+}
+
+
+/* =====================================================
+   UPDATE FACE COUNT
+===================================================== */
+
+function updateFaceCount(){
+
+    const list =
+        document.getElementById(
+            "registeredFacesList"
+        );
+
+
+    const count =
+        list.querySelectorAll(
+            ".registered-face"
+        ).length;
+
+
+    document.getElementById(
+        "faceCount"
+    ).textContent =
+        count;
+
+}
+
+
+/* =====================================================
+   REQUEST DELETE
+===================================================== */
+
+async function requestDelete(
+    userId,
+    userName
+){
+
+    deleteUserId =
+        userId;
+
+    deleteUserName =
+        userName;
+
+
+    stopRegistrationCamera();
+
+
+    document.getElementById(
+        "addFaceArea"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "registrationArea"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "deleteVerificationArea"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "deleteSelectedUser"
+    ).textContent =
+        "Selected Face: " +
+        deleteUserName +
+        " (ID: " +
+        deleteUserId +
+        ")";
+
+
+    showResult(
+        "📷 Starting MacBook camera...",
+        "warning"
+    );
+
+
+    await startDeleteCamera();
+
+}
+
+
+/* =====================================================
+   START DELETE CAMERA
+===================================================== */
+
+async function startDeleteCamera(){
+
+    const cameraArea =
+        document.getElementById(
+            "deleteCameraArea"
+        );
+
+    const video =
+        document.getElementById(
+            "deleteWebcam"
+        );
+
+    const cameraStatus =
+        document.getElementById(
+            "cameraStatus"
+        );
+
+    const verifyButton =
+        document.getElementById(
+            "verifyDeleteButton"
+        );
+
+
+    cameraArea.style.display =
+        "block";
+
+
+    verifyButton.disabled =
+        true;
+
+
+    try{
+
+        if(
+            !navigator.mediaDevices ||
+            !navigator.mediaDevices.getUserMedia
+        ){
+
+            throw new Error(
+                "Browser does not support camera access."
+            );
+
+        }
+
+
+        if(deleteCameraStream){
+
+            stopDeleteCamera();
+
+        }
+
+
+        deleteCameraStream =
+            await navigator.mediaDevices
+                .getUserMedia({
+
+                    video:{
+                        facingMode:"user"
+                    },
+
+                    audio:false
+
+                });
+
+
+        video.srcObject =
+            deleteCameraStream;
+
+
+        await video.play();
+
+
+        cameraStatus.textContent =
+            "🟢 MacBook camera is active. Look directly at the camera.";
+
+        cameraStatus.className =
+            "camera-status verified";
+
+
+        showResult(
+            "🟢 Camera ready. Look directly at the camera, then press VERIFY FACE.",
+            "verified"
+        );
+
+
+        verifyButton.disabled =
+            false;
+
+    }
+    catch(error){
+
+        console.error(
+            "CAMERA ERROR:",
+            error
+        );
+
+
+        cameraStatus.textContent =
+            "🔴 Could not access MacBook camera.";
+
+        cameraStatus.className =
+            "camera-status failed";
+
+
+        showResult(
+            "❌ Please allow camera access in your browser.",
+            "failed"
+        );
+
+
+        verifyButton.disabled =
+            true;
+
+    }
+
+}
+
+
+/* =====================================================
+   CAPTURE DELETE IMAGE
+===================================================== */
+
+function captureDeleteFrame(){
+
+    const video =
+        document.getElementById(
+            "deleteWebcam"
+        );
+
+
+    if(
+        !video ||
+        video.readyState <
+        HTMLMediaElement.HAVE_CURRENT_DATA
+    ){
+
+        throw new Error(
+            "Camera image is not ready yet."
+        );
+
+    }
+
+
+    const canvas =
+        document.createElement(
+            "canvas"
+        );
+
+
+    canvas.width =
+        video.videoWidth;
+
+    canvas.height =
+        video.videoHeight;
+
+
+    const context =
+        canvas.getContext(
+            "2d"
+        );
+
+
+    context.drawImage(
+        video,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    return new Promise(
+        function(
+            resolve,
+            reject
+        ){
+
+            canvas.toBlob(
+                function(blob){
+
+                    if(!blob){
+
+                        reject(
+                            new Error(
+                                "Could not capture camera image."
+                            )
+                        );
+
+                        return;
+
+                    }
+
+
+                    resolve(blob);
+
+                },
+                "image/jpeg",
+                0.90
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   DELETE FACE VERIFICATION
+===================================================== */
+
+async function startDeleteVerification(){
+
+    if(
+        deleteUserId === null
+    ){
+
+        alert(
+            "No face selected for verification."
+        );
+
+        return;
+
+    }
+
+
+    const verifyButton =
+        document.getElementById(
+            "verifyDeleteButton"
+        );
+
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+
+    const cameraStatus =
+        document.getElementById(
+            "cameraStatus"
+        );
+
+
+    verifyButton.disabled =
+        true;
+
+
+    verifyButton.textContent =
+        "⏳ VERIFYING...";
+
+
+    result.textContent =
+        "📷 Capturing your face...";
+
+
+    result.className =
+        "result-box warning";
+
+
+    cameraStatus.textContent =
+        "🟡 Capturing camera image...";
+
+
+    cameraStatus.className =
+        "camera-status warning";
+
+
+    try{
+
+        const imageBlob =
+            await captureDeleteFrame();
+
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "user_id",
+            deleteUserId
+        );
+
+
+        formData.append(
+            "image",
+            imageBlob,
+            "face.jpg"
+        );
+
+
+        result.textContent =
+            "🔐 Sending face image to Flask...";
+
+
+        const response =
+            await fetch(
+                "/verify-face-image",
+                {
+                    method:"POST",
+
+                    body:formData
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "FACE VERIFICATION RESPONSE:",
+            data
+        );
+
+
+        if(
+            data.verified === true
+        ){
 
             result.textContent =
-                "📸 Image captured successfully.";
+                "✅ FACE VERIFIED SUCCESSFULLY for " +
+                deleteUserName +
+                ". Deleting...";
+
 
             result.className =
-                "verified";
+                "result-box verified";
+
+
+            cameraStatus.textContent =
+                "🟢 FACE VERIFIED — identity confirmed. Deleting...";
+
+
+            cameraStatus.className =
+                "camera-status verified";
+
+
+            verifyButton.textContent =
+                "⏳ DELETING...";
+
+
+            const deleteFormData =
+                new FormData();
+
+
+            deleteFormData.append(
+                "user_id",
+                deleteUserId
+            );
+
+
+            deleteFormData.append(
+                "image",
+                imageBlob,
+                "face.jpg"
+            );
+
+
+            const deleteResponse =
+                await fetch(
+                    "/delete-face",
+                    {
+                        method:"POST",
+
+                        body:
+                            deleteFormData
+                    }
+                );
+
+
+            const deleteData =
+                await deleteResponse.json();
+
+
+            console.log(
+                "DELETE FACE RESPONSE:",
+                deleteData
+            );
+
+
+            if(
+                deleteData.deleted === true
+            ){
+
+                stopDeleteCamera();
+
+
+                result.textContent =
+                    "✅ FACE DELETED SUCCESSFULLY";
+
+
+                result.className =
+                    "result-box verified";
+
+
+                cameraStatus.textContent =
+                    "🟢 Face data deleted and model retrained successfully.";
+
+
+                cameraStatus.className =
+                    "camera-status verified";
+
+
+                const row =
+                    document.querySelector(
+                        '[data-user-id="' +
+                        deleteUserId +
+                        '"]'
+                    );
+
+
+                if(row){
+
+                    row.remove();
+
+                }
+
+
+                deleteUserId =
+                    null;
+
+                deleteUserName =
+                    null;
+
+
+                document.getElementById(
+                    "deleteVerificationArea"
+                ).style.display =
+                    "none";
+
+
+                updateFaceCount();
+
+            }
+            else{
+
+                throw new Error(
+                    deleteData.message ||
+                    "Face deletion failed."
+                );
+
+            }
 
         }
-
-
-        // Temporary verification function
-
-        function verifyPerson() {
-
-            const result =
-                document.getElementById("result");
+        else{
 
             result.textContent =
-                "🔍 Verification system is ready. Camera integration will be added later.";
+                "❌ " +
+                (
+                    data.message ||
+                    "Face does not match the selected user."
+                );
+
 
             result.className =
-                "verified";
+                "result-box failed";
+
+
+            cameraStatus.textContent =
+                "🔴 FACE NOT VERIFIED — nothing was deleted.";
+
+
+            cameraStatus.className =
+                "camera-status failed";
 
         }
 
-    </script>
+    }
+    catch(error){
+
+        console.error(
+            "DELETE FACE VERIFICATION ERROR:",
+            error
+        );
+
+
+        result.textContent =
+            "❌ Verification failed: " +
+            error.message;
+
+
+        result.className =
+            "result-box failed";
+
+
+        cameraStatus.textContent =
+            "🔴 Could not complete face deletion.";
+
+
+        cameraStatus.className =
+            "camera-status failed";
+
+    }
+
+
+    if(
+        deleteUserId !== null
+    ){
+
+        verifyButton.disabled =
+            false;
+
+
+        verifyButton.textContent =
+            "📷 VERIFY FACE";
+
+    }
+
+}
+
+
+/* =====================================================
+   DELETE USER ACCOUNT
+===================================================== */
+
+async function requestDeleteUser(
+    userId,
+    userName
+){
+
+    const currentUser =
+        getCurrentLoggedInUser();
+
+
+    if(!currentUser){
+
+        window.location.href =
+            "login.html";
+
+        return;
+
+    }
+
+
+    const confirmed =
+        window.confirm(
+            "Delete the user account for " +
+            userName +
+            " (ID: " +
+            userId +
+            ")?\n\n" +
+            "This will permanently delete the user account " +
+            "and their registered face data.\n\n" +
+            "This cannot be undone."
+        );
+
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+
+    /*
+     * The backend requires the family owner's account password
+     * before a family member account can be deleted.
+     */
+
+    const ownerUserId =
+        Number(
+            currentUser.user_id ||
+            currentUser.id
+        );
+
+
+    if(!ownerUserId){
+
+        showResult(
+            "❌ Could not determine the family owner account.",
+            "failed"
+        );
+
+        return;
+
+    }
+
+
+    const accountPassword =
+        window.prompt(
+            "Enter the family owner's account password to confirm deletion:"
+        );
+
+
+    if(accountPassword === null){
+
+        showResult(
+            "🟡 User deletion cancelled.",
+            "warning"
+        );
+
+        return;
+
+    }
+
+
+    if(accountPassword.trim() === ""){
+
+        showResult(
+            "❌ Password is required to delete the user account.",
+            "failed"
+        );
+
+        return;
+
+    }
+
+
+    showResult(
+        "⏳ Verifying password and deleting user account for " +
+        userName +
+        "...",
+        "warning"
+    );
+
+
+    try{
+
+        const response =
+            await fetch(
+                "/delete-user/" +
+                encodeURIComponent(userId),
+                {
+                    method:"DELETE",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            owner_user_id:
+                                ownerUserId,
+
+                            account_password:
+                                accountPassword
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "DELETE USER RESPONSE:",
+            data
+        );
+
+
+        if(
+            response.ok &&
+            data.deleted === true
+        ){
+
+            const row =
+                document.querySelector(
+                    '[data-user-id="' +
+                    userId +
+                    '"]'
+                );
+
+
+            if(row){
+
+                row.remove();
+
+            }
+
+
+            if(
+                Number(deleteUserId) ===
+                Number(userId)
+            ){
+
+                cancelDelete();
+
+            }
+
+
+            updateFaceCount();
+
+
+            showResult(
+                "✅ USER ACCOUNT DELETED SUCCESSFULLY. " +
+                userName +
+                " (ID: " +
+                userId +
+                ") was removed.",
+                "verified"
+            );
+
+
+            await loadRegisteredUsers();
+
+        }
+        else{
+
+            showResult(
+                "❌ " +
+                (
+                    data.message ||
+                    "User account could not be deleted."
+                ),
+                "failed"
+            );
+
+        }
+
+    }
+    catch(error){
+
+        console.error(
+            "DELETE USER ERROR:",
+            error
+        );
+
+
+        showResult(
+            "❌ Could not connect to Flask server while deleting the user.",
+            "failed"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CANCEL DELETE
+===================================================== */
+
+function cancelDelete(){
+
+    stopDeleteCamera();
+
+
+    deleteUserId =
+        null;
+
+    deleteUserName =
+        null;
+
+
+    document.getElementById(
+        "deleteVerificationArea"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "deleteCameraArea"
+    ).style.display =
+        "none";
+
+
+    showResult(
+        "🟢 Face recognition system is active. Known faces can automatically unlock the door.",
+        "verified"
+    );
+
+}
+
+
+/* =====================================================
+   CANCEL REGISTRATION
+===================================================== */
+
+function cancelRegistration(){
+
+    stopRegistrationCamera();
+
+
+    selectedUserId =
+        null;
+
+    selectedUserName =
+        null;
+
+    selectedUserEmail =
+        null;
+
+    selectedUserPassword =
+        null;
+
+
+    capturedRegistrationImages =
+        [];
+
+
+    document.getElementById(
+        "addFaceArea"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "registrationArea"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "cameraArea"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "newUserName"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "newUserEmail"
+    ).value =
+        "";
+
+    document.getElementById(
+        "newUserPassword"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "progressText"
+    ).textContent =
+        "Images captured: 0 / 30";
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        "0%";
+
+
+    document.getElementById(
+        "registrationCameraStatus"
+    ).textContent =
+        "🟡 Camera not started.";
+
+
+    document.getElementById(
+        "registrationCameraStatus"
+    ).className =
+        "camera-status warning";
+
+
+    const startButton =
+        document.getElementById(
+            "captureStartButton"
+        );
+
+
+    startButton.disabled =
+        false;
+
+
+    startButton.textContent =
+        "📷 START FACE CAPTURE";
+
+
+    showResult(
+        "🟢 Face recognition system is active. Known faces can automatically unlock the door.",
+        "verified"
+    );
+
+}
+
+
+/* =====================================================
+   STOP DELETE CAMERA
+===================================================== */
+
+function stopDeleteCamera(){
+
+    if(deleteCameraStream){
+
+        deleteCameraStream
+            .getTracks()
+            .forEach(
+                function(track){
+
+                    track.stop();
+
+                }
+            );
+
+
+        deleteCameraStream =
+            null;
+
+    }
+
+
+    const video =
+        document.getElementById(
+            "deleteWebcam"
+        );
+
+
+    if(video){
+
+        video.srcObject =
+            null;
+
+    }
+
+}
+
+
+/* =====================================================
+   STOP REGISTRATION CAMERA
+===================================================== */
+
+function stopRegistrationCamera(){
+
+    if(
+        registrationCameraStream
+    ){
+
+        registrationCameraStream
+            .getTracks()
+            .forEach(
+                function(track){
+
+                    track.stop();
+
+                }
+            );
+
+
+        registrationCameraStream =
+            null;
+
+    }
+
+
+    const video =
+        document.getElementById(
+            "webcam"
+        );
+
+
+    if(video){
+
+        video.srcObject =
+            null;
+
+    }
+
+}
+
+
+/* =====================================================
+   LOAD FAMILY USERS FROM FLASK
+===================================================== */
+
+async function loadRegisteredUsers(){
+
+    const list = document.getElementById("registeredFacesList");
+    const currentUser = getCurrentLoggedInUser();
+
+    list.innerHTML = '<div class="users-loading">⏳ Loading family members...</div>';
+
+    if(!currentUser){
+        list.innerHTML = '<div class="users-error">❌ Please log in again.</div>';
+        return;
+    }
+
+    const currentId = Number(currentUser.user_id || currentUser.id);
+
+    try{
+        const response = await fetch("/users", {method:"GET", cache:"no-store"});
+        const data = await response.json();
+
+        if(!response.ok || !Array.isArray(data.users)){
+            throw new Error(data.message || "Could not load users.");
+        }
+
+        const familyUsers = data.users.filter(function(user){
+            const uid = Number(user.user_id);
+            const ownerId =
+                user.family_owner_id === null ||
+                user.family_owner_id === undefined ||
+                user.family_owner_id === ""
+                    ? null
+                    : Number(user.family_owner_id);
+
+            return uid === currentId || ownerId === currentId;
+        });
+
+        list.innerHTML = "";
+
+        familyUsers.forEach(function(user){
+            addUserToList(user);
+        });
+
+        const registeredCount = familyUsers.filter(function(user){
+            return user.face_registered === true;
+        }).length;
+
+        document.getElementById("faceCount").textContent = registeredCount;
+
+        if(familyUsers.length === 0){
+            list.innerHTML = '<div class="users-loading">No family members found.</div>';
+        }
+
+    }catch(error){
+        console.error("LOAD USERS ERROR:", error);
+        list.innerHTML = '<div class="users-error">❌ Could not load family members.</div>';
+        document.getElementById("faceCount").textContent = "0";
+    }
+}
+
+
+/* =====================================================
+   INITIALIZE PAGE
+===================================================== */
+
+loadRegisteredUsers();
+
+</script>
 
 </body>
 

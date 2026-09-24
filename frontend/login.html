@@ -1,175 +1,448 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Home Safety - Login</title>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{
+    box-sizing:border-box;
+}
 
-    <title>Smart Home Safety - Login</title>
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:Arial,sans-serif;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(42,92,145,.22), transparent 30%),
+        radial-gradient(circle at 85% 80%, rgba(23,54,93,.18), transparent 32%),
+        linear-gradient(135deg,#eaf1f8,#f7f9fc);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:25px;
+    color:#333;
+}
 
-    <style>
+.page-shell{
+    width:100%;
+    max-width:930px;
+    min-height:560px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    background:#fff;
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 20px 55px rgba(23,54,93,.18);
+}
 
-        * {
-            box-sizing: border-box;
-        }
+.brand-panel{
+    background:linear-gradient(145deg,#17365d,#0f2744);
+    color:white;
+    padding:55px 45px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #eef3f8;
+.brand-panel::before,
+.brand-panel::after{
+    content:"";
+    position:absolute;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:50%;
+}
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
+.brand-panel::before{
+    width:300px;
+    height:300px;
+    right:-150px;
+    top:-80px;
+}
 
-            min-height: 100vh;
-        }
+.brand-panel::after{
+    width:240px;
+    height:240px;
+    left:-130px;
+    bottom:-80px;
+}
 
-        .login-box {
-            width: 380px;
-            background: white;
+.brand-icon{
+    width:72px;
+    height:72px;
+    border-radius:20px;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.16);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:38px;
+    margin-bottom:25px;
+    position:relative;
+    z-index:1;
+}
 
-            padding: 35px;
+.brand-panel h2{
+    margin:0;
+    font-size:32px;
+    line-height:1.15;
+    position:relative;
+    z-index:1;
+}
 
-            border-radius: 15px;
+.brand-panel p{
+    color:rgba(255,255,255,.78);
+    line-height:1.65;
+    margin:15px 0 30px;
+    max-width:360px;
+    position:relative;
+    z-index:1;
+}
 
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-        }
+.feature-list{
+    display:grid;
+    gap:13px;
+    position:relative;
+    z-index:1;
+}
 
-        h1 {
-            text-align: center;
-            color: #17365d;
+.feature{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:rgba(255,255,255,.9);
+    font-size:14px;
+}
 
-            margin-bottom: 8px;
-        }
+.feature-icon{
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    background:rgba(255,255,255,.12);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+}
 
-        .subtitle {
-            text-align: center;
-            color: #666;
+.login-panel{
+    padding:48px 48px 40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
 
-            margin-bottom: 25px;
-        }
+.login-heading{
+    margin-bottom:25px;
+}
 
-        label {
-            display: block;
+.login-heading h1{
+    margin:0;
+    color:#17365d;
+    font-size:28px;
+}
 
-            margin-top: 15px;
-            margin-bottom: 6px;
+.login-heading p{
+    margin:8px 0 0;
+    color:#777;
+    font-size:14px;
+}
 
-            font-weight: bold;
-        }
+.field{
+    margin-bottom:17px;
+}
 
-        input {
-            width: 100%;
+label{
+    display:block;
+    margin-bottom:7px;
+    color:#333;
+    font-size:13px;
+    font-weight:bold;
+}
 
-            padding: 12px;
+.input-wrap{
+    position:relative;
+}
 
-            border: 1px solid #ccc;
-            border-radius: 8px;
+.input-wrap input{
+    width:100%;
+    padding:13px 14px;
+    border:1px solid #d5dce5;
+    border-radius:10px;
+    background:#fbfcfe;
+    color:#333;
+    font-size:15px;
+    outline:none;
+    transition:.2s;
+}
 
-            font-size: 15px;
-        }
+.input-wrap input:focus{
+    border-color:#17365d;
+    background:#fff;
+    box-shadow:0 0 0 3px rgba(23,54,93,.08);
+}
 
-        button {
-            width: 100%;
+.password-toggle{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    border:none;
+    background:transparent;
+    color:#687789;
+    cursor:pointer;
+    font-size:17px;
+    padding:5px;
+}
 
-            margin-top: 25px;
+.password-toggle:hover{
+    color:#17365d;
+}
 
-            padding: 13px;
+.form-options{
+    display:flex;
+    justify-content:flex-end;
+    margin-top:-4px;
+    margin-bottom:20px;
+}
 
-            border: none;
-            border-radius: 8px;
+.forgot-link{
+    color:#17365d;
+    font-size:13px;
+    font-weight:bold;
+    text-decoration:none;
+}
 
-            background: #17365d;
-            color: white;
+.forgot-link:hover{
+    text-decoration:underline;
+}
 
-            font-size: 16px;
+.login-button{
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:10px;
+    background:#17365d;
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 6px 15px rgba(23,54,93,.18);
+    transition:.2s;
+}
 
-            cursor: pointer;
-        }
+.login-button:hover{
+    background:#0f2744;
+    transform:translateY(-1px);
+}
 
-        button:hover {
-            background: #0f2744;
-        }
+.login-button:disabled{
+    opacity:.65;
+    cursor:not-allowed;
+    transform:none;
+}
 
-        #message {
-            text-align: center;
+#message{
+    min-height:20px;
+    text-align:center;
+    margin-top:14px;
+    font-size:13px;
+    font-weight:bold;
+}
 
-            margin-top: 15px;
+.register-link{
+    text-align:center;
+    margin-top:25px;
+    padding-top:20px;
+    border-top:1px solid #edf0f4;
+    color:#777;
+    font-size:13px;
+}
 
-            font-weight: bold;
-        }
+.register-link a{
+    color:#17365d;
+    font-weight:bold;
+    text-decoration:none;
+}
 
-        .register-link {
-            text-align: center;
+.register-link a:hover{
+    text-decoration:underline;
+}
 
-            margin-top: 20px;
+.security-note{
+    text-align:center;
+    color:#9a9a9a;
+    font-size:11px;
+    margin-top:18px;
+}
 
-            color: #666;
-        }
+@media(max-width:760px){
+    .page-shell{
+        grid-template-columns:1fr;
+        max-width:440px;
+    }
 
-        .register-link a {
-            color: #17365d;
+    .brand-panel{
+        padding:30px;
+        min-height:250px;
+    }
 
-            font-weight: bold;
+    .brand-panel h2{
+        font-size:26px;
+    }
 
-            text-decoration: none;
-        }
+    .feature-list{
+        display:none;
+    }
 
-    </style>
+    .login-panel{
+        padding:35px 30px;
+    }
+}
 
+@media(max-width:450px){
+    body{
+        padding:12px;
+    }
+
+    .brand-panel{
+        padding:25px;
+    }
+
+    .login-panel{
+        padding:30px 22px;
+    }
+}
+</style>
 </head>
-
 
 <body>
 
-    <div class="login-box">
+<div class="page-shell">
 
-        <h1>
-            Smart Home Safety
-        </h1>
+    <section class="brand-panel">
 
-        <p class="subtitle">
-            Welcome Back
+        <div class="brand-icon">🏠</div>
+
+        <h2>
+            Smart Home<br>
+            Safety
+        </h2>
+
+        <p>
+            Secure access to your smart home monitoring and safety system.
         </p>
 
+        <div class="feature-list">
+
+            <div class="feature">
+                <span class="feature-icon">🛡</span>
+                <span>Home safety monitoring</span>
+            </div>
+
+            <div class="feature">
+                <span class="feature-icon">📡</span>
+                <span>Real-time sensor status</span>
+            </div>
+
+            <div class="feature">
+                <span class="feature-icon">🔐</span>
+                <span>Protected door access</span>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="login-panel">
+
+        <div class="login-heading">
+
+            <h1>Welcome Back</h1>
+
+            <p>
+                Sign in to continue to your dashboard.
+            </p>
+
+        </div>
 
         <form id="loginForm">
 
-            <label>
-                Email
-            </label>
+            <div class="field">
 
-            <input
-                type="email"
-                id="email"
-                placeholder="Enter your email"
-                required
+                <label for="email">
+                    Email
+                </label>
+
+                <div class="input-wrap">
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="field">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <div class="input-wrap">
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="passwordToggle"
+                        aria-label="Show password"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="form-options">
+
+                <!-- CONNECTED TO FORGOT PASSWORD PAGE -->
+                <a
+                    href="forgot-password.html"
+                    class="forgot-link"
+                >
+                    Forgot Password?
+                </a>
+
+            </div>
+
+            <button
+                type="submit"
+                class="login-button"
+                id="loginButton"
             >
-
-
-            <label>
-                Password
-            </label>
-
-            <input
-                type="password"
-                id="password"
-                placeholder="Enter your password"
-                required
-            >
-
-
-            <button type="submit">
                 LOGIN
             </button>
 
         </form>
 
-
         <div id="message"></div>
-
 
         <div class="register-link">
 
@@ -181,96 +454,141 @@
 
         </div>
 
-    </div>
+        <div class="security-note">
+            🔒 Smart Home Safety • Secure Login
+        </div>
 
+    </section>
 
-    <script>
+</div>
 
-        document
-            .getElementById("loginForm")
-            .addEventListener("submit", async function(event) {
+<script>
 
-                event.preventDefault();
+document
+    .getElementById("loginForm")
+    .addEventListener("submit", async function(event){
 
+        event.preventDefault();
 
-                const email =
-                    document.getElementById("email").value;
+        const email =
+            document.getElementById("email").value.trim();
 
-                const password =
-                    document.getElementById("password").value;
+        const password =
+            document.getElementById("password").value;
 
-                const message =
-                    document.getElementById("message");
+        const message =
+            document.getElementById("message");
 
+        const loginButton =
+            document.getElementById("loginButton");
 
-                try {
+        message.textContent = "";
 
-                    const response = await fetch(
-                        "http://127.0.0.1:5000/login",
-                        {
-                            method: "POST",
+        loginButton.disabled = true;
+        loginButton.textContent = "SIGNING IN...";
 
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
+        try{
 
-                            body: JSON.stringify({
-                                email: email,
-                                password: password
-                            })
-                        }
-                    );
+            const response = await fetch(
+                "http://127.0.0.1:5001/login",
+                {
+                    method:"POST",
 
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
 
-                    const result =
-                        await response.json();
-
-
-                    message.textContent =
-                        result.message;
-
-
-                    if (response.ok) {
-
-                        message.style.color = "green";
-
-
-                        // Save logged-in user
-                        localStorage.setItem(
-                            "user",
-                            JSON.stringify(result.user)
-                        );
-
-
-                        // Open dashboard
-                        setTimeout(function() {
-
-                            window.location.href =
-                                "dashboard.html";
-
-                        }, 500);
-
-
-                    } else {
-
-                        message.style.color = "red";
-
-                    }
-
-
-                } catch (error) {
-
-                    message.textContent =
-                        "Unable to connect to the server.";
-
-                    message.style.color = "red";
-
+                    body:JSON.stringify({
+                        email:email,
+                        password:password
+                    })
                 }
+            );
 
-            });
+            const result =
+                await response.json();
 
-    </script>
+            message.textContent =
+                result.message || "Login failed.";
+
+            if(response.ok){
+
+                message.style.color = "#20a957";
+
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(result.user)
+                );
+
+                setTimeout(function(){
+
+                    window.location.href =
+                        "dashboard.html";
+
+                },500);
+
+            }else{
+
+                message.style.color = "#e74c3c";
+
+                loginButton.disabled = false;
+                loginButton.textContent = "LOGIN";
+            }
+
+        }catch(error){
+
+            console.error(
+                "Login error:",
+                error
+            );
+
+            message.textContent =
+                "Unable to connect to the server.";
+
+            message.style.color =
+                "#e74c3c";
+
+            loginButton.disabled = false;
+            loginButton.textContent = "LOGIN";
+        }
+
+    });
+
+
+document
+    .getElementById("passwordToggle")
+    .addEventListener("click",function(){
+
+        const password =
+            document.getElementById("password");
+
+        if(password.type === "password"){
+
+            password.type = "text";
+
+            this.textContent = "🙈";
+
+            this.setAttribute(
+                "aria-label",
+                "Hide password"
+            );
+
+        }else{
+
+            password.type = "password";
+
+            this.textContent = "👁";
+
+            this.setAttribute(
+                "aria-label",
+                "Show password"
+            );
+
+        }
+
+    });
+
+</script>
 
 </body>
-
 </html>
