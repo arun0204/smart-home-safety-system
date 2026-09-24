@@ -541,7 +541,15 @@
         }
 
 
-        .face-status.registered {\n            color: #18864b;\n            background: #eaf8f0;\n        }\n\n        .face-status.missing {\n            color: #8a5a00;\n            background: #fef5e7;\n        }\n\n        .delete-button {
+        .face-status.registered {
+            color: #18864b;
+            background: #eaf8f0;
+        }
+
+        .face-status.missing {
+            color: #8a5a00;
+            background: #fef5e7;
+        }\n\n        .delete-button {
             border: none;
 
             border-radius: 8px;
@@ -2143,11 +2151,6 @@ function addNewFace(){
 
     document.getElementById(
         "deleteVerificationArea"
-    ).style.display =
-        "none";
-
-    document.getElementById(
-        "existingFaceArea"
     ).style.display =
         "none";
 
