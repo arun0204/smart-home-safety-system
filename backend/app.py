@@ -6,6 +6,7 @@ from database import get_db_connection
 import urllib.request
 import json
 import os
+import time
 import shutil
 import cv2
 import numpy as np
@@ -183,11 +184,783 @@ FRONTEND_DIR = os.path.join(
 
 
 # =========================================================
-# ESP32
+# ESP32 CLOUD COMMUNICATION
+# =========================================================
+#
+# The ESP32 is on the home/college Wi-Fi network and cannot be
+# reached directly by the cloud server because it is normally
+# behind NAT/private Wi-Fi.
+#
+# Therefore:
+#   1. Flask stores LOCK/UNLOCK commands in MySQL.
+#   2. ESP32 polls /esp32/commands over HTTPS.
+#   3. ESP32 executes the command locally.
+#   4. ESP32 reports the result to /esp32/command-result.
+#   5. ESP32 periodically sends sensor/status data to /esp32/status.
+#
+# The browser never needs the ESP32's private IP address.
 # =========================================================
 
-ESP32_IP = "192.168.1.4"
-ESP32_URL = f"http://{ESP32_IP}"
+ESP32_TOKEN = os.getenv("ESP32_TOKEN")
+ESP32_CLOUD_MODE = True
+
+ESP32_STATUS_ID = 1
+ESP32_ONLINE_SECONDS = 20
+ESP32_COMMAND_TIMEOUT_SECONDS = 10
+
+
+def ensure_esp32_tables():
+    """Create the cloud command queue and latest ESP32 status tables."""
+    connection = None
+    cursor = None
+
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS esp32_commands (
+                command_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                command VARCHAR(20) NOT NULL,
+                status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
+                response TEXT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                executed_at DATETIME NULL,
+                INDEX idx_esp32_commands_status_created
+                    (status, created_at)
+            )
+            """
+        )
+
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS esp32_status (
+                status_id TINYINT PRIMARY KEY,
+                lock_status VARCHAR(20) DEFAULT 'UNKNOWN',
+                door_status VARCHAR(20) DEFAULT 'UNKNOWN',
+                temperature DOUBLE NULL,
+                humidity DOUBLE NULL,
+                gas DOUBLE NULL,
+                motion VARCHAR(20) DEFAULT 'UNKNOWN',
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    ON UPDATE CURRENT_TIMESTAMP
+            )
+            """
+        )
+
+        cursor.execute(
+            """
+            INSERT IGNORE INTO esp32_status
+            (
+                status_id,
+                lock_status,
+                door_status,
+                motion
+            )
+            VALUES
+            (%s, 'UNKNOWN', 'UNKNOWN', 'UNKNOWN')
+            """,
+            (ESP32_STATUS_ID,)
+        )
+
+        connection.commit()
+
+        print("ESP32 CLOUD TABLES READY")
+        return True
+
+    except Exception as e:
+        print("ESP32 CLOUD TABLE ERROR:", e)
+        return False
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+
+ensure_esp32_tables()
+
+
+def esp32_token_valid():
+    """Validate the secret token used only by the physical ESP32."""
+    if not ESP32_TOKEN:
+        print("ESP32 TOKEN ERROR: ESP32_TOKEN is not configured.")
+        return False
+
+    supplied_token = request.headers.get("X-ESP32-Token")
+
+    if not supplied_token:
+        authorization = request.headers.get("Authorization", "")
+        if authorization.startswith("Bearer "):
+            supplied_token = authorization[7:].strip()
+
+    return secrets.compare_digest(
+        str(supplied_token or ""),
+        str(ESP32_TOKEN)
+    )
+
+
+def require_esp32_token():
+    """Return an error response when a request is not from the ESP32."""
+    if not esp32_token_valid():
+        return jsonify({
+            "success": False,
+            "message": "ESP32 authentication failed"
+        }), 401
+
+    return None
+
+
+def get_cached_esp32_status():
+    """Read the latest status reported by the physical ESP32."""
+    connection = None
+    cursor = None
+
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+
+        cursor.execute(
+            """
+            SELECT
+                status_id,
+                lock_status,
+                door_status,
+                temperature,
+                humidity,
+                gas,
+                motion,
+                updated_at
+            FROM esp32_status
+            WHERE status_id = %s
+            LIMIT 1
+            """,
+            (ESP32_STATUS_ID,)
+        )
+
+        row = cursor.fetchone()
+
+        if not row:
+            return {
+                "online": False,
+                "lock_status": "UNKNOWN",
+                "door_status": "UNKNOWN",
+                "temperature": None,
+                "humidity": None,
+                "gas": None,
+                "motion": "UNKNOWN",
+                "updated_at": None
+            }
+
+        updated_at = row.get("updated_at")
+
+        online = False
+
+        if updated_at:
+            try:
+                age_seconds = (
+                    datetime.now() - updated_at
+                ).total_seconds()
+
+                online = (
+                    age_seconds <= ESP32_ONLINE_SECONDS
+                )
+            except Exception:
+                online = False
+
+        return {
+            "online": online,
+            "lock_status": row.get("lock_status") or "UNKNOWN",
+            "door_status": row.get("door_status") or "UNKNOWN",
+            "temperature": row.get("temperature"),
+            "humidity": row.get("humidity"),
+            "gas": row.get("gas"),
+            "motion": row.get("motion") or "UNKNOWN",
+            "updated_at": (
+                updated_at.isoformat()
+                if updated_at
+                else None
+            )
+        }
+
+    except Exception as e:
+        print("GET ESP32 STATUS ERROR:", e)
+
+        return {
+            "online": False,
+            "lock_status": "UNKNOWN",
+            "door_status": "UNKNOWN",
+            "temperature": None,
+            "humidity": None,
+            "gas": None,
+            "motion": "UNKNOWN",
+            "updated_at": None,
+            "error": str(e)
+        }
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+
+def queue_esp32_command(command):
+    """Put a LOCK/UNLOCK command into the cloud MySQL queue."""
+    connection = None
+    cursor = None
+
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            INSERT INTO esp32_commands
+            (
+                command,
+                status
+            )
+            VALUES
+            (%s, 'PENDING')
+            """,
+            (command,)
+        )
+
+        connection.commit()
+
+        command_id = cursor.lastrowid
+
+        return command_id
+
+    except Exception as e:
+        print("QUEUE ESP32 COMMAND ERROR:", e)
+        return None
+
+    finally:
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+
+def wait_for_esp32_command(command_id, timeout_seconds=None):
+    """
+    Wait briefly for the ESP32 to execute a queued command.
+
+    This keeps the existing browser behaviour synchronous while the
+    actual ESP32 communication remains cloud-based.
+    """
+    if timeout_seconds is None:
+        timeout_seconds = ESP32_COMMAND_TIMEOUT_SECONDS
+
+    deadline = time.time() + timeout_seconds
+
+    while time.time() < deadline:
+
+        connection = None
+        cursor = None
+
+        try:
+            connection = get_db_connection()
+            cursor = connection.cursor(dictionary=True)
+
+            cursor.execute(
+                """
+                SELECT
+                    command_id,
+                    command,
+                    status,
+                    response,
+                    created_at,
+                    executed_at
+                FROM esp32_commands
+                WHERE command_id = %s
+                LIMIT 1
+                """,
+                (command_id,)
+            )
+
+            row = cursor.fetchone()
+
+            if row and row["status"] in (
+                "SUCCESS",
+                "FAILED"
+            ):
+                return row
+
+        except Exception as e:
+            print(
+                "WAIT FOR ESP32 COMMAND ERROR:",
+                e
+            )
+
+        finally:
+            if cursor:
+                cursor.close()
+            if connection:
+                connection.close()
+
+        time.sleep(0.5)
+
+    return None
+
+
+def send_esp32_command(endpoint):
+    """
+    Cloud replacement for the old private-IP ESP32 request.
+
+    /status reads the latest cached status.
+    /lock and /unlock create a cloud command and wait for the ESP32
+    to report the result.
+    """
+    if endpoint == "/status":
+        status = get_cached_esp32_status()
+
+        if not status.get("updated_at"):
+            return None
+
+        return json.dumps({
+            "lock_status": status.get(
+                "lock_status",
+                "UNKNOWN"
+            ),
+            "door_status": status.get(
+                "door_status",
+                "UNKNOWN"
+            ),
+            "temperature": status.get(
+                "temperature"
+            ),
+            "humidity": status.get(
+                "humidity"
+            ),
+            "gas": status.get(
+                "gas"
+            ),
+            "motion": status.get(
+                "motion",
+                "UNKNOWN"
+            ),
+            "updated_at": status.get(
+                "updated_at"
+            )
+        })
+
+    command_map = {
+        "/lock": "LOCK",
+        "/unlock": "UNLOCK"
+    }
+
+    command = command_map.get(endpoint)
+
+    if command is None:
+        print(
+            "UNKNOWN ESP32 CLOUD ENDPOINT:",
+            endpoint
+        )
+        return None
+
+    command_id = queue_esp32_command(command)
+
+    if command_id is None:
+        return None
+
+    print("ESP32 CLOUD COMMAND QUEUED")
+    print("Command ID:", command_id)
+    print("Command:", command)
+
+    result = wait_for_esp32_command(
+        command_id
+    )
+
+    if not result:
+        print(
+            "ESP32 CLOUD COMMAND TIMEOUT:",
+            command_id
+        )
+        return None
+
+    response = (
+        result.get("response")
+        or ""
+    )
+
+    if result.get("status") == "SUCCESS":
+        return response or (
+            "LOCKED"
+            if command == "LOCK"
+            else "UNLOCKED"
+        )
+
+    print(
+        "ESP32 CLOUD COMMAND FAILED:",
+        result
+    )
+
+    return None
+
+
+# =========================================================
+# ESP32 DEVICE POLLING ENDPOINT
+# =========================================================
+
+@app.route(
+    "/esp32/commands",
+    methods=["GET"]
+)
+def esp32_commands():
+
+    auth_error = require_esp32_token()
+
+    if auth_error:
+        return auth_error
+
+    connection = None
+    cursor = None
+
+    try:
+
+        connection = get_db_connection()
+
+        cursor = connection.cursor(
+            dictionary=True
+        )
+
+        cursor.execute(
+            """
+            SELECT
+                command_id,
+                command,
+                created_at
+            FROM esp32_commands
+            WHERE status = 'PENDING'
+            ORDER BY created_at ASC
+            LIMIT 1
+            """
+        )
+
+        command = cursor.fetchone()
+
+        if not command:
+            return jsonify({
+                "success": True,
+                "command": None
+            }), 200
+
+        return jsonify({
+            "success": True,
+            "command": {
+                "command_id": command["command_id"],
+                "command": command["command"],
+                "created_at": (
+                    command["created_at"].isoformat()
+                    if command["created_at"]
+                    else None
+                )
+            }
+        }), 200
+
+    except Exception as e:
+
+        print(
+            "ESP32 COMMAND POLL ERROR:",
+            e
+        )
+
+        return jsonify({
+            "success": False,
+            "message": "Failed to get ESP32 commands",
+            "error": str(e)
+        }), 500
+
+    finally:
+
+        if cursor:
+            cursor.close()
+
+        if connection:
+            connection.close()
+
+
+# =========================================================
+# ESP32 COMMAND RESULT ENDPOINT
+# =========================================================
+
+@app.route(
+    "/esp32/command-result",
+    methods=["POST"]
+)
+def esp32_command_result():
+
+    auth_error = require_esp32_token()
+
+    if auth_error:
+        return auth_error
+
+    connection = None
+    cursor = None
+
+    try:
+
+        data = request.get_json() or {}
+
+        command_id = data.get("command_id")
+        command_status = str(
+            data.get("status") or ""
+        ).upper()
+        response_text = str(
+            data.get("response") or ""
+        )
+
+        try:
+            command_id = int(command_id)
+        except (ValueError, TypeError):
+            return jsonify({
+                "success": False,
+                "message": "Valid command_id is required"
+            }), 400
+
+        if command_status not in (
+            "SUCCESS",
+            "FAILED"
+        ):
+            return jsonify({
+                "success": False,
+                "message": (
+                    "status must be SUCCESS or FAILED"
+                )
+            }), 400
+
+        connection = get_db_connection()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            UPDATE esp32_commands
+            SET
+                status = %s,
+                response = %s,
+                executed_at = NOW()
+            WHERE command_id = %s
+              AND status = 'PENDING'
+            """,
+            (
+                command_status,
+                response_text,
+                command_id
+            )
+        )
+
+        connection.commit()
+
+        if cursor.rowcount == 0:
+            return jsonify({
+                "success": False,
+                "message": "Command not found or already completed"
+            }), 404
+
+        print("ESP32 COMMAND RESULT")
+        print("Command ID:", command_id)
+        print("Status:", command_status)
+        print("Response:", response_text)
+
+        return jsonify({
+            "success": True,
+            "message": "Command result saved"
+        }), 200
+
+    except Exception as e:
+
+        if connection:
+            connection.rollback()
+
+        print(
+            "ESP32 COMMAND RESULT ERROR:",
+            e
+        )
+
+        return jsonify({
+            "success": False,
+            "message": "Failed to save command result",
+            "error": str(e)
+        }), 500
+
+    finally:
+
+        if cursor:
+            cursor.close()
+
+        if connection:
+            connection.close()
+
+
+# =========================================================
+# ESP32 STATUS UPDATE ENDPOINT
+# =========================================================
+
+@app.route(
+    "/esp32/status",
+    methods=["POST"]
+)
+def esp32_status_update():
+
+    auth_error = require_esp32_token()
+
+    if auth_error:
+        return auth_error
+
+    connection = None
+    cursor = None
+
+    try:
+
+        data = request.get_json() or {}
+
+        lock_status = str(
+            data.get("lock_status", "UNKNOWN")
+        ).upper()
+
+        door_status = str(
+            data.get("door_status", "UNKNOWN")
+        ).upper()
+
+        temperature = data.get("temperature")
+        humidity = data.get("humidity")
+        gas = data.get("gas")
+        motion = str(
+            data.get("motion", "UNKNOWN")
+        ).upper()
+
+        allowed_lock_statuses = {
+            "LOCKED",
+            "UNLOCKED",
+            "UNKNOWN"
+        }
+
+        allowed_door_statuses = {
+            "OPEN",
+            "CLOSED",
+            "UNKNOWN"
+        }
+
+        if lock_status not in allowed_lock_statuses:
+            lock_status = "UNKNOWN"
+
+        if door_status not in allowed_door_statuses:
+            door_status = "UNKNOWN"
+
+        connection = get_db_connection()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            INSERT INTO esp32_status
+            (
+                status_id,
+                lock_status,
+                door_status,
+                temperature,
+                humidity,
+                gas,
+                motion
+            )
+            VALUES
+            (
+                %s,
+                %s,
+                %s,
+                %s,
+                %s,
+                %s,
+                %s
+            )
+            ON DUPLICATE KEY UPDATE
+                lock_status = VALUES(lock_status),
+                door_status = VALUES(door_status),
+                temperature = VALUES(temperature),
+                humidity = VALUES(humidity),
+                gas = VALUES(gas),
+                motion = VALUES(motion),
+                updated_at = CURRENT_TIMESTAMP
+            """,
+            (
+                ESP32_STATUS_ID,
+                lock_status,
+                door_status,
+                temperature,
+                humidity,
+                gas,
+                motion
+            )
+        )
+
+        connection.commit()
+
+        cursor.close()
+        cursor = None
+        connection.close()
+        connection = None
+
+        # Process gas alerts after the status has been stored.
+        gas_status = process_gas_status(
+            gas
+        )
+
+        return jsonify({
+            "success": True,
+            "message": "ESP32 status received",
+            "lock_status": lock_status,
+            "door_status": door_status,
+            "gas_status": gas_status
+        }), 200
+
+    except Exception as e:
+
+        if connection:
+            connection.rollback()
+
+        print(
+            "ESP32 STATUS UPDATE ERROR:",
+            e
+        )
+
+        return jsonify({
+            "success": False,
+            "message": "Failed to save ESP32 status",
+            "error": str(e)
+        }), 500
+
+    finally:
+
+        if cursor:
+            cursor.close()
+
+        if connection:
+            connection.close()
+
+
+# =========================================================
+# ESP32 STATUS UPDATE - OPTIONAL GET FOR DEVICE TESTING
+# =========================================================
+
+@app.route(
+    "/esp32/status",
+    methods=["GET"]
+)
+def esp32_status_device_get():
+
+    auth_error = require_esp32_token()
+
+    if auth_error:
+        return auth_error
+
+    return jsonify({
+        "success": True,
+        "status": get_cached_esp32_status()
+    }), 200
 
 
 # =========================================================
@@ -322,35 +1095,6 @@ CASCADE_PATH = (
 )
 
 FACES_DIR = "/Users/Arun/Desktop/faces"
-
-
-# =========================================================
-# SEND COMMAND TO ESP32
-# =========================================================
-
-def send_esp32_command(endpoint):
-
-    try:
-
-        url = ESP32_URL + endpoint
-
-        with urllib.request.urlopen(
-            url,
-            timeout=5
-        ) as response:
-
-            result = response.read().decode()
-
-        return result
-
-    except Exception as e:
-
-        print(
-            "ESP32 CONNECTION ERROR:",
-            e
-        )
-
-        return None
 
 
 # =========================================================
@@ -3339,11 +4083,114 @@ def delete_face():
 )
 def esp32_status():
 
-    response = send_esp32_command(
-        "/status"
-    )
+    try:
 
-    if response is None:
+        status = get_cached_esp32_status()
+
+        gas_value = status.get("gas")
+        gas_status = process_gas_status(
+            gas_value
+        )
+
+        if not status.get("online"):
+            return jsonify({
+
+                "esp32":
+                    "OFFLINE",
+
+                "lock_status":
+                    status.get(
+                        "lock_status",
+                        "UNKNOWN"
+                    ),
+
+                "door_status":
+                    status.get(
+                        "door_status",
+                        "UNKNOWN"
+                    ),
+
+                "temperature":
+                    status.get(
+                        "temperature"
+                    ),
+
+                "humidity":
+                    status.get(
+                        "humidity"
+                    ),
+
+                "gas":
+                    gas_value,
+
+                "gas_status":
+                    gas_status,
+
+                "motion":
+                    status.get(
+                        "motion",
+                        "UNKNOWN"
+                    ),
+
+                "updated_at":
+                    status.get(
+                        "updated_at"
+                    )
+
+            }), 503
+
+        return jsonify({
+
+            "esp32":
+                "ONLINE",
+
+            "lock_status":
+                status.get(
+                    "lock_status",
+                    "UNKNOWN"
+                ),
+
+            "door_status":
+                status.get(
+                    "door_status",
+                    "UNKNOWN"
+                ),
+
+            "temperature":
+                status.get(
+                    "temperature"
+                ),
+
+            "humidity":
+                status.get(
+                    "humidity"
+                ),
+
+            "gas":
+                gas_value,
+
+            "gas_status":
+                gas_status,
+
+            "motion":
+                status.get(
+                    "motion",
+                    "UNKNOWN"
+                ),
+
+            "updated_at":
+                status.get(
+                    "updated_at"
+                )
+
+        }), 200
+
+    except Exception as e:
+
+        print(
+            "ESP32 STATUS ERROR:",
+            e
+        )
 
         return jsonify({
 
@@ -3369,84 +4216,12 @@ def esp32_status():
                 "UNKNOWN",
 
             "motion":
-                "UNKNOWN"
-
-        }), 503
-
-    try:
-
-        data = json.loads(
-            response
-        )
-
-        gas_value = data.get(
-            "gas"
-        )
-
-        gas_status = process_gas_status(
-            gas_value
-        )
-
-        return jsonify({
-
-            "esp32":
-                "ONLINE",
-
-            "lock_status":
-                data.get(
-                    "lock_status",
-                    "UNKNOWN"
-                ),
-
-            "door_status":
-                data.get(
-                    "door_status",
-                    "UNKNOWN"
-                ),
-
-            "temperature":
-                data.get(
-                    "temperature"
-                ),
-
-            "humidity":
-                data.get(
-                    "humidity"
-                ),
-
-            "gas":
-                gas_value,
-
-            "gas_status":
-                gas_status,
-
-            "motion":
-                data.get(
-                    "motion",
-                    "UNKNOWN"
-                )
-
-        }), 200
-
-    except Exception as e:
-
-        print(
-            "ESP32 STATUS ERROR:",
-            e
-        )
-
-        return jsonify({
-
-            "esp32":
-                "ONLINE",
-
-            "response":
-                response,
+                "UNKNOWN",
 
             "error":
                 str(e)
 
-        }), 200
+        }), 503
 
 
 # =========================================================
@@ -3461,11 +4236,14 @@ def door_status():
 
     try:
 
-        response = send_esp32_command(
-            "/status"
+        status = get_cached_esp32_status()
+
+        gas_value = status.get("gas")
+        gas_status = process_gas_status(
+            gas_value
         )
 
-        if response is None:
+        if not status.get("online"):
 
             return jsonify({
 
@@ -3476,39 +4254,45 @@ def door_status():
                     "DOOR_STATUS",
 
                 "lock_status":
-                    "UNKNOWN",
+                    status.get(
+                        "lock_status",
+                        "UNKNOWN"
+                    ),
 
                 "door_status":
-                    "UNKNOWN",
+                    status.get(
+                        "door_status",
+                        "UNKNOWN"
+                    ),
 
                 "temperature":
-                    None,
+                    status.get(
+                        "temperature"
+                    ),
 
                 "humidity":
-                    None,
+                    status.get(
+                        "humidity"
+                    ),
 
                 "gas":
-                    None,
+                    gas_value,
 
                 "gas_status":
-                    "UNKNOWN",
+                    gas_status,
 
                 "motion":
-                    "UNKNOWN"
+                    status.get(
+                        "motion",
+                        "UNKNOWN"
+                    ),
+
+                "updated_at":
+                    status.get(
+                        "updated_at"
+                    )
 
             }), 503
-
-        data = json.loads(
-            response
-        )
-
-        gas_value = data.get(
-            "gas"
-        )
-
-        gas_status = process_gas_status(
-            gas_value
-        )
 
         return jsonify({
 
@@ -3519,24 +4303,24 @@ def door_status():
                 "DOOR_STATUS",
 
             "lock_status":
-                data.get(
+                status.get(
                     "lock_status",
                     "UNKNOWN"
                 ),
 
             "door_status":
-                data.get(
+                status.get(
                     "door_status",
                     "UNKNOWN"
                 ),
 
             "temperature":
-                data.get(
+                status.get(
                     "temperature"
                 ),
 
             "humidity":
-                data.get(
+                status.get(
                     "humidity"
                 ),
 
@@ -3547,9 +4331,14 @@ def door_status():
                 gas_status,
 
             "motion":
-                data.get(
+                status.get(
                     "motion",
                     "UNKNOWN"
+                ),
+
+            "updated_at":
+                status.get(
+                    "updated_at"
                 )
 
         }), 200
@@ -3810,41 +4599,52 @@ def door_control():
             try:
                 user_id = int(user_id)
             except (ValueError, TypeError):
-                return jsonify({"message": "Invalid user ID"}), 400
+                return jsonify({
+                    "message": "Invalid user ID"
+                }), 400
 
         if action not in ["LOCK", "UNLOCK"]:
-            return jsonify({"message": "Invalid action"}), 400
+            return jsonify({
+                "message": "Invalid action"
+            }), 400
 
         # LOCK does not require a PIN.
         if action == "UNLOCK":
 
             if user_id is None:
                 return jsonify({
-                    "message": "User ID is required to unlock the door"
+                    "message": (
+                        "User ID is required to unlock the door"
+                    )
                 }), 400
 
             if not valid_pin(pin):
                 return jsonify({
-                    "message": "A valid 6-digit PIN is required to unlock the door"
+                    "message": (
+                        "A valid 6-digit PIN is required "
+                        "to unlock the door"
+                    )
                 }), 401
 
             # -------------------------------------------------
             # FAMILY PIN LOGIC
             #
             # A family member uses the family owner's door PIN.
-            # Example:
-            #   Anand (user 15) -> family_owner_id = 4
-            #   Arun  (user 4)  -> owns the door PIN
-            #
-            # The access log still stores Anand's user_id so
-            # the system records WHO actually unlocked the door.
+            # The access log still stores the actual recognized
+            # user's ID.
             # -------------------------------------------------
+
             connection = get_db_connection()
-            cursor = connection.cursor(dictionary=True)
+            cursor = connection.cursor(
+                dictionary=True
+            )
 
             cursor.execute(
                 """
-                SELECT user_id, name, family_owner_id
+                SELECT
+                    user_id,
+                    name,
+                    family_owner_id
                 FROM users
                 WHERE user_id = %s
                 """,
@@ -3858,101 +4658,225 @@ def door_control():
 
             if not recognized_user:
                 return jsonify({
-                    "message": "User account not found"
+                    "message":
+                        "User account not found"
                 }), 404
 
-            pin_owner_id = recognized_user.get("family_owner_id")
+            pin_owner_id = (
+                recognized_user.get(
+                    "family_owner_id"
+                )
+            )
 
             if pin_owner_id is None:
-                # Root/standalone user uses their own PIN.
                 pin_owner_id = user_id
 
-            stored_pin_hash = get_door_pin_hash(pin_owner_id)
+            stored_pin_hash = get_door_pin_hash(
+                pin_owner_id
+            )
 
             if stored_pin_hash is None:
                 return jsonify({
-                    "message": "No family owner's door PIN is configured"
+                    "message":
+                        "No family owner's door PIN is configured"
                 }), 403
 
-            if not check_password_hash(stored_pin_hash, pin):
+            if not check_password_hash(
+                stored_pin_hash,
+                pin
+            ):
                 return jsonify({
-                    "message": "Incorrect family door PIN"
+                    "message":
+                        "Incorrect family door PIN"
                 }), 401
 
-            print("DOOR PIN AUTHORIZATION")
-            print("Recognized User ID:", user_id)
-            print("Recognized User:", recognized_user.get("name"))
-            print("PIN Owner User ID:", pin_owner_id)
+            print(
+                "DOOR PIN AUTHORIZATION"
+            )
+
+            print(
+                "Recognized User ID:",
+                user_id
+            )
+
+            print(
+                "Recognized User:",
+                recognized_user.get(
+                    "name"
+                )
+            )
+
+            print(
+                "PIN Owner User ID:",
+                pin_owner_id
+            )
+
+        # -------------------------------------------------
+        # SEND COMMAND THROUGH CLOUD QUEUE
+        # -------------------------------------------------
 
         if action == "LOCK":
-            esp32_response = send_esp32_command("/lock")
+            esp32_response = send_esp32_command(
+                "/lock"
+            )
         else:
-            esp32_response = send_esp32_command("/unlock")
+            esp32_response = send_esp32_command(
+                "/unlock"
+            )
 
         if esp32_response is None:
             return jsonify({
-                "message": "ESP32 is not reachable",
+                "message": (
+                    "ESP32 is offline or did not "
+                    "execute the command in time"
+                ),
                 "lock_status": "UNKNOWN",
                 "door_status": "UNKNOWN"
             }), 503
 
-        expected_response = "LOCKED" if action == "LOCK" else "UNLOCKED"
+        expected_response = (
+            "LOCKED"
+            if action == "LOCK"
+            else "UNLOCKED"
+        )
 
         if expected_response not in esp32_response:
             return jsonify({
-                "message": "ESP32 returned unexpected response",
-                "esp32_response": esp32_response
+                "message":
+                    "ESP32 returned unexpected response",
+                "esp32_response":
+                    esp32_response
             }), 500
 
         lock_status = expected_response
 
+        # -------------------------------------------------
+        # SAVE ACCESS LOG
+        # -------------------------------------------------
+
         try:
+
             connection = get_db_connection()
             cursor = connection.cursor()
+
             cursor.execute(
                 """
                 INSERT INTO door_events
-                (event_type, status, user_id)
-                VALUES (%s, %s, %s)
+                (
+                    event_type,
+                    status,
+                    user_id
+                )
+                VALUES
+                (%s, %s, %s)
                 """,
-                ("DOOR_CONTROL", lock_status, user_id)
+                (
+                    "DOOR_CONTROL",
+                    lock_status,
+                    user_id
+                )
             )
+
             connection.commit()
+
             cursor.close()
             connection.close()
 
-            print("ACCESS LOG SAVED")
-            print("Event Type:", "DOOR_CONTROL")
-            print("Status:", lock_status)
-            print("User ID:", user_id)
+            print(
+                "ACCESS LOG SAVED"
+            )
+
+            print(
+                "Event Type:",
+                "DOOR_CONTROL"
+            )
+
+            print(
+                "Status:",
+                lock_status
+            )
+
+            print(
+                "User ID:",
+                user_id
+            )
 
         except Exception as db_error:
-            print("DATABASE LOG ERROR:", db_error)
 
-        status_response = send_esp32_command("/status")
+            print(
+                "DATABASE LOG ERROR:",
+                db_error
+            )
+
+        # Read the latest cached status.
+        status_response = send_esp32_command(
+            "/status"
+        )
+
         door_status_value = "UNKNOWN"
 
         if status_response:
+
             try:
-                status_data = json.loads(status_response)
-                door_status_value = status_data.get("door_status", "UNKNOWN")
-                gas_value = status_data.get("gas")
-                process_gas_status(gas_value)
+
+                status_data = json.loads(
+                    status_response
+                )
+
+                door_status_value = (
+                    status_data.get(
+                        "door_status",
+                        "UNKNOWN"
+                    )
+                )
+
+                gas_value = (
+                    status_data.get(
+                        "gas"
+                    )
+                )
+
+                process_gas_status(
+                    gas_value
+                )
+
             except Exception:
                 pass
 
         return jsonify({
-            "message": "Door " + lock_status.lower(),
-            "lock_status": lock_status,
-            "door_status": door_status_value,
-            "esp32": "CONNECTED",
-            "user_id": user_id
+
+            "message":
+                "Door " + lock_status.lower(),
+
+            "lock_status":
+                lock_status,
+
+            "door_status":
+                door_status_value,
+
+            "esp32":
+                "CONNECTED",
+
+            "user_id":
+                user_id
+
         }), 200
 
     except Exception as e:
+
+        print(
+            "DOOR CONTROL ERROR:",
+            e
+        )
+
         return jsonify({
-            "message": "Door control failed",
-            "error": str(e)
+
+            "message":
+                "Door control failed",
+
+            "error":
+                str(e)
+
         }), 500
 
 
@@ -4464,21 +5388,35 @@ def get_home_ai_context():
     # Live ESP32 status
     # ---------------------------------------------------------
     try:
-        response = send_esp32_command("/status")
+        status = get_cached_esp32_status()
 
-        if response:
-            data = json.loads(response)
-            gas_value = data.get("gas")
+        if status.get("updated_at"):
+            gas_value = status.get("gas")
 
             context["esp32"] = {
-                "online": True,
-                "lock_status": data.get("lock_status", "UNKNOWN"),
-                "door_status": data.get("door_status", "UNKNOWN"),
-                "temperature": data.get("temperature"),
-                "humidity": data.get("humidity"),
+                "online": bool(status.get("online")),
+                "lock_status": status.get(
+                    "lock_status",
+                    "UNKNOWN"
+                ),
+                "door_status": status.get(
+                    "door_status",
+                    "UNKNOWN"
+                ),
+                "temperature": status.get(
+                    "temperature"
+                ),
+                "humidity": status.get(
+                    "humidity"
+                ),
                 "gas": gas_value,
-                "gas_status": process_gas_status(gas_value),
-                "motion": data.get("motion", "UNKNOWN")
+                "gas_status": process_gas_status(
+                    gas_value
+                ),
+                "motion": status.get(
+                    "motion",
+                    "UNKNOWN"
+                )
             }
 
         else:
