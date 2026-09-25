@@ -4292,7 +4292,7 @@ def door_status():
                         "updated_at"
                     )
 
-            }), 503
+            }), 200
 
         return jsonify({
 
