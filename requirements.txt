@@ -1,0 +1,9 @@
+Flask
+flask-cors
+Werkzeug
+mysql-connector-python
+python-dotenv
+opencv-contrib-python-headless
+numpy
+requests
+gunicorn
